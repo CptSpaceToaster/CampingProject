@@ -8,7 +8,7 @@ public class Site implements Serializable {
 
 		/** The name of the person who is occupying the Site */
 		protected String nameReserving;
-
+		//hi there
 		/** The date the Site was checked-in (occupied) */
 		protected GregorianCalendar checkIn;
 
