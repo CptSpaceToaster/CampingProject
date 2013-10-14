@@ -5,6 +5,9 @@ public class RV extends Site {
 	/** Represents the power supplied to the site */
 	private int power; // 30, 40, 50 amps of service.
 
+	public RV(){
+	}
+	
 	/**************************************************************
 	 * Constructor for RV
 	 * @param power

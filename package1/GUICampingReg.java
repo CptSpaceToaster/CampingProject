@@ -97,6 +97,21 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			System.exit(1);
 		}
 		
+		if(comp == openS){
+			siteTableModel.loadDatabase("siteDB");
+		}
+		
+		if(comp == saveS){
+			siteTableModel.saveDatabase("siteDB");
+		}
+		
+		if(comp == openT){
+			siteTableModel.loadFromText("siteDBText");
+		}
+		
+		if(comp == saveT){
+			siteTableModel.saveAsText("siteDBText");
+		}
 		
 	}
 

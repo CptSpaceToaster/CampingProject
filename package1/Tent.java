@@ -4,6 +4,8 @@ public class Tent extends Site {
 	/** Represents the number of tenters on this site */
 	private int numOfTenters;
 
+	public Tent(){
+	}
 	/**************************************************************
 	 * Constructor for tents
 	 * @param tenters
