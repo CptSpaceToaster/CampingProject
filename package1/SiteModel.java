@@ -80,7 +80,8 @@ public class SiteModel extends AbstractTableModel {
 			out.println(listSite.size());
 			for (int i = 0; i < listSite.size(); i++) {
 				Site s = listSite.get(i);
-				out.println(s.getClass().getName());
+				out.println(s.getClass().getName().toLowerCase().charAt(0));
+				out.println(s.getNameReserving());
 				out.println(DateFormat.getDateInstance(DateFormat.SHORT)
 						.format(s.getCheckIn()));
 				out.println(s.getDaysStaying());
@@ -98,46 +99,46 @@ public class SiteModel extends AbstractTableModel {
 		}
 	}
 	public void loadFromText(String filename) {
-		listAuto.clear();
-		fireTableRowsDeleted( 0, listAuto.size());
+		listSite.clear();
+		fireTableRowsDeleted( 0, listSite.size());
 
 		try {
 			Scanner scanner = new Scanner(new File(filename));
-			// should clear the arrayList and screen.... 
-			int count = Integer.parseInt(scanner.nextLine().trim());
-			for (int i = 0; i < count; i++) {
-				String type = scanner.nextLine().trim();
-				GregorianCalendar dateBought = null;
+			
+			// Should clear the arrayList and screen....
+			// Do we do this?
+			
+			String siteType = scanner.nextLine().trim();
+			int size = Integer.parseInt(scanner.nextLine().trim());
+			
+			for (int i = 0; i < size; i++) {
+				String name = scanner.nextLine().trim();
+				
+				GregorianCalendar checkInDate = null;
 				try {
 					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 					Date date = formatter.parse(scanner.nextLine().trim());
-					dateBought = new GregorianCalendar();
-					dateBought.setTime(date);
+					checkInDate = new GregorianCalendar();
+					checkInDate.setTime(date);
 				} catch (ParseException ex) {
 					ex.printStackTrace();
 				}
 				String owner = scanner.nextLine().trim();
-				double cost = Double.parseDouble(scanner.nextLine().trim());
 
-				if (type.contains("SportsCar")) {
-					String s = scanner.nextLine();
-					SportsCar car;
-					if (s.equals ("true"))
-						car = new SportsCar(dateBought, cost, owner, true);
-					else
-						car = new SportsCar(dateBought, cost, owner, false);
-
-					listAuto.add(car);
-					fireTableRowsInserted(listAuto.size() - 1, listAuto.size() - 1);
-
-				} else {
-					ElectricCar car;
-					int volts = Integer.parseInt(scanner.nextLine().trim());
-					car = new ElectricCar(dateBought, cost, owner, volts);
-
-					listAuto.add(car);
-					fireTableRowsInserted(listAuto.size() - 1, listAuto.size() - 1);
+				Integer daysStaying = Integer.parseInt(scanner.nextLine().trim());
+				Integer siteNumber = Integer.parseInt(scanner.nextLine().trim());
+				Integer lastParam = Integer.parseInt(scanner.nextLine().trim());
+				
+				if (siteType == "t") {
+					Tent t = new Tent(lastParam);
+					listSite.add(t);
 				}
+				else if (siteType == "r") {
+					RV r = new RV(lastParam);
+					listSite.add(r);
+				}
+				
+				fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 			}
 			scanner.close();
 		} catch (Exception ex) {
