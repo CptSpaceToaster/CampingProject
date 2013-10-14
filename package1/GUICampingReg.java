@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,27 +14,27 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** JButton for cancel */
 	private JButton cancelButton;
 	
-	private static JMenu fileMenu;
-	private static JMenu checkInMenu;
-	private static JMenu checkOutMenu;
-	private static JMenuItem saveS;
-	private static JMenuItem openS;
-	private static JMenuItem saveT;
-	private static JMenuItem openT;
-	private static JMenuItem quit;
-	private static JMenuItem checkInTent;
-	private static JMenuItem checkInRV;
-	private static JMenuItem checkOutTent;
-	private static JMenuItem checkOutRV;
-	private static JMenuBar menues;
-	private static JTable table;
-	private static JPanel panel;
-
+	private JMenu fileMenu;
+	private JMenu checkInMenu;
+	private JMenu checkOutMenu;
+	private JMenuItem saveS;
+	private JMenuItem openS;
+	private JMenuItem saveT;
+	private JMenuItem openT;
+	private JMenuItem quit;
+	private JMenuItem checkInTent;
+	private JMenuItem checkInRV;
+	private JMenuItem checkOut;
+	private JMenuBar menus;
+	private JTable table;
+	private SiteModel siteTableModel; 
+	private JScrollPane scrollPane;
+	
 	/**
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args){
+	public GUICampingReg(){
 		JTable table;
 		JPanel panel;
 		
@@ -47,40 +48,56 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		quit = new JMenuItem("Quit");
 		checkInTent = new JMenuItem("Check In Tent");
 		checkInRV = new JMenuItem("Check In RV");
-		checkOutTent = new JMenuItem("Check Out Tent");
-		checkOutRV = new JMenuItem("Check Out RV");
-		menues = new JMenuBar();
+		checkOut = new JMenuItem("Check Out");
+		menus = new JMenuBar();
 		panel = new JPanel();
-		menues.add(fileMenu);
+		menus.add(fileMenu);
 		fileMenu.add(saveS);
 		fileMenu.add(openS);
 		fileMenu.add(saveT);
 		fileMenu.add(openT);
 		fileMenu.add(quit);
-		menues.add(checkInMenu);
+		menus.add(checkInMenu);
 		checkInMenu.add(checkInTent);
 		checkInMenu.add(checkInRV);
-		menues.add(checkOutMenu);
-		checkOutMenu.add(checkOutTent);
-		checkOutMenu.add(checkOutRV);
+		menus.add(checkOutMenu);
+		checkOutMenu.add(checkOut);
 		
-		GUICampingReg listener = new GUICampingReg();
-		quit.addActionListener(listener);
+		quit.addActionListener(this);
+		openT.addActionListener(this);
+		saveT.addActionListener(this);
+		openS.addActionListener(this);
+		saveS.addActionListener(this);
+		checkInTent.addActionListener(this);
+		checkInRV.addActionListener(this);
+		checkOut.addActionListener(this);
 		
-		JFrame frame = new JFrame ("Camping");
-		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		frame.add(menues);
-		frame.pack();
-		frame.setVisible(true);
+		setJMenuBar(menus);
+		
+		siteTableModel = new SiteModel();
+		table = new JTable(siteTableModel);
+		scrollPane = new JScrollPane(table);
+		add(scrollPane);
+		
+		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		
+		pack();
+		setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		new GUICampingReg();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
+		
 		if(comp == quit){
 			System.exit(1);
 		}
-
+		
+		
 	}
 
 }
