@@ -43,11 +43,9 @@ public class Site implements Serializable {
 		 * @param out takes in the day of check out
 		 * @param site takes in the site number
 		 *************************************************************/
-		public Site(GregorianCalendar in, String name, int days, 
-								GregorianCalendar out, int site){
+		public Site(String name, GregorianCalendar in, int days, int site){
 			nameReserving = name;
 			checkIn = in;
-			checkOutOn = out;
 			daysStaying = days;
 			siteNumber = site;
 		}
