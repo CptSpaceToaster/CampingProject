@@ -20,8 +20,26 @@ public class SiteModel extends AbstractTableModel {
 	}
 
 	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		return null;
+	public Object getValueAt(int row, int col) {
+		switch(col){
+		case 0:
+			return(listSite.get(row).getNameReserving());
+		case 1:
+			return (DateFormat.getDateInstance(DateFormat.SHORT)
+					.format(listSite.get(row).getCheckIn().getTime()));
+		case 2:
+			return (listSite.get(row).getDaysStaying());
+		case 3: 
+			return (listSite.get(row).getSiteNumber());
+		case 4:
+			if(listSite.get(row) instanceof Tent)
+				return (((Tent) listSite.get(row)).getNumOfTenters()) + "tenters";
+			else
+				return (((RV) listSite.get(row)).getPower() + "amps");
+
+		default:
+			return null;
+		}
 	}
 
 	public SiteModel(){
@@ -104,16 +122,16 @@ public class SiteModel extends AbstractTableModel {
 
 		try {
 			Scanner scanner = new Scanner(new File(filename));
-			
+
 			// Should clear the arrayList and screen....
 			// Do we do this?
-			
+
 			String siteType = scanner.nextLine().trim();
 			int size = Integer.parseInt(scanner.nextLine().trim());
-			
+
 			for (int i = 0; i < size; i++) {
 				String name = scanner.nextLine().trim();
-				
+
 				GregorianCalendar checkInDate = null;
 				try {
 					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -128,7 +146,7 @@ public class SiteModel extends AbstractTableModel {
 				Integer daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				Integer siteNumber = Integer.parseInt(scanner.nextLine().trim());
 				Integer lastParam = Integer.parseInt(scanner.nextLine().trim());
-				
+
 				if (siteType == "t") {
 					Tent t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
 					listSite.add(t);
@@ -137,7 +155,7 @@ public class SiteModel extends AbstractTableModel {
 					RV r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
 					listSite.add(r);
 				}
-				
+
 				fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 			}
 			scanner.close();

@@ -73,7 +73,7 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 		JButton button = (JButton) e.getSource();
 		if(button == okButton){
 			closeStatus = OK;
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/DD/YYYY");
 			Date d;
 			try{
 				d = df.parse(checkInTxt.getText());
