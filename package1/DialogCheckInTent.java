@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.swing.*;
 public class DialogCheckInTent extends JDialog implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	private JTextField nameTxt;
 	private JTextField siteNumTxt;
 	private JTextField checkInTxt;
@@ -45,8 +46,7 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 		panel.add(siteNumTxt);
 
 		panel.add(new JLabel("Occupied On:"));
-		daysTxt = new JTextField(15);
-		daysTxt.setText("1/1/2000");
+		daysTxt = new JTextField("10/15/2013", 30);
 		panel.add(daysTxt);
 
 		panel.add(new JLabel("Number of Tenters:"));
@@ -73,13 +73,13 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 		JButton button = (JButton) e.getSource();
 		if(button == okButton){
 			closeStatus = OK;
-			SimpleDateFormat df = new SimpleDateFormat("MM/DD/YYYY");
-			Date d;
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY");
+			Date date;
 			try{
-				d = df.parse(checkInTxt.getText());
+				date = dateFormat.parse(checkInTxt.getText());
 
-				GregorianCalendar opened = new GregorianCalendar();
-				opened.setTime(d);
+				GregorianCalendar calander = new GregorianCalendar();
+				calander.setTime(date);
 
 				int siteNumber = Integer.parseInt(siteNumTxt.getText());
 				int daysStaying = Integer.parseInt(daysTxt.getText());
@@ -88,12 +88,12 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 				tent.setNumOfTenters(numTenters);
 				tent.setDaysStaying(daysStaying);
 				tent.setSiteNumber(siteNumber);
-				tent.setCheckIn(opened);
+				tent.setCheckIn(calander);
 				tent.setNameReserving(nameTxt.getText());
 
-			} catch (ParseException e1) {
+			} catch (Exception error) {
 				System.out.println ("Error");
-				e1.printStackTrace();
+				error.printStackTrace();
 			}
 		}
 		
