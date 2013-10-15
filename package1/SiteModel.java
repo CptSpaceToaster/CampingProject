@@ -33,9 +33,9 @@ public class SiteModel extends AbstractTableModel {
 			return (listSite.get(row).getSiteNumber());
 		case 4:
 			if(listSite.get(row) instanceof Tent)
-				return (((Tent) listSite.get(row)).getNumOfTenters()) + "tenters";
+				return (((Tent) listSite.get(row)).getNumOfTenters()) + " tenters";
 			else
-				return (((RV) listSite.get(row)).getPower() + "amps");
+				return (((RV) listSite.get(row)).getPower() + " amps");
 
 		default:
 			return null;
