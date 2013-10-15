@@ -127,10 +127,10 @@ public class SiteModel extends AbstractTableModel {
 			// Do we do this?
 
 			int size = Integer.parseInt(scanner.nextLine().trim());
-			String siteType = scanner.nextLine().trim();
 
 			for (int i = 0; i < size; i++) {
 				String name = scanner.nextLine().trim();
+				String siteType = scanner.nextLine().trim();
 
 				GregorianCalendar checkInDate = null;
 				try {
@@ -141,7 +141,7 @@ public class SiteModel extends AbstractTableModel {
 				} catch (ParseException ex) {
 					ex.printStackTrace();
 				}
-				String owner = scanner.nextLine().trim();
+				//String owner = scanner.nextLine().trim();
 
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
@@ -150,13 +150,16 @@ public class SiteModel extends AbstractTableModel {
 				if (siteType == "t") {
 					Tent t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
 					listSite.add(t);
+					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+
 				}
 				else if (siteType == "r") {
 					RV r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
 					listSite.add(r);
+					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+
 				}
 
-				fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 			}
 			scanner.close();
 		} catch (Exception ex) {
