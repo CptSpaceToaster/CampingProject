@@ -98,10 +98,10 @@ public class SiteModel extends AbstractTableModel {
 			out.println(listSite.size());
 			for (int i = 0; i < listSite.size(); i++) {
 				Site s = listSite.get(i);
-				out.println(s.getClass().getName().toLowerCase().charAt(0));
+				out.println(s.getClass().getName().toLowerCase().charAt(9));
 				out.println(s.getNameReserving());
 				out.println(DateFormat.getDateInstance(DateFormat.SHORT)
-						.format(s.getCheckIn()));
+						.format(s.getCheckIn().getTime()));
 				out.println(s.getDaysStaying());
 				out.println(s.getSiteNumber());
 
@@ -126,8 +126,8 @@ public class SiteModel extends AbstractTableModel {
 			// Should clear the arrayList and screen....
 			// Do we do this?
 
-			String siteType = scanner.nextLine().trim();
 			int size = Integer.parseInt(scanner.nextLine().trim());
+			String siteType = scanner.nextLine().trim();
 
 			for (int i = 0; i < size; i++) {
 				String name = scanner.nextLine().trim();
@@ -143,9 +143,9 @@ public class SiteModel extends AbstractTableModel {
 				}
 				String owner = scanner.nextLine().trim();
 
-				Integer daysStaying = Integer.parseInt(scanner.nextLine().trim());
-				Integer siteNumber = Integer.parseInt(scanner.nextLine().trim());
-				Integer lastParam = Integer.parseInt(scanner.nextLine().trim());
+				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
+				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
+				int lastParam = Integer.parseInt(scanner.nextLine().trim());
 
 				if (siteType == "t") {
 					Tent t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
