@@ -113,6 +113,12 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			siteTableModel.saveAsText("siteDBText");
 		}
 		
+		if(comp == checkInTent){
+			Tent t = new Tent();
+			DialogCheckInTent x = new DialogCheckInTent(this, t);
+			if(x.getCloseStatus() == x.OK)
+				siteTableModel.addSite(t);
+		}
 	}
 
 }

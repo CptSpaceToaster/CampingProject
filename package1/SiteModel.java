@@ -130,11 +130,11 @@ public class SiteModel extends AbstractTableModel {
 				Integer lastParam = Integer.parseInt(scanner.nextLine().trim());
 				
 				if (siteType == "t") {
-					Tent t = new Tent(lastParam);
+					Tent t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
 					listSite.add(t);
 				}
 				else if (siteType == "r") {
-					RV r = new RV(lastParam);
+					RV r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
 					listSite.add(r);
 				}
 				
