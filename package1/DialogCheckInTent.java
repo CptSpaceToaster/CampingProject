@@ -46,12 +46,16 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 		panel.add(siteNumTxt);
 
 		panel.add(new JLabel("Occupied On:"));
-		daysTxt = new JTextField("10/15/2013", 30);
-		panel.add(daysTxt);
+		checkInTxt = new JTextField("10/15/2013", 30);
+		panel.add(checkInTxt);
 
 		panel.add(new JLabel("Number of Tenters:"));
 		tentersTxt = new JTextField("1");
 		panel.add(tentersTxt);
+		
+		panel.add(new JLabel("Days Staying:"));
+		daysTxt = new JTextField("1");
+		panel.add(daysTxt);
 
 		getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -73,7 +77,7 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 		JButton button = (JButton) e.getSource();
 		if(button == okButton){
 			closeStatus = OK;
-			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			Date date;
 			try{
 				date = dateFormat.parse(checkInTxt.getText());
