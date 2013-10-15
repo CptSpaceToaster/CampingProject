@@ -35,7 +35,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	 * @param args
 	 */
 	public GUICampingReg(){
-		JTable table;
 		JPanel panel;
 		
 		fileMenu = new JMenu("File:");
@@ -81,7 +80,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		
-		pack();
+		setSize(700,300);
 		setVisible(true);
 	}
 	
@@ -118,6 +117,21 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			DialogCheckInTent x = new DialogCheckInTent(this, t);
 			if(x.getCloseStatus() == x.OK)
 				siteTableModel.addSite(t);
+		}
+		
+		if(comp == checkInRV){
+			RV r = new RV();
+			DialogCheckInRV x = new DialogCheckInRV(this, r);
+			if(x.getCloseStatus() == x.OK)
+				siteTableModel.addSite(r);
+		}
+		
+		if(comp == checkOut){
+			int index = table.getSelectedRow();
+			if (index == -1)
+				JOptionPane.showMessageDialog(this,"NO");
+			else
+				siteTableModel.checkOut(index);
 		}
 	}
 

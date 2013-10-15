@@ -5,10 +5,16 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 public class SiteModel extends AbstractTableModel {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Site> listSite;
 	private String[] columnNames = {"Name Reserving", "Checked-In", 
 			"Days Staying", "Site #", "Tent/RV Info"};
 
+	@Override
+	public String getColumnName(int col){
+		return columnNames[col];
+	}
+	
 	@Override
 	public int getColumnCount() {
 		return columnNames.length;
@@ -129,8 +135,9 @@ public class SiteModel extends AbstractTableModel {
 			int size = Integer.parseInt(scanner.nextLine().trim());
 
 			for (int i = 0; i < size; i++) {
-				String name = scanner.nextLine().trim();
 				String siteType = scanner.nextLine().trim();
+
+				String name = scanner.nextLine().trim();
 
 				GregorianCalendar checkInDate = null;
 				try {
@@ -141,20 +148,20 @@ public class SiteModel extends AbstractTableModel {
 				} catch (ParseException ex) {
 					ex.printStackTrace();
 				}
-				//String owner = scanner.nextLine().trim();
-
+				
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
-
 				if (siteType == "t") {
-					Tent t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
+					Tent t;
+					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
 					listSite.add(t);
 					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 
 				}
 				else if (siteType == "r") {
-					RV r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
+					RV r;
+					r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
 					listSite.add(r);
 					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 
