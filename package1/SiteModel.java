@@ -9,7 +9,7 @@ public class SiteModel extends AbstractTableModel {
 	private ArrayList<Site> listSite;
 	private String[] columnNames = {"Name Reserving", "Checked-In", 
 			"Days Staying", "Site #", "Tent/RV Info"};
-
+	
 	@Override
 	public String getColumnName(int col){
 		return columnNames[col];
@@ -38,8 +38,9 @@ public class SiteModel extends AbstractTableModel {
 		case 3: 
 			return (listSite.get(row).getSiteNumber());
 		case 4:
+			int n = ((Tent) listSite.get(row)).getNumOfTenters();
 			if(listSite.get(row) instanceof Tent)
-				return (((Tent) listSite.get(row)).getNumOfTenters() + " Tenters");
+				return (n + " Tent" + ( n == 1 ? "er" : "ers"));
 			else
 				return (((RV) listSite.get(row)).getPower() + " Amps");
 
@@ -152,14 +153,17 @@ public class SiteModel extends AbstractTableModel {
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
-				if (siteType == "t") {
+				System.out.println(siteType + "a");
+				System.out.println(siteType == "t");
+				System.out.println(siteType == "r");
+				if (siteType.equals("t")) {
 					Tent t;
 					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
 					listSite.add(t);
 					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 
 				}
-				else if (siteType == "r") {
+				else if (siteType.equals("r")) {
 					RV r;
 					r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
 					listSite.add(r);
@@ -168,10 +172,13 @@ public class SiteModel extends AbstractTableModel {
 				}
 
 			}
+
 			scanner.close();
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
 	}
 
 }

@@ -3,6 +3,7 @@ package package1;
 import java.util.GregorianCalendar;
 
 public class Tent extends Site {
+	private static final long serialVersionUID = 1L;
 	/** Represents the number of tenters on this site */
 	private int numOfTenters;
 

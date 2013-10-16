@@ -1,7 +1,7 @@
 package package1;
 import java.util.*;
 public class RV extends Site {
-	
+	private static final long serialVersionUID = 1L;
 	/** Represents the power supplied to the site */
 	private int power; // 30, 40, 50 amps of service.
 
