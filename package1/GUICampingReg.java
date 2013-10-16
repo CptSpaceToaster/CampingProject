@@ -17,75 +17,75 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** JButton for cancel */
 	private JButton cancelButton;
-	
+
 	/** JMenu for file */
 	private JMenu fileMenu;
-	
+
 	/** JMenu for check in menu */
 	private JMenu checkInMenu;
-	
+
 	/** JMenu for check out menu */
 	private JMenu checkOutMenu;
-	
+
 	/** JMenu Item for saving serializable file */
 	private JMenuItem saveS;
-	
+
 	/** JMenu Item for opening serializable file */
 	private JMenuItem openS;
-	
+
 	/** JMenu Item for saving text file */
 	private JMenuItem saveT;
-	
+
 	/** JMenu Item for opening text file */
 	private JMenuItem openT;
-	
+
 	/** JMenu Item for exiting */
 	private JMenuItem quit;
-	
+
 	/** JMenu Item for checking in a tent */
 	private JMenuItem checkInTent;
-	
+
 	/** JMenu Item for checking in a RV */
 	private JMenuItem checkInRV;
-	
+
 	/** JMenu Item for checking out */
 	private JMenuItem checkOut;
-	
+
 	/** JMenu bar to hold the menus */
 	private JMenuBar menus;
-	
+
 	/** JTable for holding the information */
 	private JTable table;
-	
+
 	/** instance of SiteModel */
 	private SiteModel siteTableModel;
-	
+
 	/** JScrollPanel to allow for scrolling */
 	private JScrollPane scrollPane;
-	
-	
-	
-	
+
+
+
+
 	/** Default Name **/
 	private final String DEFAULT_NAME;
-	
+
 	/** Default Site Number**/
 	private final int DEFAULT_SITE_NUMBER;
-	
+
 	/** Default Date**/
 	private final String DEFAULT_DATE;
-	
+
 	/** Default number of days staying**/
 	private final int DEFAULT_DAYS_STAYED;
-	
+
 	/** Default power use **/
 	private final int DEFAULT_POWER_USED;
-	
+
 	/** Default number of days staying**/
 	private final int DEFAULT_TENTERS;
-	
+
 	/**  **/
-	
+
 	/******************************************************************
 	 * Sets up the GUI
 	 *****************************************************************/
@@ -96,7 +96,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		DEFAULT_DAYS_STAYED = 1;
 		DEFAULT_POWER_USED = 30;
 		DEFAULT_TENTERS = 1;
-		
+
 		// Instantiate the menus and menu items
 		fileMenu = new JMenu("File:");
 		checkInMenu = new JMenu("Check In:");
@@ -110,7 +110,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		checkInRV = new JMenuItem("Check In RV");
 		checkOut = new JMenuItem("Check Out");
 		menus = new JMenuBar();
-		
+
 		// add the menus and menu items to the frame
 		menus.add(fileMenu);
 		fileMenu.add(saveS);
@@ -123,7 +123,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		checkInMenu.add(checkInRV);
 		menus.add(checkOutMenu);
 		checkOutMenu.add(checkOut);
-		
+
 		// add ActionListeners
 		quit.addActionListener(this);
 		openT.addActionListener(this);
@@ -133,23 +133,23 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		checkInTent.addActionListener(this);
 		checkInRV.addActionListener(this);
 		checkOut.addActionListener(this);
-		
+
 		// set the menu bar
 		setJMenuBar(menus);
-		
+
 		// instantiate the SiteModel and add it to the frame
 		siteTableModel = new SiteModel();
 		table = new JTable(siteTableModel);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
-		
+
 		// set the default close operation
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		
+
 		setSize(700,300);
 		setVisible(true);
 	}
-	
+
 	/******************************************************************
 	 * Main method to run the GUI
 	 * @param args
@@ -157,7 +157,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	public static void main(String[] args){
 		new GUICampingReg();
 	}
-	
+
 	/******************************************************************
 	 * actionPerformed method for the buttons
 	 * @param event listens for buttons to be clicked
@@ -165,50 +165,57 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
-		
+
 		if(comp == quit){
 			System.exit(1);
 		}
-		
+
 		if(comp == openS){
 			siteTableModel.loadDatabase("siteDB");
 		}
-		
+
 		if(comp == saveS){
 			siteTableModel.saveDatabase("siteDB");
 		}
-		
+
 		if(comp == openT){
 			siteTableModel.loadFromText("siteDBText");
 		}
-		
+
 		if(comp == saveT){
 			siteTableModel.saveAsText("siteDBText");
 		}
-		
+
 		if(comp == checkInTent){
 			Tent t = new Tent();
 			DialogCheckInTent x = new DialogCheckInTent(this, t);
 			if(x.getCloseStatus() == x.OK)
 				siteTableModel.addSite(t);
 		}
-		
+
 		if(comp == checkInRV){
-			
+
 			//DialogCheckInRV x = new DialogCheckInRV(this, r);
 			String[] labels = {"Name Reserving:", "Site Number:", "Occupied On:", "Power needed:", "Days Staying:"};
-			
+
 			VarInputPanel vR = new VarInputPanel(labels, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, DEFAULT_DAYS_STAYED);
 			int result;
-			
+
 			do {
-			result = JOptionPane.showConfirmDialog(null, vR, "New Game", 
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				result = JOptionPane.showConfirmDialog(null, vR, "New Game", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			} while(!checkInputForError(vR, result));
-			if(result == JOptionPane.OK_OPTION)
+			if(result == JOptionPane.OK_OPTION){
+				// how do we get the information from the dialog box into the
+				// site? Since the varInputPanel is only returning an array of objects
+				// and we can't cast each object separately, we are going to have to do some
+				// tweaking this is just a temp fix
+				Site r = new RV();
 				siteTableModel.addSite(r);
+			}
+				
 		}
-		
+
 		if(comp == checkOut){
 			int index = table.getSelectedRow();
 			if (index == -1)
@@ -216,7 +223,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			else
 				siteTableModel.checkOut(index);
 		}
-		
+
 	}
 
 	private boolean checkInputForError(VarInputPanel p, int i) {
@@ -233,11 +240,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				}
 				return true;
 			}
-			
+
 			JOptionPane.showMessageDialog(null, "Numbers out of range. " +
-												" Please check your inputs.");
+					" Please check your inputs.");
 			return false;
 		}
+
+
+		return true;
 	}
-	return true;
 }
