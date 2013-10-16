@@ -2,8 +2,12 @@ package package1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
+import javax.print.attribute.standard.OutputDeviceAssigned;
 import javax.swing.*;
+
+import VariableInputApi.*;
 
 public class GUICampingReg extends JFrame implements ActionListener {	
 	private static final long serialVersionUID = 1L;
@@ -59,10 +63,39 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** JScrollPanel to allow for scrolling */
 	private JScrollPane scrollPane;
 	
+	
+	
+	
+	/** Default Name **/
+	private final String DEFAULT_NAME;
+	
+	/** Default Site Number**/
+	private final int DEFAULT_SITE_NUMBER;
+	
+	/** Default Date**/
+	private final String DEFAULT_DATE;
+	
+	/** Default number of days staying**/
+	private final int DEFAULT_DAYS_STAYED;
+	
+	/** Default power use **/
+	private final int DEFAULT_POWER_USED;
+	
+	/** Default number of days staying**/
+	private final int DEFAULT_TENTERS;
+	
+	/**  **/
+	
 	/******************************************************************
 	 * Sets up the GUI
 	 *****************************************************************/
 	public GUICampingReg(){
+		DEFAULT_NAME = "John Doe";
+		DEFAULT_SITE_NUMBER = 1;
+		DEFAULT_DATE = "10/15/2013";
+		DEFAULT_DAYS_STAYED = 1;
+		DEFAULT_POWER_USED = 30;
+		DEFAULT_TENTERS = 1;
 		
 		// Instantiate the menus and menu items
 		fileMenu = new JMenu("File:");
@@ -161,9 +194,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 		
 		if(comp == checkInRV){
-			RV r = new RV();
-			DialogCheckInRV x = new DialogCheckInRV(this, r);
-			if(x.getCloseStatus() == x.OK)
+			
+			//DialogCheckInRV x = new DialogCheckInRV(this, r);
+			String[] labels = {"Name Reserving:", "Site Number:", "Occupied On:", "Power needed:", "Days Staying:"};
+			
+			VarInputPanel vR = new VarInputPanel(labels, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, DEFAULT_DAYS_STAYED);
+			int result;
+			
+			do {
+			result = JOptionPane.showConfirmDialog(null, vR, "New Game", 
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			} while(!checkInputForError(vR, result));
+			if(result == JOptionPane.OK_OPTION)
 				siteTableModel.addSite(r);
 		}
 		
@@ -177,4 +219,25 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		
 	}
 
+	private boolean checkInputForError(VarInputPanel p, int i) {
+		if (i==JOptionPane.OK_CANCEL_OPTION){
+			if(p.doUpdatedVarsMatchInput()) {
+				Object[] varResult = p.getUpdatedVars(); 
+				if ((Integer)varResult[1] < 1) {
+					JOptionPane.showMessageDialog(null, "MSG1.");
+					return false;
+				}
+				if ((Integer)varResult[1] > 5) {
+					JOptionPane.showMessageDialog(null, "MSG2.");
+					return false;
+				}
+				return true;
+			}
+			
+			JOptionPane.showMessageDialog(null, "Numbers out of range. " +
+												" Please check your inputs.");
+			return false;
+		}
+	}
+	return true;
 }

@@ -36,7 +36,7 @@ public class VarInputPanel extends JPanel{
 	 * @param l Detects an array of strings as the first argument
 	 * @param o Detects if the user specifically sent in an array of objects
 	 */
-	VarInputPanel(String[] l, Object[] o) {
+	public VarInputPanel(String[] l, Object[] o) {
 		/**
 		 * ERROR - We won't accept an array of objects... 
 		 * 		   this gives us too much power
@@ -55,7 +55,7 @@ public class VarInputPanel extends JPanel{
 	 * @param vars[0] An array of strings
 	 * @param vars[1]... The objects to be changed
 	 */
-	VarInputPanel(Object... vars) {
+	public VarInputPanel(Object... vars) {
 		super(new SpringLayout());
 		
 		if (!(vars[0] instanceof String[])) {
