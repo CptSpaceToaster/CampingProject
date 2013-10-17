@@ -193,6 +193,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 		if(comp == openS){
 			JFileChooser file = new JFileChooser();
+			file.showOpenDialog(file);
 			siteTableModel.loadDatabase(file.getName());
 		}
 
