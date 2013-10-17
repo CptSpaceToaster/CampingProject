@@ -66,22 +66,22 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 
 
-	/** Default Name **/
+	/** Default Name */
 	private final String DEFAULT_NAME;
 
-	/** Default Site Number**/
+	/** Default Site Number */
 	private final int DEFAULT_SITE_NUMBER;
 
-	/** Default Date**/
+	/** Default Date */
 	private final String DEFAULT_DATE;
 
-	/** Default number of days staying**/
+	/** Default number of days staying */
 	private final int DEFAULT_DAYS_STAYED;
 
-	/** Default power use **/
+	/** Default power use  */
 	private final int DEFAULT_POWER_USED;
 
-	/** Default number of days staying**/
+	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
 
 	/**  **/
@@ -210,6 +210,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				// site? Since the varInputPanel is only returning an array of objects
 				// and we can't cast each object separately, we are going to have to do some
 				// tweaking this is just a temp fix
+				// I know this doesn't work but do we do something like this:
+				String name = (String)vR.getUpdatedVars();
+				int siteNumber = (Integer)vR.getUpdatedVars();
+				// and so forth
 				Site r = new RV();
 				siteTableModel.addSite(r);
 			}
