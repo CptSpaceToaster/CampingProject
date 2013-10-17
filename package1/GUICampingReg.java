@@ -3,6 +3,7 @@ package package1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,9 +68,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** JScrollPanel to allow for scrolling */
 	private JScrollPane scrollPane;
 
-
-
-
 	/** Default Name */
 	private final String DEFAULT_NAME;
 
@@ -106,6 +104,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Inputed value for date checked in */
 	private GregorianCalendar checkInDate;
 
+	/** Cost for the stay */
+	private double cost;
 
 	/******************************************************************
 	 * Sets up the GUI
@@ -192,7 +192,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		if(comp == openS){
-			siteTableModel.loadDatabase("siteDB");
+			JFileChooser file = new JFileChooser();
+			siteTableModel.loadDatabase(file.getName());
 		}
 
 		if(comp == saveS){
@@ -208,10 +209,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		if(comp == checkInTent){
-			//			Tent t = new Tent();
-			//			DialogCheckInTent x = new DialogCheckInTent(this, t);
-			//			if(x.getCloseStatus() == x.OK)
-			//				siteTableModel.addSite(t);
 			String[] labelsTent = {"Name Reserving:", "Site Number:", "Occupied On:", "Number of Tenters:", "Days Staying:"};
 
 			VarInputPanel vT = new VarInputPanel(labelsTent, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_TENTERS, DEFAULT_DAYS_STAYING);
@@ -237,6 +234,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				}
 				numTenters = (Integer) varResult[3];
 				daysStaying = (Integer) varResult[4];
+				cost = daysStaying * numTenters * 3;
+				DecimalFormat df = new DecimalFormat("#.00");
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
 				Site t = new Tent(name, checkInDate, daysStaying, siteNumber, numTenters);
 				siteTableModel.addSite(t);
 			}
@@ -270,6 +270,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				}
 				power = (Integer) varResult[3];
 				daysStaying = (Integer) varResult[4];
+				cost = daysStaying * 30;
+				DecimalFormat df = new DecimalFormat("#.00");
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
 				Site r = new RV(name, checkInDate, daysStaying, siteNumber, power);
 				siteTableModel.addSite(r);
 			}
