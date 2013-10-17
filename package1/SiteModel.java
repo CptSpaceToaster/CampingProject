@@ -38,9 +38,11 @@ public class SiteModel extends AbstractTableModel {
 		case 3: 
 			return (listSite.get(row).getSiteNumber());
 		case 4:
-			int n = ((Tent) listSite.get(row)).getNumOfTenters();
-			if(listSite.get(row) instanceof Tent)
+			int n;
+			if(listSite.get(row) instanceof Tent){
+				n = ((Tent) listSite.get(row)).getNumOfTenters();
 				return (n + " Tent" + ( n == 1 ? "er" : "ers"));
+			}
 			else
 				return (((RV) listSite.get(row)).getPower() + " Amps");
 
@@ -153,9 +155,7 @@ public class SiteModel extends AbstractTableModel {
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
-				System.out.println(siteType + "a");
-				System.out.println(siteType == "t");
-				System.out.println(siteType == "r");
+				
 				if (siteType.equals("t")) {
 					Tent t;
 					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);

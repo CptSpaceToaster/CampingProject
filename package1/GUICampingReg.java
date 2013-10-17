@@ -2,6 +2,10 @@ package package1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.print.attribute.standard.OutputDeviceAssigned;
@@ -76,7 +80,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private final String DEFAULT_DATE;
 
 	/** Default number of days staying */
-	private final int DEFAULT_DAYS_STAYED;
+	private final int DEFAULT_DAYS_STAYING;
 
 	/** Default power use  */
 	private final int DEFAULT_POWER_USED;
@@ -84,7 +88,24 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
 
-	/**  **/
+	/** Inputed value for name */
+	private String name;
+
+	/** Inputed value for site number */
+	private int siteNumber;
+
+	/** Inputed value for days staying */
+	private int daysStaying;
+
+	/** Inputed value for number of tenters */
+	private int numTenters;
+
+	/** Inputed value for power needed */
+	private int power;
+
+	/** Inputed value for date checked in */
+	private GregorianCalendar checkInDate;
+
 
 	/******************************************************************
 	 * Sets up the GUI
@@ -93,7 +114,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		DEFAULT_NAME = "John Doe";
 		DEFAULT_SITE_NUMBER = 1;
 		DEFAULT_DATE = "10/15/2013";
-		DEFAULT_DAYS_STAYED = 1;
+		DEFAULT_DAYS_STAYING = 1;
 		DEFAULT_POWER_USED = 30;
 		DEFAULT_TENTERS = 1;
 
@@ -187,37 +208,72 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		if(comp == checkInTent){
-			Tent t = new Tent();
-			DialogCheckInTent x = new DialogCheckInTent(this, t);
-			if(x.getCloseStatus() == x.OK)
+			//			Tent t = new Tent();
+			//			DialogCheckInTent x = new DialogCheckInTent(this, t);
+			//			if(x.getCloseStatus() == x.OK)
+			//				siteTableModel.addSite(t);
+			String[] labelsTent = {"Name Reserving:", "Site Number:", "Occupied On:", "Number of Tenters:", "Days Staying:"};
+
+			VarInputPanel vT = new VarInputPanel(labelsTent, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_TENTERS, DEFAULT_DAYS_STAYING);
+			int resultTent;
+
+			do {
+				resultTent = JOptionPane.showConfirmDialog(null, vT, "New Game", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			} while(!checkInputForError(vT, resultTent));
+			if(resultTent == JOptionPane.OK_OPTION){
+				// got this to work
+				Object[] varResult = vT.getUpdatedVars();
+				name = (String) varResult[0];
+				siteNumber = (Integer) varResult[1];
+				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+				Date date;
+				checkInDate = new GregorianCalendar();
+				try {
+					date = formatter.parse((String)varResult[2]);
+					checkInDate.setTime(date);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				numTenters = (Integer) varResult[3];
+				daysStaying = (Integer) varResult[4];
+				Site t = new Tent(name, checkInDate, daysStaying, siteNumber, numTenters);
 				siteTableModel.addSite(t);
+			}
 		}
 
 		if(comp == checkInRV){
 
 			//DialogCheckInRV x = new DialogCheckInRV(this, r);
-			String[] labels = {"Name Reserving:", "Site Number:", "Occupied On:", "Power needed:", "Days Staying:"};
+			String[] labelsRV = {"Name Reserving:", "Site Number:", "Occupied On:", "Power needed:", "Days Staying:"};
 
-			VarInputPanel vR = new VarInputPanel(labels, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, DEFAULT_DAYS_STAYED);
-			int result;
+			VarInputPanel vR = new VarInputPanel(labelsRV, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, DEFAULT_DAYS_STAYING);
+			int resultRV;
 
 			do {
-				result = JOptionPane.showConfirmDialog(null, vR, "New Game", 
+				resultRV = JOptionPane.showConfirmDialog(null, vR, "New Game", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			} while(!checkInputForError(vR, result));
-			if(result == JOptionPane.OK_OPTION){
-				// how do we get the information from the dialog box into the
-				// site? Since the varInputPanel is only returning an array of objects
-				// and we can't cast each object separately, we are going to have to do some
-				// tweaking this is just a temp fix
-				// I know this doesn't work but do we do something like this:
-				String name = (String)vR.getUpdatedVars();
-				int siteNumber = (Integer)vR.getUpdatedVars();
-				// and so forth
-				Site r = new RV();
+			} while(!checkInputForError(vR, resultRV));
+			if(resultRV == JOptionPane.OK_OPTION){
+				// got this to work
+				Object[] varResult = vR.getUpdatedVars();
+				name = (String) varResult[0];
+				siteNumber = (Integer) varResult[1];
+				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+				Date date;
+				checkInDate = new GregorianCalendar();
+				try {
+					date = formatter.parse((String)varResult[2]);
+					checkInDate.setTime(date);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				power = (Integer) varResult[3];
+				daysStaying = (Integer) varResult[4];
+				Site r = new RV(name, checkInDate, daysStaying, siteNumber, power);
 				siteTableModel.addSite(r);
 			}
-				
+
 		}
 
 		if(comp == checkOut){
@@ -233,7 +289,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private boolean checkInputForError(VarInputPanel p, int i) {
 		if (i==JOptionPane.OK_CANCEL_OPTION){
 			if(p.doUpdatedVarsMatchInput()) {
-				Object[] varResult = p.getUpdatedVars(); 
+				Object[] varResult = p.getUpdatedVars(); 				
+
 				if ((Integer)varResult[1] < 1) {
 					JOptionPane.showMessageDialog(null, "MSG1.");
 					return false;
@@ -253,4 +310,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 		return true;
 	}
+
+
 }
