@@ -41,13 +41,13 @@ public class Site implements Serializable {
 		 * @param name takes in the name of the person
 		 * @param daysStaying takes in the days staying
 		 * @param out takes in the day of check out
-		 * @param site takes in the site number
+		 * @param siteNumber takes in the site number
 		 *************************************************************/
-		public Site(String name, GregorianCalendar in, int daysStaying, int site){
-			nameReserving = name;
-			checkIn = in;
-			daysStaying = daysStaying;
-			siteNumber = site;
+		public Site(String name, GregorianCalendar in, int daysStaying, int siteNumber){
+			this.nameReserving = name;
+			this.checkIn = in;
+			this.daysStaying = daysStaying;
+			this.siteNumber = siteNumber;
 		}
 		
 		/**************************************************************
