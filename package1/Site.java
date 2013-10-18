@@ -39,14 +39,14 @@ public class Site implements Serializable {
 		 * Constructor for Site
 		 * @param in takes in the date of check in
 		 * @param name takes in the name of the person
-		 * @param days takes in the days staying
+		 * @param daysStaying takes in the days staying
 		 * @param out takes in the day of check out
 		 * @param site takes in the site number
 		 *************************************************************/
-		public Site(String name, GregorianCalendar in, int days, int site){
+		public Site(String name, GregorianCalendar in, int daysStaying, int site){
 			nameReserving = name;
 			checkIn = in;
-			daysStaying = days;
+			daysStaying = daysStaying;
 			siteNumber = site;
 		}
 		
