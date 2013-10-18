@@ -225,23 +225,13 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			if(resultTent == JOptionPane.OK_OPTION){
 				// got this to work
 				Object[] varResult = vT.getUpdatedVars();
-				name = (String) varResult[0];
-				siteNumber = (Integer) varResult[1];
-				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-				Date date;
-				checkInDate = new GregorianCalendar();
-				try {
-					date = formatter.parse((String)varResult[2]);
-					checkInDate.setTime(date);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				numTenters = (Integer) varResult[3];
-				daysStaying = (Integer) varResult[4];
-				cost = daysStaying * numTenters * 3;
+				
+				Tent t = new Tent(varResult);
+				
+				cost = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
-				Site t = new Tent(name, checkInDate, daysStaying, siteNumber, numTenters);
+				
 				siteTableModel.addSite(t);
 			}
 		}
@@ -261,23 +251,13 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			if(resultRV == JOptionPane.OK_OPTION){
 				// got this to work
 				Object[] varResult = vR.getUpdatedVars();
-				name = (String) varResult[0];
-				siteNumber = (Integer) varResult[1];
-				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-				Date date;
-				checkInDate = new GregorianCalendar();
-				try {
-					date = formatter.parse((String)varResult[2]);
-					checkInDate.setTime(date);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				power = (Integer) varResult[3];
-				daysStaying = (Integer) varResult[4];
-				cost = daysStaying * 30;
+				
+				RV r = new RV(varResult);
+				
+				cost = r.getDaysStaying() * 30;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
-				Site r = new RV(name, checkInDate, daysStaying, siteNumber, power);
+				
 				siteTableModel.addSite(r);
 			}
 

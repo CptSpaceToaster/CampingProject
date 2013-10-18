@@ -1,5 +1,9 @@
 package package1;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Tent extends Site {
@@ -14,7 +18,14 @@ public class Tent extends Site {
 	 * Constructor for tents
 	 * @param tenters
 	 *************************************************************/
-	public Tent(String name, GregorianCalendar checkIn, int daysStaying, int siteNumber, int tenters) {
+	public Tent(Object[] vars) {
+		this((String) vars[0], (String)vars[2], (Integer) vars[4], (Integer) vars[1], (Integer) vars[3]);
+	}
+	/**************************************************************
+	 * Constructor for tents
+	 * @param tenters
+	 *************************************************************/
+	public Tent(String name, String checkIn, int daysStaying, int siteNumber, int tenters) {
 		super(name, checkIn, daysStaying, siteNumber);
 		this.numOfTenters = tenters;
 	}

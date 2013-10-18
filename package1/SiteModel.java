@@ -142,15 +142,7 @@ public class SiteModel extends AbstractTableModel {
 
 				String name = scanner.nextLine().trim();
 
-				GregorianCalendar checkInDate = null;
-				try {
-					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-					Date date = formatter.parse(scanner.nextLine().trim());
-					checkInDate = new GregorianCalendar();
-					checkInDate.setTime(date);
-				} catch (ParseException ex) {
-					ex.printStackTrace();
-				}
+				String checkInDate = null;
 				
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());

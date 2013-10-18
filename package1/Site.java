@@ -1,6 +1,10 @@
 package package1;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Site implements Serializable {
@@ -43,9 +47,20 @@ public class Site implements Serializable {
 		 * @param out takes in the day of check out
 		 * @param siteNumber takes in the site number
 		 *************************************************************/
-		public Site(String name, GregorianCalendar in, int daysStaying, int siteNumber){
+		public Site(String name, String in, int daysStaying, int siteNumber){
 			this.nameReserving = name;
-			this.checkIn = in;
+			
+			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+			Date date;
+			GregorianCalendar checkInDate = new GregorianCalendar();
+			try {
+				date = formatter.parse(in);
+				checkInDate.setTime(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			this.checkIn = checkInDate;
 			this.daysStaying = daysStaying;
 			this.siteNumber = siteNumber;
 		}
