@@ -82,7 +82,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 
 	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
-
+	
 	/** Inputed value for name */
 	private String name;
 
@@ -221,7 +221,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			do {
 				resultTent = JOptionPane.showConfirmDialog(null, vT, "Reserve a Tent", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			} while(!checkInputForError(vT, resultTent));
+			} while(!checkInputForError(vT, resultTent, Tent.TYPE));
 			if(resultTent == JOptionPane.OK_OPTION){
 				// got this to work
 				Object[] varResult = vT.getUpdatedVars();
@@ -247,7 +247,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			do {
 				resultRV = JOptionPane.showConfirmDialog(null, vR, "Reserve an RV", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			} while(!checkInputForError(vR, resultRV));
+			} while(!checkInputForError(vR, resultRV, RV.TYPE));
 				
 			if(resultRV == JOptionPane.OK_OPTION){
 				// got this to work
@@ -281,7 +281,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 
 	}
 
-	private boolean checkInputForError(VarInputPanel p, int i) {
+	private boolean checkInputForError(VarInputPanel p, int i, int type) {
 		if (i==JOptionPane.OK_OPTION){
 			
 			System.out.println(p.doUpdatedVarsMatchInput());
@@ -290,6 +290,8 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 
 				System.out.println((Integer)varResult[1]);
 				
+				//Check the Site number
+				//TODO: Check to make sure the same site can't be used twice!
 				if ((Integer)varResult[1] < 1) {
 					JOptionPane.showMessageDialog(null, "The Site Number must be 1 or larger.");
 					return false;
@@ -298,6 +300,39 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 					JOptionPane.showMessageDialog(null, "The Site Number must be 5 or less.");
 					return false;
 				}
+				
+				//Check the Date
+				//TODO: Check the incoming Date String
+//				if ((String)varResult[2]) {
+//					JOptionPane.showMessageDialog(null, "The Date is out of range?");
+//					return false;
+//				}
+//				if ((String)varResult[2]) {
+//					JOptionPane.showMessageDialog(null, "The Date is out of range?");
+//					return false;
+//				}
+				
+				//Check the Number of Tenters, or the Power used!
+				if (type == Tent.TYPE)
+				{
+					if ((Integer)varResult[3] < 1) {
+						JOptionPane.showMessageDialog(null, "There can not be a negative number of tenters!");
+						return false;
+					}
+				} else if (type == RV.TYPE) {
+					if ((Integer)varResult[3] < 1) {
+						JOptionPane.showMessageDialog(null, "We will not accept your RV's Power as payment");
+						return false;
+					}
+				}
+				
+				//Check the Number of Days Stayed.
+				if ((Integer)varResult[4] < 1) {
+					JOptionPane.showMessageDialog(null, "You can't stay a negative number of Days!");
+					return false;
+				}
+				
+				
 				return true;
 			}
 
