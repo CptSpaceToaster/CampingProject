@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -15,7 +16,7 @@ import javax.swing.*;
 
 import VariableInputApi.*;
 
-public class GUICampingReg extends JFrame implements ActionListener, Comparable<Site> {
+public class GUICampingReg extends JFrame implements ActionListener {
 	
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
@@ -83,23 +84,15 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
 	
+	/** Maximum number of sites **/
+	private final int MAX_NUMBER_OF_SITES;
+	
+	/** **/
+	private Boolean[] sitesTaken;
+	
+	//Make these not instance variables???
 	/** Inputed value for name */
 	private String name;
-
-	/** Inputed value for site number */
-	private int siteNumber;
-
-	/** Inputed value for days staying */
-	private int daysStaying;
-
-	/** Inputed value for number of tenters */
-	private int numTenters;
-
-	/** Inputed value for power needed */
-	private int power;
-
-	/** Inputed value for date checked in */
-	private GregorianCalendar checkInDate;
 
 	/** Cost for the stay */
 	private double cost;
@@ -114,7 +107,11 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 		DEFAULT_DAYS_STAYING = 1;
 		DEFAULT_POWER_USED = 30;
 		DEFAULT_TENTERS = 1;
-
+		
+		MAX_NUMBER_OF_SITES = 5;
+		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
+		clearAllSites();
+		
 		// Instantiate the menus and menu items
 		fileMenu = new JMenu("File:");
 		checkInMenu = new JMenu("Check In:");
@@ -166,6 +163,12 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 
 		setSize(700,300);
 		setVisible(true);
+	}
+
+	private void clearAllSites() {
+		for (int i = 0; i<MAX_NUMBER_OF_SITES; i++) {
+			sitesTaken[i]= false;
+		}
 	}
 
 	/******************************************************************
@@ -227,6 +230,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 				Object[] varResult = vT.getUpdatedVars();
 				
 				Tent t = new Tent(varResult);
+				sitesTaken[t.getSiteNumber() - 1] = true;
 				
 				cost = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				DecimalFormat df = new DecimalFormat("#.00");
@@ -249,11 +253,12 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			} while(!checkInputForError(vR, resultRV, RV.TYPE));
 				
-			if(resultRV == JOptionPane.OK_OPTION){
+			if(resultRV == JOptionPane.OK_OPTION){	
 				// got this to work
 				Object[] varResult = vR.getUpdatedVars();
 				
 				RV r = new RV(varResult);
+				sitesTaken[r.getSiteNumber() - 1] = true;
 				
 				cost = r.getDaysStaying() * 30;
 				DecimalFormat df = new DecimalFormat("#.00");
@@ -275,15 +280,11 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 				//e.printStackTrace();
 				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
 			}
-				
-			
 		}
-
 	}
 
 	private boolean checkInputForError(VarInputPanel p, int i, int type) {
-		if (i==JOptionPane.OK_OPTION){
-			
+		if (i==JOptionPane.OK_OPTION){	
 			System.out.println(p.doUpdatedVarsMatchInput());
 			if(p.doUpdatedVarsMatchInput()) {
 				Object[] varResult = p.getUpdatedVars(); 				
@@ -296,8 +297,12 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 					JOptionPane.showMessageDialog(null, "The Site Number must be 1 or larger.");
 					return false;
 				}
-				if ((Integer)varResult[1] > 5) {
-					JOptionPane.showMessageDialog(null, "The Site Number must be 5 or less.");
+				if ((Integer)varResult[1] > MAX_NUMBER_OF_SITES) {
+					JOptionPane.showMessageDialog(null, "The Site Number must be " + MAX_NUMBER_OF_SITES + " or less.");
+					return false;
+				}
+				if (sitesTaken[(Integer)varResult[1] - 1]) {
+					JOptionPane.showMessageDialog(null, "The Site has already been taken!");
 					return false;
 				}
 				
@@ -337,25 +342,10 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			}
 
 			JOptionPane.showMessageDialog(null, "Numbers out of range. " +
-					" Please check your inputs.");
+												" Please check your inputs.");
 			return false;
 		}
-
-
+		
 		return true;
 	}
-
-	public int compareTo(Site s) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-		final int AFTER = 1;
-		if(this.name.equals( s.getNameReserving()))
-			return EQUAL;
-		else if(this.name.charAt(0) < s.getNameReserving().charAt(0))
-			return BEFORE;
-		else
-			return AFTER;
-	}
-
-
 }

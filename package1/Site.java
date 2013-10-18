@@ -7,9 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class Site implements Serializable {
+public class Site implements Serializable, Comparable<Site>{
 		private static final long serialVersionUID = 1L;
-
+		
+		
 		/** The name of the person who is occupying the Site */
 		protected String nameReserving;
 		//hi there
@@ -133,6 +134,11 @@ public class Site implements Serializable {
 		 *************************************************************/
 		public void setSiteNumber(int siteNumber) {
 			this.siteNumber = siteNumber;
+		}
+
+		@Override
+		public int compareTo(Site o) {
+			return 0;
 		}  
 
 }
