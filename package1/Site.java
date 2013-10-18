@@ -42,20 +42,20 @@ public class Site implements Serializable, Comparable<Site>{
 		
 		/**************************************************************
 		 * Constructor for Site
-		 * @param in takes in the date of check in
+		 * @param checkIn takes in the date of check in
 		 * @param name takes in the name of the person
 		 * @param daysStaying takes in the days staying
 		 * @param out takes in the day of check out
 		 * @param siteNumber takes in the site number
 		 *************************************************************/
-		public Site(String name, String in, int daysStaying, int siteNumber){
+		public Site(String name, String checkIn, int daysStaying, int siteNumber){
 			this.nameReserving = name;
 			
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			Date date;
 			GregorianCalendar checkInDate = new GregorianCalendar();
 			try {
-				date = formatter.parse(in);
+				date = formatter.parse(checkIn);
 				checkInDate.setTime(date);
 			} catch (ParseException e) {
 				e.printStackTrace();
