@@ -311,5 +311,11 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable 
 		return true;
 	}
 
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
