@@ -14,7 +14,7 @@ import javax.swing.*;
 
 import VariableInputApi.*;
 
-public class GUICampingReg extends JFrame implements ActionListener, Comparable {
+public class GUICampingReg extends JFrame implements ActionListener, Comparable<Site> {
 	
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
@@ -311,10 +311,16 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable 
 		return true;
 	}
 
-	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Site s) {
+		final int BEFORE = -1;
+		final int EQUAL = 0;
+		final int AFTER = 1;
+		if(this.name.equals( s.getNameReserving()))
+			return EQUAL;
+		else if(this.name.charAt(0) < s.getNameReserving().charAt(0))
+			return BEFORE;
+		else
+			return AFTER;
 	}
 
 
