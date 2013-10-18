@@ -11,8 +11,8 @@ public class RV extends Site {
 
 	public RV(){
 		super();
+		power = 30;
 	}
-	
 	
 	/**************************************************************
 	 * Constructor for RV

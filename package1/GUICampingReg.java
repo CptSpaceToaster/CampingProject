@@ -321,12 +321,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				if (type == Tent.TYPE)
 				{
 					if ((Integer)varResult[3] < 1) {
-						JOptionPane.showMessageDialog(null, "There can not be a negative number of tenters!");
+						JOptionPane.showMessageDialog(null, "There must be at least one tenter!");
 						return false;
 					}
 				} else if (type == RV.TYPE) {
-					if ((Integer)varResult[3] < 1) {
+					if ((Integer)varResult[3] < 0) {
 						JOptionPane.showMessageDialog(null, "We will not accept your RV's Power as payment");
+						return false;
+					}
+					if (((Integer)varResult[3] / 10 < 3) || 
+						((Integer)varResult[3] / 10 > 5) ||
+						 (Integer)varResult[3]%10 != 0) {
+						JOptionPane.showMessageDialog(null, "Power must be either 30, 40, or 50 Amps");
 						return false;
 					}
 				}

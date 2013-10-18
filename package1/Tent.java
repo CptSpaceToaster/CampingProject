@@ -17,6 +17,7 @@ public class Tent extends Site {
 
 	public Tent(){
 		super();
+		numOfTenters = 1;
 	}
 	/**************************************************************
 	 * Constructor for tents

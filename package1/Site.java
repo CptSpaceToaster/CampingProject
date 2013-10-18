@@ -37,7 +37,7 @@ public class Site implements Serializable, Comparable<Site>{
 			checkIn = new GregorianCalendar();	
 			checkOutOn = new GregorianCalendar();
 			daysStaying = 0;
-			siteNumber = 0;
+			siteNumber = 1;
 		}
 		
 		/**************************************************************
