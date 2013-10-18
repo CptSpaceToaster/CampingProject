@@ -14,14 +14,10 @@ import javax.swing.*;
 
 import VariableInputApi.*;
 
-public class GUICampingReg extends JFrame implements ActionListener {	
+public class GUICampingReg extends JFrame implements ActionListener, Comparable {
+	
+	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
-
-	/** JButton for ok */
-	private JButton okButton;
-
-	/** JButton for cancel */
-	private JButton cancelButton;
 
 	/** JMenu for file */
 	private JMenu fileMenu;
