@@ -2,6 +2,7 @@ package package1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -188,9 +189,15 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 		}
 
 		if(comp == openS){
-			JFileChooser file = new JFileChooser();
-			file.showOpenDialog(file);
-			siteTableModel.loadDatabase(file.getName());
+			
+			JFileChooser fc = new JFileChooser();
+			File file;
+			int returnVal = fc.showOpenDialog(this);
+	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            file = fc.getSelectedFile();
+	            siteTableModel.loadDatabase(file.getName());
+	        }
+			
 		}
 
 		if(comp == saveS){
