@@ -266,10 +266,17 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 
 		if(comp == checkOut){
 			int index = table.getSelectedRow();
-			if (index == -1)
-				JOptionPane.showMessageDialog(this,"NO");
-			else
+			System.out.println("index: "+ index);
+			
+			try {
 				siteTableModel.checkOut(index);
+			}
+			catch(IndexOutOfBoundsException e) {
+				//e.printStackTrace();
+				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
+			}
+				
+			
 		}
 
 	}
