@@ -219,7 +219,7 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			int resultTent;
 
 			do {
-				resultTent = JOptionPane.showConfirmDialog(null, vT, "New Game", 
+				resultTent = JOptionPane.showConfirmDialog(null, vT, "Reserve a Tent", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			} while(!checkInputForError(vT, resultTent));
 			if(resultTent == JOptionPane.OK_OPTION){
@@ -245,9 +245,10 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 			int resultRV;
 
 			do {
-				resultRV = JOptionPane.showConfirmDialog(null, vR, "New Game", 
+				resultRV = JOptionPane.showConfirmDialog(null, vR, "Reserve an RV", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			} while(!checkInputForError(vR, resultRV));
+				
 			if(resultRV == JOptionPane.OK_OPTION){
 				// got this to work
 				Object[] varResult = vR.getUpdatedVars();
@@ -274,16 +275,20 @@ public class GUICampingReg extends JFrame implements ActionListener, Comparable<
 	}
 
 	private boolean checkInputForError(VarInputPanel p, int i) {
-		if (i==JOptionPane.OK_CANCEL_OPTION){
+		if (i==JOptionPane.OK_OPTION){
+			
+			System.out.println(p.doUpdatedVarsMatchInput());
 			if(p.doUpdatedVarsMatchInput()) {
 				Object[] varResult = p.getUpdatedVars(); 				
 
+				System.out.println((Integer)varResult[1]);
+				
 				if ((Integer)varResult[1] < 1) {
-					JOptionPane.showMessageDialog(null, "MSG1.");
+					JOptionPane.showMessageDialog(null, "The Site Number must be 1 or larger.");
 					return false;
 				}
 				if ((Integer)varResult[1] > 5) {
-					JOptionPane.showMessageDialog(null, "MSG2.");
+					JOptionPane.showMessageDialog(null, "The Site Number must be 5 or less.");
 					return false;
 				}
 				return true;
