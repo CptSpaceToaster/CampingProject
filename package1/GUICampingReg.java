@@ -17,7 +17,7 @@ import javax.swing.*;
 import VariableInputApi.*;
 
 public class GUICampingReg extends JFrame implements ActionListener {
-	
+
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
 
@@ -83,13 +83,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
-	
+
 	/** Maximum number of sites **/
 	private final int MAX_NUMBER_OF_SITES;
-	
+
 	/** **/
 	private Boolean[] sitesTaken;
-	
+
 	//Make these not instance variables???
 	/** Inputed value for name */
 	private String name;
@@ -107,12 +107,12 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		DEFAULT_DAYS_STAYING = 1;
 		DEFAULT_POWER_USED = 30;
 		DEFAULT_TENTERS = 1;
-		
+
 		MAX_NUMBER_OF_SITES = 5;
 		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
 		costs = new double[MAX_NUMBER_OF_SITES];
 		clearAllSites();
-		
+
 		// Instantiate the menus and menu items
 		fileMenu = new JMenu("File:");
 		checkInMenu = new JMenu("Check In:");
@@ -193,27 +193,44 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		if(comp == openS){
-			
 			JFileChooser fc = new JFileChooser();
 			File file;
 			int returnVal = fc.showOpenDialog(this);
-	        if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            file = fc.getSelectedFile();
-	            siteTableModel.loadDatabase(file.getName());
-	        }
-			
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				file = fc.getSelectedFile();
+				siteTableModel.loadDatabase(file.getName());
+			}
+
 		}
 
 		if(comp == saveS){
-			siteTableModel.saveDatabase("siteDB");
+			JFileChooser fc = new JFileChooser();
+			File file;
+			int returnVal = fc.showSaveDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				file = fc.getSelectedFile();
+				siteTableModel.saveDatabase(file.getName());
+			}
 		}
 
 		if(comp == openT){
-			siteTableModel.loadFromText("siteDBText");
+			JFileChooser fc = new JFileChooser();
+			File file;
+			int returnVal = fc.showOpenDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				file = fc.getSelectedFile();
+				siteTableModel.loadFromText(file.getName());	  
+			}
 		}
 
 		if(comp == saveT){
-			siteTableModel.saveAsText("siteDBText");
+			JFileChooser fc = new JFileChooser();
+			File file;
+			int returnVal = fc.showSaveDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				file = fc.getSelectedFile();
+				siteTableModel.saveAsText(file.getName());
+			}
 		}
 
 		if(comp == checkInTent){
@@ -229,14 +246,14 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			if(resultTent == JOptionPane.OK_OPTION){
 				// got this to work
 				Object[] varResult = vT.getUpdatedVars();
-				
+
 				Tent t = new Tent(varResult);
 				sitesTaken[t.getSiteNumber() - 1] = true;
-				
+
 				costs[0] = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[0]));
-				
+
 				siteTableModel.addSite(t);
 			}
 		}
@@ -253,18 +270,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				resultRV = JOptionPane.showConfirmDialog(null, vR, "Reserve an RV", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			} while(!checkInputForError(vR, resultRV, RV.TYPE));
-				
+
 			if(resultRV == JOptionPane.OK_OPTION){	
 				// got this to work
 				Object[] varResult = vR.getUpdatedVars();
-				
+
 				RV r = new RV(varResult);
 				sitesTaken[r.getSiteNumber() - 1] = true;
-				
+
 				costs[1] = r.getDaysStaying() * 30;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[1]));
-				
+
 				siteTableModel.addSite(r);
 			}
 
@@ -273,7 +290,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		if(comp == checkOut){
 			int index = table.getSelectedRow();
 			System.out.println("index: "+ index);
-			
+
 			try {
 				siteTableModel.checkOut(index);
 			}
@@ -292,10 +309,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			}
 
 			JOptionPane.showMessageDialog(null, "Numbers out of range. " +
-												" Please check your inputs.");
+					" Please check your inputs.");
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -314,19 +331,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "The Site has already been taken!");
 			return false;
 		}
-		
+
 		//Check the Date
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String date;
-		GregorianCalendar checkInDate = new GregorianCalendar();
+		Date date;
 		try {
-			date = sdf.format(checkInDate);
+			date = sdf.parse((String)varResult[2]);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
 			return false;
 		}
 
-		
+
 		//Check the Number of Tenters, or the Power used!
 		if (type == Tent.TYPE)
 		{
@@ -340,20 +356,20 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				return false;
 			}
 			if (((Integer)varResult[3] / 10 < 3) || 
-				((Integer)varResult[3] / 10 > 5) ||
-				 (Integer)varResult[3]%10 != 0) {
+					((Integer)varResult[3] / 10 > 5) ||
+					(Integer)varResult[3]%10 != 0) {
 				JOptionPane.showMessageDialog(null, "Power must be either 30, 40, or 50 Amps");
 				return false;
 			}
 		}
-		
+
 		//Check the Number of Days Stayed.
 		if ((Integer)varResult[4] < 1) {
 			JOptionPane.showMessageDialog(null, "You can't stay a negative number of Days!");
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
 }
