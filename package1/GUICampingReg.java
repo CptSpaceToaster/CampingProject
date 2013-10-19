@@ -306,9 +306,14 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		if(comp == checkOut){
+			String[] labelsCheckOut = {"Check Out On"};
+			VarInputPanel vR = new VarInputPanel(labelsCheckOut, DEFAULT_DATE);
+			int resultCheckOut;
+			
+			// need to check for error on this and implement it
+			resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			int index = table.getSelectedRow();
-			System.out.println("index: "+ index);
-
 			try {
 				siteTableModel.checkOut(index);
 			}
