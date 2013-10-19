@@ -143,7 +143,7 @@ public class SiteModel extends AbstractTableModel {
 				String name = scanner.nextLine().trim();
 
 				String checkInDate = null;
-				
+				checkInDate = scanner.nextLine().trim();
 				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
 				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());

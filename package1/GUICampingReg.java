@@ -233,9 +233,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Tent t = new Tent(varResult);
 				sitesTaken[t.getSiteNumber() - 1] = true;
 				
-				cost = t.getDaysStaying() * t.getNumOfTenters() * 3;
+				costs[0] = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				DecimalFormat df = new DecimalFormat("#.00");
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[0]));
 				
 				siteTableModel.addSite(t);
 			}
@@ -261,9 +261,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				RV r = new RV(varResult);
 				sitesTaken[r.getSiteNumber() - 1] = true;
 				
-				cost = r.getDaysStaying() * 30;
+				costs[1] = r.getDaysStaying() * 30;
 				DecimalFormat df = new DecimalFormat("#.00");
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(cost));
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[1]));
 				
 				siteTableModel.addSite(r);
 			}
@@ -316,15 +316,16 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 		
 		//Check the Date
-		//TODO: Check the incoming Date String
-//		if ((String)varResult[2]) {
-//			JOptionPane.showMessageDialog(null, "The Date is out of range?");
-//			return false;
-//		}
-//		if ((String)varResult[2]) {
-//			JOptionPane.showMessageDialog(null, "The Date is out of range?");
-//			return false;
-//		}
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		String date;
+		GregorianCalendar checkInDate = new GregorianCalendar();
+		try {
+			date = sdf.format(checkInDate);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+			return false;
+		}
+
 		
 		//Check the Number of Tenters, or the Power used!
 		if (type == Tent.TYPE)
