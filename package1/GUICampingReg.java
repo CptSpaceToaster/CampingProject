@@ -3,6 +3,7 @@ package package1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -89,10 +90,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** **/
 	private Boolean[] sitesTaken;
-
-	//Make these not instance variables???
-	/** Inputed value for name */
-	private String name;
 
 	/** Cost for the stay */
 	private double[] costs;
@@ -197,8 +194,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			File file;
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				try{
 				file = fc.getSelectedFile();
 				siteTableModel.loadDatabase(file.getName());
+				}catch(Throwable e){
+					JOptionPane.showMessageDialog(null, "Choose a serializable file");
+
+				}
 			}
 
 		}
@@ -208,8 +210,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			File file;
 			int returnVal = fc.showSaveDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
-				siteTableModel.saveDatabase(file.getName());
+				try{
+					file = fc.getSelectedFile();
+					siteTableModel.saveDatabase(file.getName());
+
+				}catch(Throwable e){
+					JOptionPane.showMessageDialog(null, "Choose a text file");
+				}
 			}
 		}
 
@@ -218,19 +225,30 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			File file;
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
-				siteTableModel.loadFromText(file.getName());	  
+				try{
+					file = fc.getSelectedFile();
+					siteTableModel.loadFromText(file.getName());	  
+
+				}catch(Throwable e){
+					JOptionPane.showMessageDialog(null, "Choose a text file");
+				}
 			}
 		}
 
 		if(comp == saveT){
 			JFileChooser fc = new JFileChooser();
 			File file;
-			int returnVal = fc.showSaveDialog(this);
+			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
-				siteTableModel.saveAsText(file.getName());
+				try{
+					file = fc.getSelectedFile();
+					siteTableModel.saveAsText(file.getName());	  
+
+				}catch(Throwable e){
+					JOptionPane.showMessageDialog(null, "Choose a text file");
+				}
 			}
+			
 		}
 
 		if(comp == checkInTent){
