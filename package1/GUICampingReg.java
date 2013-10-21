@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.print.attribute.standard.OutputDeviceAssigned;
 import javax.swing.*;
@@ -324,61 +323,59 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			int resultCheckOut;
 
 			int index = table.getSelectedRow();
-			Date checkOut = null;
-
-			boolean success = true;
-			boolean btnOption;
-
-			// need to check for error on this and implement it
-			do{
-				resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-				btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
-
-				if(vR.doUpdatedVarsMatchInput() && btnOption) {
-
-					Object[] varResult = vR.getUpdatedVars();
-					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-					success = false;
-					try {
-						checkOut = sdf.parse((String)varResult[0]);
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
-						success = true;
-					}
-				} else if (btnOption){
-					JOptionPane.showMessageDialog(null, "Date out of range. " +
-							" Please check your inputs.");
-				}
-
-			}while(success && btnOption);
-
-			GregorianCalendar g = new GregorianCalendar();
-			g.setTime(checkOut);
-			
-			int d1 = siteTableModel.getSite(index).getCheckIn().get(Calendar.DAY_OF_MONTH);			
-			int d2 = g.get(Calendar.DAY_OF_MONTH);
-			
-			if(d2<=d1){
-				costs[index] = 0;
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
-			}
-			else if(d2 > d1){
-				costs[index] = siteTableModel.getSite(index).calcCost(d2-d1);				
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
-
-			}
-			try {
-				siteTableModel.checkOut(index);
-			}
-			catch(IndexOutOfBoundsException e) {
-				//e.printStackTrace();
+			if (index < 0) {
 				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
+			} else {
+				
+				Date checkOut = new Date();
+	
+				boolean success = true;
+				boolean btnOption;
+	
+				// need to check for error on this and implement it
+				do{
+					resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	
+					btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
+	
+					if(vR.doUpdatedVarsMatchInput() && btnOption) {
+	
+						Object[] varResult = vR.getUpdatedVars();
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+						success = false;
+						try {
+							checkOut = sdf.parse((String)varResult[0]);
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+							success = true;
+						}
+					} else if (btnOption){
+						JOptionPane.showMessageDialog(null, "Date out of range. " +
+								" Please check your inputs.");
+					}
+	
+				}while(success && btnOption);
+	
+	
+				BetterGregorianCalendar g = new BetterGregorianCalendar();
+				g.setTime(checkOut);
+				
+				int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
+	
+				if(d<=0){
+					costs[index] = 0;
+					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+				}
+				else {
+					costs[index] = siteTableModel.getSite(index).calcCost(d);				
+					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+				}
+				
+		
+				siteTableModel.checkOut(index);
+				decrementSite(index);
 			}
-			
-			
-			decrementSite(index);
 		}
 	}
 
@@ -388,6 +385,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			
 			if (++usedSites==MAX_NUMBER_OF_SITES) {
 				JOptionPane.showMessageDialog(null, "All sites are occupied", "Warning", JOptionPane.WARNING_MESSAGE);
+				checkInRV.setEnabled(false);
+				checkInTent.setEnabled(false);
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "This site was already taken!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -396,6 +395,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private void decrementSite(int d) {
 		if (sitesTaken[d] == true) {
 			sitesTaken[d] = false;
+			
+			checkInRV.setEnabled(true);
+			checkInTent.setEnabled(true);
 			
 			usedSites--;
 			if (usedSites < 0)
@@ -477,23 +479,4 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		return true;
 
 	}
-
-	//	private boolean checkOutVariableBounds(Object[] varResult, int type){
-	//		//Site s = new Site();
-	//		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-	//		Date date;
-	//		
-	//		GregorianCalendar cal = new GregorianCalendar();
-	//		try {
-	//			date = sdf.parse((String)varResult[0]);
-	//			cal.setTime(date);
-	//			 
-	//			System.out.print(cal.get(Calendar.DAY_OF_MONTH) +", "+ s.getCheckIn().get(Calendar.DAY_OF_MONTH));
-	//		} catch (Exception e) {
-	//			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
-	//			return false;
-	//		}
-	//		return true;
-	//	}
-
 }

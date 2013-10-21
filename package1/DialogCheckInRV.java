@@ -85,8 +85,8 @@ public void actionPerformed(ActionEvent e){
 		try{
 			date = dateFormat.parse(checkInTxt.getText());
 
-			GregorianCalendar calander = new GregorianCalendar();
-			calander.setTime(date);
+			BetterGregorianCalendar calender = new BetterGregorianCalendar();
+			calender.setTime(date);
 
 			int siteNumber = Integer.parseInt(siteNumTxt.getText());
 			int daysStaying = Integer.parseInt(daysTxt.getText());
@@ -95,7 +95,7 @@ public void actionPerformed(ActionEvent e){
 			rv.setPower(power);
 			rv.setDaysStaying(daysStaying);
 			rv.setSiteNumber(siteNumber);
-			rv.setCheckIn(calander);
+			rv.setCheckIn(calender);
 			rv.setNameReserving(nameTxt.getText());
 
 		} catch (Exception error) {

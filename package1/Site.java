@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public abstract class Site implements Serializable, Comparable<Site>{
 		private static final long serialVersionUID = 1L;
@@ -15,7 +14,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		protected String nameReserving;
 		//hi there
 		/** The date the Site was checked-in (occupied) */
-		protected GregorianCalendar checkIn;
+		protected BetterGregorianCalendar checkIn;
 
 		/** The estimated number of days the person is reserving */
 		/** This is just an estimate when the camper is  */
@@ -24,7 +23,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 
 		/** The date the Site was checked out */
 		/** This is the exact day they checked-out */
-		protected GregorianCalendar checkOutOn;
+		protected BetterGregorianCalendar checkOutOn;
 
 		/** The Site number */
 		protected int siteNumber;
@@ -34,8 +33,8 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		 *************************************************************/
 		public Site(){
 			nameReserving = "";
-			checkIn = new GregorianCalendar();	
-			checkOutOn = new GregorianCalendar();
+			checkIn = new BetterGregorianCalendar();	
+			checkOutOn = new BetterGregorianCalendar();
 			daysStaying = 0;
 			siteNumber = 1;
 		}
@@ -53,7 +52,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 			
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			Date date;
-			GregorianCalendar checkInDate = new GregorianCalendar();
+			BetterGregorianCalendar checkInDate = new BetterGregorianCalendar();
 			try {
 				date = formatter.parse(checkIn);
 				checkInDate.setTime(date);
@@ -83,14 +82,14 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		/**************************************************************
 		 * @return the checkIn
 		 *************************************************************/
-		public GregorianCalendar getCheckIn() {
+		public BetterGregorianCalendar getCheckIn() {
 			return checkIn;
 		}
 
 		/**************************************************************
 		 * @param checkIn the checkIn to set
 		 *************************************************************/
-		public void setCheckIn(GregorianCalendar checkIn) {
+		public void setCheckIn(BetterGregorianCalendar checkIn) {
 			this.checkIn = checkIn;
 		}
 
@@ -111,14 +110,14 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		/**************************************************************
 		 * @return the checkOutOn
 		 *************************************************************/
-		public GregorianCalendar getCheckOutOn() {
+		public BetterGregorianCalendar getCheckOutOn() {
 			return checkOutOn;
 		}
 
 		/**************************************************************
 		 * @param checkOutOn the checkOutOn to set
 		 *************************************************************/
-		public void setCheckOutOn(GregorianCalendar checkOutOn) {
+		public void setCheckOutOn(BetterGregorianCalendar checkOutOn) {
 			this.checkOutOn = checkOutOn;
 		}
 

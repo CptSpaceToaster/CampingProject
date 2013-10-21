@@ -82,7 +82,7 @@ public class DialogCheckInTent extends JDialog implements ActionListener{
 			try{
 				date = dateFormat.parse(checkInTxt.getText());
 
-				GregorianCalendar calander = new GregorianCalendar();
+				BetterGregorianCalendar calander = new BetterGregorianCalendar();
 				calander.setTime(date);
 
 				int siteNumber = Integer.parseInt(siteNumTxt.getText());
