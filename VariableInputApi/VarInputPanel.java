@@ -115,9 +115,9 @@ public class VarInputPanel extends JPanel{
 			if (fields[i] instanceof JTextField) {
 				String str = ((JTextField)fields[i]).getText();
 				
-				if (isStringInteger(str)) {
+				if (isStringInteger(str) && (copiedInput[i+1] instanceof Integer)) {
 					output[i] = Integer.parseInt(str);
-				} else if (isStringDouble(str)) {
+				} else if (isStringDouble(str) && (copiedInput[i+1] instanceof Double)) {
 					output[i] = Double.parseDouble(str);
 				} else {
 					output[i] = str;

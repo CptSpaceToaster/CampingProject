@@ -9,11 +9,13 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.print.attribute.standard.OutputDeviceAssigned;
 import javax.swing.*;
+import javax.swing.text.html.CSS;
 
 import VariableInputApi.*;
 
@@ -309,12 +311,45 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			String[] labelsCheckOut = {"Check Out On"};
 			VarInputPanel vR = new VarInputPanel(labelsCheckOut, DEFAULT_DATE);
 			int resultCheckOut;
+			
+			int index = table.getSelectedRow();
+			Date checkOut = null;
+			
+			boolean success = true;
+			boolean btnOption;
+			
 			// need to check for error on this and implement it
 			do{
-			resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
+				resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			}while(!checkInputForError(vR, resultCheckOut, 0));
-			int index = table.getSelectedRow();
+	
+				btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
+				
+				if(vR.doUpdatedVarsMatchInput() && btnOption) {
+					
+					Object[] varResult = vR.getUpdatedVars();
+					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+					success = false;
+					try {
+						checkOut = sdf.parse((String)varResult[0]);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+						success = true;
+					}
+				} else if (btnOption){
+					JOptionPane.showMessageDialog(null, "Date out of range. " +
+												" Please check your inputs.");
+				}
+			}while(success && btnOption);
+			
+			GregorianCalendar g = new GregorianCalendar();
+			g.setTime(checkOut);
+			
+			int d1 = siteTableModel.getSite(index).getCheckIn().get(Calendar.DAY_OF_MONTH);
+			int d2 = g.get(Calendar.DAY_OF_MONTH);
+			
+			System.out.println(d1+", "+d2);
+			
 			try {
 				siteTableModel.checkOut(index);
 			}
@@ -336,12 +371,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Numbers out of range. " +
 						" Please check your inputs.");
 				return false;
-			}
-			else if(type == 0){
-				if(p.doUpdatedVarsMatchInput()){
-					Object[] varResult = p.getUpdatedVars();
-					return checkOutVariableBounds(varResult, type);
-				}
 			}
 		}
 	
@@ -406,20 +435,22 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	}
 	
-	private boolean checkOutVariableBounds(Object[] varResult, int type){
-		Site s = new Site();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		Date date;
-		GregorianCalendar cal = new GregorianCalendar();
-		try {
-			date = sdf.parse((String)varResult[0]);
-			cal.setTime(date);
-			System.out.print(((cal.getTimeInMillis() - (s.getCheckIn()).getTimeInMillis()))/(1000*60*60*24));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
-			return false;
-		}
-		return true;
-	}
+//	private boolean checkOutVariableBounds(Object[] varResult, int type){
+//		//Site s = new Site();
+//		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+//		Date date;
+//		
+//		GregorianCalendar cal = new GregorianCalendar();
+//		try {
+//			date = sdf.parse((String)varResult[0]);
+//			cal.setTime(date);
+//			 
+//			System.out.print(cal.get(Calendar.DAY_OF_MONTH) +", "+ s.getCheckIn().get(Calendar.DAY_OF_MONTH));
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+//			return false;
+//		}
+//		return true;
+//	}
 
 }
