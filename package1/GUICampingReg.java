@@ -407,15 +407,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	}
 	
 	private boolean checkOutVariableBounds(Object[] varResult, int type){
+		Site s = new Site();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		Date date;
+		String date = (String)varResult[0];
+		GregorianCalendar cal = new GregorianCalendar();
 		try {
 			date = sdf.parse((String)varResult[0]);
+			cal.setTime(date);
+			System.out.print(((cal.getTimeInMillis() - (s.getCheckIn()).getTimeInMillis()))/(1000*60*60*24));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
 			return false;
 		}
-		int days = date.getDay();
 		return true;
 	}
 
