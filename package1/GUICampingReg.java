@@ -96,6 +96,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Cost for the stay */
 	private double[] costs;
 
+	/** Decimal Formatter */
+	DecimalFormat df;
+	
 	/******************************************************************
 	 * Sets up the GUI
 	 *****************************************************************/
@@ -110,6 +113,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		MAX_NUMBER_OF_SITES = 5;
 		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
 		costs = new double[MAX_NUMBER_OF_SITES];
+		
+		df = new DecimalFormat("#0.00");
 		clearAllSites();
 
 		// Instantiate the menus and menu items
@@ -270,9 +275,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Tent t = new Tent(varResult);
 				sitesTaken[t.getSiteNumber() - 1] = true;
 
-				costs[t.getSiteNumber() -1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
-				DecimalFormat df = new DecimalFormat("#.00");
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[0]));
+				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[t.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(t);
 			}
@@ -299,8 +303,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				sitesTaken[r.getSiteNumber() - 1] = true;
 
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
-				DecimalFormat df = new DecimalFormat("#.00");
-				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[1]));
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[r.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(r);
 			}
@@ -311,22 +314,22 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			String[] labelsCheckOut = {"Check Out On"};
 			VarInputPanel vR = new VarInputPanel(labelsCheckOut, DEFAULT_DATE);
 			int resultCheckOut;
-			
+
 			int index = table.getSelectedRow();
 			Date checkOut = null;
-			
+
 			boolean success = true;
 			boolean btnOption;
-			
+
 			// need to check for error on this and implement it
 			do{
 				resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-	
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
 				btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
-				
+
 				if(vR.doUpdatedVarsMatchInput() && btnOption) {
-					
+
 					Object[] varResult = vR.getUpdatedVars();
 					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 					success = false;
@@ -338,18 +341,26 @@ public class GUICampingReg extends JFrame implements ActionListener {
 					}
 				} else if (btnOption){
 					JOptionPane.showMessageDialog(null, "Date out of range. " +
-												" Please check your inputs.");
+							" Please check your inputs.");
 				}
+
 			}while(success && btnOption);
-			
+
 			GregorianCalendar g = new GregorianCalendar();
 			g.setTime(checkOut);
 			
-			int d1 = siteTableModel.getSite(index).getCheckIn().get(Calendar.DAY_OF_MONTH);
+			int d1 = siteTableModel.getSite(index).getCheckIn().get(Calendar.DAY_OF_MONTH);			
 			int d2 = g.get(Calendar.DAY_OF_MONTH);
 			
-			System.out.println(d1+", "+d2);
-			
+			if(d2<=d1){
+				costs[index] = 0;
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+			}
+			else if(d2 > d1){
+				costs[index] = siteTableModel.getSite(index).calcCost(d2-d1);				
+				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+
+			}
 			try {
 				siteTableModel.checkOut(index);
 			}
@@ -373,7 +384,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				return false;
 			}
 		}
-	
+
 
 		return true;
 	}
@@ -434,23 +445,23 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		return true;
 
 	}
-	
-//	private boolean checkOutVariableBounds(Object[] varResult, int type){
-//		//Site s = new Site();
-//		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-//		Date date;
-//		
-//		GregorianCalendar cal = new GregorianCalendar();
-//		try {
-//			date = sdf.parse((String)varResult[0]);
-//			cal.setTime(date);
-//			 
-//			System.out.print(cal.get(Calendar.DAY_OF_MONTH) +", "+ s.getCheckIn().get(Calendar.DAY_OF_MONTH));
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
-//			return false;
-//		}
-//		return true;
-//	}
+
+	//	private boolean checkOutVariableBounds(Object[] varResult, int type){
+	//		//Site s = new Site();
+	//		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+	//		Date date;
+	//		
+	//		GregorianCalendar cal = new GregorianCalendar();
+	//		try {
+	//			date = sdf.parse((String)varResult[0]);
+	//			cal.setTime(date);
+	//			 
+	//			System.out.print(cal.get(Calendar.DAY_OF_MONTH) +", "+ s.getCheckIn().get(Calendar.DAY_OF_MONTH));
+	//		} catch (Exception e) {
+	//			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+	//			return false;
+	//		}
+	//		return true;
+	//	}
 
 }

@@ -49,5 +49,10 @@ public class Tent extends Site {
 		this.numOfTenters = numOfTenters;
 	}
 	
+	@Override
+	public double calcCost(int days) {
+		return 3*days*numOfTenters;
+	}
+	
 	
 }

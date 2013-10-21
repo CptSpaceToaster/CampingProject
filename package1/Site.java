@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class Site implements Serializable, Comparable<Site>{
+public abstract class Site implements Serializable, Comparable<Site>{
 		private static final long serialVersionUID = 1L;
 		
 		
@@ -140,5 +140,7 @@ public class Site implements Serializable, Comparable<Site>{
 		public int compareTo(Site o) {
 			return 0;
 		}  
+		
+		public abstract double calcCost(int days);
 		
 }

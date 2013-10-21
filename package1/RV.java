@@ -43,7 +43,10 @@ public class RV extends Site {
 	public void setPower(int power) {
 		this.power = power;
 	}
-
 	
+	@Override
+	public double calcCost(int days){
+		return 30*days;
+	}
 	
 }
