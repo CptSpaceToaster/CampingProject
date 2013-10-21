@@ -10,7 +10,7 @@ public class Tent extends Site {
 	private static final long serialVersionUID = 1L;
 	
 	/** Type for Tent **/
-	public static final int TYPE = 0;
+	public static final int TYPE = 1;
 	
 	/** Represents the number of tenters on this site */
 	private int numOfTenters;

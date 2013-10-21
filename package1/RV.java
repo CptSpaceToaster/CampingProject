@@ -3,7 +3,7 @@ public class RV extends Site {
 	private static final long serialVersionUID = 1L;
 
 	/** Type for RV **/
-	public static final int TYPE = 1;
+	public static final int TYPE = 2;
 	
 	/** Represents the power supplied to the site */
 	private int power; // 30, 40, 50 amps of service.

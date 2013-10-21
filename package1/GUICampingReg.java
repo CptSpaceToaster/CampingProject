@@ -195,8 +195,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try{
-				file = fc.getSelectedFile();
-				siteTableModel.loadDatabase(file.getName());
+					file = fc.getSelectedFile();
+					siteTableModel.loadDatabase(file.getName());
 				}catch(Throwable e){
 					JOptionPane.showMessageDialog(null, "Choose a serializable file");
 
@@ -248,7 +248,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Choose a text file");
 				}
 			}
-			
+
 		}
 
 		if(comp == checkInTent){
@@ -268,7 +268,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Tent t = new Tent(varResult);
 				sitesTaken[t.getSiteNumber() - 1] = true;
 
-				costs[0] = t.getDaysStaying() * t.getNumOfTenters() * 3;
+				costs[t.getSiteNumber() -1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[0]));
 
@@ -296,7 +296,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				RV r = new RV(varResult);
 				sitesTaken[r.getSiteNumber() - 1] = true;
 
-				costs[1] = r.getDaysStaying() * 30;
+				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
 				DecimalFormat df = new DecimalFormat("#.00");
 				JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[1]));
 
@@ -309,10 +309,11 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			String[] labelsCheckOut = {"Check Out On"};
 			VarInputPanel vR = new VarInputPanel(labelsCheckOut, DEFAULT_DATE);
 			int resultCheckOut;
-			
 			// need to check for error on this and implement it
+			do{
 			resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			}while(!checkInputForError(vR, resultCheckOut, 0));
 			int index = table.getSelectedRow();
 			try {
 				siteTableModel.checkOut(index);
@@ -326,22 +327,31 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	private boolean checkInputForError(VarInputPanel p, int i, int type) {
 		if (i==JOptionPane.OK_OPTION){	
-			if(p.doUpdatedVarsMatchInput()) {
-				Object[] varResult = p.getUpdatedVars(); 				
-				return checkVariableBounds(varResult, type);
-			}
+			if(type == RV.TYPE || type == Tent.TYPE){
+				if(p.doUpdatedVarsMatchInput()) {
+					Object[] varResult = p.getUpdatedVars(); 				
+					return checkInputVariableBounds(varResult, type);
+				}
 
-			JOptionPane.showMessageDialog(null, "Numbers out of range. " +
-					" Please check your inputs.");
-			return false;
+				JOptionPane.showMessageDialog(null, "Numbers out of range. " +
+						" Please check your inputs.");
+				return false;
+			}
+			else if(type == 0){
+				if(p.doUpdatedVarsMatchInput()){
+					Object[] varResult = p.getUpdatedVars();
+					return checkOutVariableBounds(varResult, type);
+				}
+			}
 		}
+	
 
 		return true;
 	}
 
-	private boolean checkVariableBounds(Object[] varResult, int type) {
+	private boolean checkInputVariableBounds(Object[] varResult, int type) {
 		//Check the Site number
-		//TODO: Check to make sure the same site can't be used twice!
+
 		if ((Integer)varResult[1] < 1) {
 			JOptionPane.showMessageDialog(null, "The Site Number must be 1 or larger.");
 			return false;
@@ -395,4 +405,18 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		return true;
 
 	}
+	
+	private boolean checkOutVariableBounds(Object[] varResult, int type){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Date date;
+		try {
+			date = sdf.parse((String)varResult[0]);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+			return false;
+		}
+		int days = date.getDay();
+		return true;
+	}
+
 }
