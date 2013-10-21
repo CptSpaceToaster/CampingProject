@@ -99,6 +99,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Decimal Formatter */
 	DecimalFormat df;
 	
+	/** Sites being used **/
+	int usedSites;
+	
 	/******************************************************************
 	 * Sets up the GUI
 	 *****************************************************************/
@@ -115,6 +118,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		costs = new double[MAX_NUMBER_OF_SITES];
 		
 		df = new DecimalFormat("#0.00");
+		
 		clearAllSites();
 
 		// Instantiate the menus and menu items
@@ -174,6 +178,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		for (int i = 0; i<MAX_NUMBER_OF_SITES; i++) {
 			sitesTaken[i]= false;
 		}
+		usedSites=0;
 	}
 
 	/******************************************************************
@@ -273,12 +278,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Object[] varResult = vT.getUpdatedVars();
 
 				Tent t = new Tent(varResult);
-				sitesTaken[t.getSiteNumber() - 1] = true;
 
 				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
 				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[t.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(t);
+				
+				fillSite(t.getSiteNumber() - 1);
 			}
 		}
 
@@ -300,12 +306,14 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Object[] varResult = vR.getUpdatedVars();
 
 				RV r = new RV(varResult);
-				sitesTaken[r.getSiteNumber() - 1] = true;
+				
 
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
 				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[r.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(r);
+				
+				fillSite(r.getSiteNumber() - 1);
 			}
 
 		}
@@ -368,6 +376,30 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				//e.printStackTrace();
 				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
 			}
+			
+			
+			decrementSite(index);
+		}
+	}
+
+	private void fillSite(int d) {
+		if (sitesTaken[d]== false) {
+			sitesTaken[d] = true;
+			
+			if (++usedSites==MAX_NUMBER_OF_SITES) {
+				JOptionPane.showMessageDialog(null, "All sites are occupied", "Warning", JOptionPane.WARNING_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "This site was already taken!", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	private void decrementSite(int d) {
+		if (sitesTaken[d] == true) {
+			sitesTaken[d] = false;
+			
+			usedSites--;
+			if (usedSites < 0)
+				JOptionPane.showMessageDialog(null, "Stop Decrementing Sites!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
