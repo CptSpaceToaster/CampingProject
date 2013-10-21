@@ -418,8 +418,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				return false;
 			}
 		}
-
-
 		return true;
 	}
 
