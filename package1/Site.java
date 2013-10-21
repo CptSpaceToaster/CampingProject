@@ -140,5 +140,5 @@ public class Site implements Serializable, Comparable<Site>{
 		public int compareTo(Site o) {
 			return 0;
 		}  
-
+		
 }

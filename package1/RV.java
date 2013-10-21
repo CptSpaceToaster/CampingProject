@@ -1,5 +1,4 @@
 package package1;
-import java.util.*;
 public class RV extends Site {
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +43,7 @@ public class RV extends Site {
 	public void setPower(int power) {
 		this.power = power;
 	}
+
 	
 	
 }
