@@ -409,7 +409,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private boolean checkOutVariableBounds(Object[] varResult, int type){
 		Site s = new Site();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String date = (String)varResult[0];
+		Date date;
 		GregorianCalendar cal = new GregorianCalendar();
 		try {
 			date = sdf.parse((String)varResult[0]);
