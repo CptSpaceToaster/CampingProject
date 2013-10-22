@@ -23,10 +23,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** JMenu for check out menu */
 	private JMenu checkOutMenu;
-	
+
 	/** JMenu for status */
 	private JMenu statusMenu;
-	
+
 	/** JMenu Item for checking status */
 	private JMenuItem statusMenuItem;
 
@@ -95,10 +95,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** Decimal Formatter */
 	DecimalFormat df;
-	
+
 	/** Sites being used */
 	int usedSites;
-	
+
 	/******************************************************************
 	 * Sets up the GUI
 	 *****************************************************************/
@@ -113,9 +113,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		MAX_NUMBER_OF_SITES = 5;
 		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
 		costs = new double[MAX_NUMBER_OF_SITES];
-		
+
 		df = new DecimalFormat("#0.00");
-		
+
 		clearAllSites();
 
 		// Instantiate the menus and menu items
@@ -198,11 +198,44 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
-		
+
 		if(comp == statusMenuItem){
 			CampFullStatus campStatus = new CampFullStatus();
-			String date = JOptionPane.showInputDialog(null, "Enter a date to check");
-			campStatus.checkStatus(date);
+			String[] labelsStatus = {"Enter a date to check"};
+			VarInputPanel vS = new VarInputPanel(labelsStatus, DEFAULT_DATE);
+			int resultStatus;
+			Date checkOut = new Date();
+
+			boolean success = true;
+			boolean btnOption;
+
+			// need to check for error on this and implement it
+			do{
+				resultStatus = JOptionPane.showConfirmDialog(null, vS, "Check Status", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				btnOption = (resultStatus == JOptionPane.OK_OPTION);
+
+				if(vS.doUpdatedVarsMatchInput() && btnOption) {
+
+					Object[] varResult = vS.getUpdatedVars();
+					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+					success = false;
+					try {
+						checkOut = sdf.parse((String)varResult[0]);
+						String date = (String)varResult[0];
+						campStatus.checkStatus(date);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+						success = true;
+					}
+					
+				} else if (btnOption){
+					JOptionPane.showMessageDialog(null, "Date out of range. " +
+							" Please check your inputs.");
+				}
+				
+			}while(success && btnOption);
 		}
 		if(comp == quit){
 			System.exit(1);
@@ -290,7 +323,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[t.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(t);
-				
+
 				fillSite(t.getSiteNumber() - 1);
 			}
 		}
@@ -313,13 +346,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Object[] varResult = vR.getUpdatedVars();
 
 				RV r = new RV(varResult);
-				
+
 
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
 				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[r.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(r);
-				
+
 				fillSite(r.getSiteNumber() - 1);
 			}
 
@@ -334,21 +367,21 @@ public class GUICampingReg extends JFrame implements ActionListener {
 			if (index < 0) {
 				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
 			} else {
-				
+
 				Date checkOut = new Date();
-	
+
 				boolean success = true;
 				boolean btnOption;
-	
+
 				// need to check for error on this and implement it
 				do{
 					resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-	
+
 					btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
-	
+
 					if(vR.doUpdatedVarsMatchInput() && btnOption) {
-	
+
 						Object[] varResult = vR.getUpdatedVars();
 						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 						success = false;
@@ -362,15 +395,15 @@ public class GUICampingReg extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "Date out of range. " +
 								" Please check your inputs.");
 					}
-	
+
 				}while(success && btnOption);
-	
-	
+
+
 				BetterGregorianCalendar g = new BetterGregorianCalendar();
 				g.setTime(checkOut);
-				
+
 				int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
-	
+
 				if(d<=0){
 					costs[index] = 0;
 					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
@@ -379,8 +412,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 					costs[index] = siteTableModel.getSite(index).calcCost(d);				
 					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
 				}
-				
-		
+
+
 				siteTableModel.checkOut(index);
 				decrementSite(index);
 			}
@@ -390,7 +423,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private void fillSite(int d) {
 		if (sitesTaken[d]== false) {
 			sitesTaken[d] = true;
-			
+
 			if (++usedSites==MAX_NUMBER_OF_SITES) {
 				JOptionPane.showMessageDialog(null, "All sites are occupied", "Warning", JOptionPane.WARNING_MESSAGE);
 				checkInRV.setEnabled(false);
@@ -403,10 +436,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private void decrementSite(int d) {
 		if (sitesTaken[d] == true) {
 			sitesTaken[d] = false;
-			
+
 			checkInRV.setEnabled(true);
 			checkInTent.setEnabled(true);
-			
+
 			usedSites--;
 			if (usedSites < 0)
 				JOptionPane.showMessageDialog(null, "Stop Decrementing Sites!", "Error", JOptionPane.ERROR_MESSAGE);

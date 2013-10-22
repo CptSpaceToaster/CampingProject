@@ -55,7 +55,7 @@ public class SiteModel extends AbstractTableModel {
 		super();
 		listSite = new ArrayList<Site>();
 	}
-
+	
 	public void checkOut(int i){
 		listSite.remove(i);
 		fireTableRowsInserted(0, listSite.size());

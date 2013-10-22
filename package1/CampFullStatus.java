@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.util.Date;
 public class CampFullStatus extends JDialog implements ActionListener{
 
 	/**Default serial UID */
@@ -24,11 +25,11 @@ public class CampFullStatus extends JDialog implements ActionListener{
 	/** OK Button */
 	private JButton OKButton;
 	
-	public void checkStatus(String date) {
+	public void checkStatus(String d) {
 		tableModel = new SiteModel();
 		outputTable = new JTable(tableModel);
 		scrollPane = new JScrollPane(outputTable);
-		displayDate = new JLabel("Camp status on:" + date);
+		displayDate = new JLabel("Camp status on: " + d);
 		OKButton = new JButton("OK");
 		OKButton.addActionListener(this);
 		
