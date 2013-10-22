@@ -3,19 +3,11 @@ package package1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.print.attribute.standard.OutputDeviceAssigned;
 import javax.swing.*;
-import javax.swing.text.html.CSS;
-
 import VariableInputApi.*;
 
 public class GUICampingReg extends JFrame implements ActionListener {
@@ -31,6 +23,12 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** JMenu for check out menu */
 	private JMenu checkOutMenu;
+	
+	/** JMenu for status */
+	private JMenu statusMenu;
+	
+	/** JMenu Item for checking status */
+	private JMenuItem statusMenuItem;
 
 	/** JMenu Item for saving serializable file */
 	private JMenuItem saveS;
@@ -86,10 +84,10 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Default number of days staying */
 	private final int DEFAULT_TENTERS;
 
-	/** Maximum number of sites **/
+	/** Maximum number of sites */
 	private final int MAX_NUMBER_OF_SITES;
 
-	/** **/
+	/** Represents the sites taken */
 	private Boolean[] sitesTaken;
 
 	/** Cost for the stay */
@@ -98,7 +96,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	/** Decimal Formatter */
 	DecimalFormat df;
 	
-	/** Sites being used **/
+	/** Sites being used */
 	int usedSites;
 	
 	/******************************************************************
@@ -124,6 +122,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		fileMenu = new JMenu("File:");
 		checkInMenu = new JMenu("Check In:");
 		checkOutMenu = new JMenu("Check Out:");
+		statusMenu = new JMenu("Status:");
+		statusMenuItem = new JMenuItem("Check Status");
 		saveS = new JMenuItem("Save Serializable");
 		openS = new JMenuItem("Open Serializable");
 		openT = new JMenuItem("Open Text");		
@@ -146,6 +146,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		checkInMenu.add(checkInRV);
 		menus.add(checkOutMenu);
 		checkOutMenu.add(checkOut);
+		menus.add(statusMenu);
+		statusMenu.add(statusMenuItem);
 
 		// add ActionListeners
 		quit.addActionListener(this);
@@ -156,6 +158,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		checkInTent.addActionListener(this);
 		checkInRV.addActionListener(this);
 		checkOut.addActionListener(this);
+		statusMenuItem.addActionListener(this);
 
 		// set the menu bar
 		setJMenuBar(menus);
@@ -195,7 +198,12 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
-
+		
+		if(comp == statusMenuItem){
+			CampFullStatus campStatus = new CampFullStatus();
+			String date = JOptionPane.showInputDialog(null, "Enter a date to check");
+			campStatus.checkStatus(date);
+		}
 		if(comp == quit){
 			System.exit(1);
 		}
@@ -440,7 +448,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		//Check the Date
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Date date;
-		try {
+		try {			
 			date = sdf.parse((String)varResult[2]);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
