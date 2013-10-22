@@ -1,14 +1,18 @@
 package package1;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import javax.swing.table.AbstractTableModel;
-import java.util.*;
-import java.io.*;
-import java.text.*;
-public class SiteModel extends AbstractTableModel {
+
+public class StatusModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Site> listSite;
+	
 	private String[] columnNames = {"Name Reserving", "Checked-In", 
-			"Days Staying", "Site #", "Tent/RV Info"};
+			"Site #", "Estimated Days", "Days Remaining"};
 	
 	@Override
 	public String getColumnName(int col){
@@ -51,7 +55,7 @@ public class SiteModel extends AbstractTableModel {
 		}
 	}
 
-	public SiteModel(){
+	public StatusModel(){
 		super();
 		listSite = new ArrayList<Site>();
 	}
@@ -72,58 +76,6 @@ public class SiteModel extends AbstractTableModel {
 
 	public int getSize(){
 		return listSite.size();
-	}
-
-	public void saveDatabase(String filename){
-		try{
-			FileOutputStream fileOutput = new FileOutputStream(filename);
-			ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
-			objectOutput.writeObject(listSite);
-			objectOutput.close();
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-
-	public void loadDatabase(String filename){
-		try{
-			FileInputStream input = new FileInputStream(filename);
-			ObjectInputStream objectInput = new ObjectInputStream(input);
-			listSite = (ArrayList<Site>)objectInput.readObject();
-			fireTableRowsInserted(0,listSite.size() - 1);
-			objectInput.close();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-
-	public boolean saveAsText(String filename){
-		if(filename.equals(""))
-			return false;
-		try{
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
-			out.println(listSite.size());
-			for (int i = 0; i < listSite.size(); i++) {
-				Site s = listSite.get(i);
-				out.println(s.getClass().getName().toLowerCase().charAt(9));
-				out.println(s.getNameReserving());
-				out.println(DateFormat.getDateInstance(DateFormat.SHORT)
-						.format(s.getCheckIn().getTime()));
-				out.println(s.getDaysStaying());
-				out.println(s.getSiteNumber());
-
-				if (s instanceof Tent)
-					out.println(((Tent) s).getNumOfTenters());
-				else
-					out.println(((RV) s).getPower());
-			}
-			out.close();
-			return true;
-		} catch (IOException ex) {
-			return false;
-		}
 	}
 	public void loadFromText(String filename) {
 		listSite.clear();

@@ -20,14 +20,14 @@ public class CampFullStatus extends JDialog implements ActionListener{
 	private JLabel displayDate;
 	
 	/** table model */
-	private SiteModel tableModel;
+	private StatusModel tableModel;
 	
 	/** OK Button */
 	private JButton OKButton;
 	
 	public void checkStatus(String d) {
-		tableModel = new SiteModel();
-		outputTable = new JTable(tableModel);
+		tableModel = new StatusModel();
+		
 		scrollPane = new JScrollPane(outputTable);
 		displayDate = new JLabel("Camp status on: " + d);
 		OKButton = new JButton("OK");
@@ -39,9 +39,10 @@ public class CampFullStatus extends JDialog implements ActionListener{
 		panel.add(scrollPane);
 		panel.add(OKButton);
 		add(panel);
-
-
 		
+		
+		tableModel.loadFromText("CampStatus");
+		outputTable = new JTable(tableModel);
 		setSize(700,300);
 		setVisible(true);
 		

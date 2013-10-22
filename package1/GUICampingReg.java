@@ -224,6 +224,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 					try {
 						checkOut = sdf.parse((String)varResult[0]);
 						String date = (String)varResult[0];
+						siteTableModel.saveAsText("CampStatus");
 						campStatus.checkStatus(date);
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
