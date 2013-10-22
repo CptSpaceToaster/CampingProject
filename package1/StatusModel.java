@@ -38,18 +38,11 @@ public class StatusModel extends AbstractTableModel{
 			return (DateFormat.getDateInstance(DateFormat.SHORT)
 					.format(listSite.get(row).getCheckIn().getTime()));
 		case 2:
-			return (listSite.get(row).getDaysStaying());
-		case 3: 
 			return (listSite.get(row).getSiteNumber());
+		case 3: 
+			return (listSite.get(row).getDaysStaying());
 		case 4:
-			int n;
-			if(listSite.get(row) instanceof Tent){
-				n = ((Tent) listSite.get(row)).getNumOfTenters();
-				return (n + " Tent" + ( n == 1 ? "er" : "ers"));
-			}
-			else
-				return (((RV) listSite.get(row)).getPower() + " Amps");
-
+			return 0;
 		default:
 			return null;
 		}
@@ -77,6 +70,7 @@ public class StatusModel extends AbstractTableModel{
 	public int getSize(){
 		return listSite.size();
 	}
+	
 	public void loadFromText(String filename) {
 		listSite.clear();
 		fireTableRowsDeleted( 0, listSite.size());

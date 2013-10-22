@@ -223,7 +223,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 					success = false;
 					try {
 						checkOut = sdf.parse((String)varResult[0]);
-						String date = (String)varResult[0];
+						BetterGregorianCalendar date = new BetterGregorianCalendar();
+						date.setTime(checkOut);
 						siteTableModel.saveAsText("CampStatus");
 						campStatus.checkStatus(date);
 					} catch (Exception e) {

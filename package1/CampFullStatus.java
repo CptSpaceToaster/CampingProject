@@ -25,11 +25,12 @@ public class CampFullStatus extends JDialog implements ActionListener{
 	/** OK Button */
 	private JButton OKButton;
 	
-	public void checkStatus(String d) {
+	public void checkStatus(BetterGregorianCalendar d) {
 		tableModel = new StatusModel();
-		
+		tableModel.loadFromText("CampStatus");
+		outputTable = new JTable(tableModel);
 		scrollPane = new JScrollPane(outputTable);
-		displayDate = new JLabel("Camp status on: " + d);
+		displayDate = new JLabel("Camp status on: " + d.toString());
 		OKButton = new JButton("OK");
 		OKButton.addActionListener(this);
 		
@@ -41,8 +42,7 @@ public class CampFullStatus extends JDialog implements ActionListener{
 		add(panel);
 		
 		
-		tableModel.loadFromText("CampStatus");
-		outputTable = new JTable(tableModel);
+		
 		setSize(700,300);
 		setVisible(true);
 		

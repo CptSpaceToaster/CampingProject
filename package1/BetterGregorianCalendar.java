@@ -10,6 +10,12 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	private static final long serialVersionUID = 1L;
 
 	int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
+	private int[] monthNum = {0,1,2,3,4,5,6,7,8,9,10,11,12};
+	
+	/** this array is for the names of the months */
+	private String[] monthName = {"","January", "Febuary", "March", "April",
+			"May", "June", "July", "August", "September", "October", 
+			"November", "December"};
 	
 	/******************************************************************
 	 * This helper method takes a given year and month and returns the
@@ -66,6 +72,32 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 		} else {
 			return 0;
 		}
+	}
+	
+	/******************************************************************
+	 * Takes a SimpleDate in the format of MM/DD/YYYY 
+	 * and changes it to DD Month Year
+	 * @return returns a String formated DD Month Year
+	 *****************************************************************/
+	public String toString(){
+		String date = "";
+		for(int i = 1; i <= this.get(Calendar.MONTH); i++){
+			// find the specific month
+			if(monthNum[i] == this.get(Calendar.MONTH)){
+				// adds the month to the date String
+				date += monthNum[i+1] + "/"; 
+			}
+		}
+		String zeroDay;
+		// if the day is less than 10, add a 0
+		if(this.get(Calendar.DAY_OF_MONTH) < 10)
+			zeroDay = "0" + this.get(Calendar.DAY_OF_MONTH);
+		else
+			zeroDay = "" + this.get(Calendar.DAY_OF_MONTH);
+		date += zeroDay;
+		
+		date += "/" +  this.get(Calendar.YEAR);
+		return date;
 	}
 
 }
