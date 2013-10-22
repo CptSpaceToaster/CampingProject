@@ -42,7 +42,7 @@ public class StatusModel extends AbstractTableModel{
 		case 3: 
 			return (listSite.get(row).getDaysStaying());
 		case 4:
-			return 0;
+			return (listSite.get(row).getCheckIn());
 		default:
 			return null;
 		}

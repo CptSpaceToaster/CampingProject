@@ -10,6 +10,7 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	private static final long serialVersionUID = 1L;
 
 	int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
+	
 	private int[] monthNum = {0,1,2,3,4,5,6,7,8,9,10,11,12};
 	
 	/** this array is for the names of the months */
@@ -75,9 +76,9 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	}
 	
 	/******************************************************************
-	 * Takes a SimpleDate in the format of MM/DD/YYYY 
+	 * Takes a GregorianCalendar in the format of a string 
 	 * and changes it to DD Month Year
-	 * @return returns a String formated DD Month Year
+	 * @return returns a String formated MM/DD/YYYY
 	 *****************************************************************/
 	public String toString(){
 		String date = "";
