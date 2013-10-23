@@ -28,7 +28,7 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	 * 			if an invalid month is used
 	 *****************************************************************/
 	private int daysInMonth(int month, int year) {
-		return monthDays[month]+(isLeapYear(year)?1:0);
+		return monthDays[month]+(this.isLeapYear(year)?1:0);
 	}
 	
 	/******************************************************************
