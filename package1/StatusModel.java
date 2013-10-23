@@ -37,14 +37,14 @@ public class StatusModel extends AbstractTableModel{
 		case 0:
 			return(listSite.get(row).getNameReserving());
 		case 1:
-			return (DateFormat.getDateInstance(DateFormat.SHORT)
-					.format(listSite.get(row).getCheckIn().getTime()));
+			return GUICampingReg.SIMPLE_FORMAT
+					.format(listSite.get(row).getCheckIn().getTime());
 		case 2:
 			return (listSite.get(row).getSiteNumber());
 		case 3: 
 			return (listSite.get(row).getDaysStaying());
 		case 4:
-			return ((listSite.get(row).getCheckIn().daysSince(date))) + 730497 + listSite.get(row).getDaysStaying();
+			return ((listSite.get(row).getCheckIn().daysSince(date))) + listSite.get(row).getDaysStaying();
 			
 		default:
 			return null;
@@ -57,23 +57,24 @@ public class StatusModel extends AbstractTableModel{
 		listSite = new ArrayList<Site>();
 	}
 	
-	public void checkOut(int i){
-		listSite.remove(i);
-		fireTableRowsInserted(0, listSite.size());
-	}
-
-	public void addSite(Site s){
-		listSite.add(s);
-		fireTableRowsInserted(0, listSite.size());
-	}
-
-	public Site getSite(int i){
-		return listSite.get(i);
-	}
-
-	public int getSize(){
-		return listSite.size();
-	}
+	// not needed?
+//	public void checkOut(int i){
+//		listSite.remove(i);
+//		fireTableRowsInserted(0, listSite.size());
+//	}
+//
+//	public void addSite(Site s){
+//		listSite.add(s);
+//		fireTableRowsInserted(0, listSite.size());
+//	}
+//
+//	public Site getSite(int i){
+//		return listSite.get(i);
+//	}
+//
+//	public int getSize(){
+//		return listSite.size();
+//	}
 	
 	public void loadFromText(String filename) {
 		listSite.clear();

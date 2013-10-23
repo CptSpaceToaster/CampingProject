@@ -1,6 +1,7 @@
 package package1;
 
 import javax.swing.table.AbstractTableModel;
+
 import java.util.*;
 import java.io.*;
 import java.text.*;
@@ -31,8 +32,8 @@ public class SiteModel extends AbstractTableModel {
 		case 0:
 			return(listSite.get(row).getNameReserving());
 		case 1:
-			return (DateFormat.getDateInstance(DateFormat.SHORT)
-					.format(listSite.get(row).getCheckIn().getTime()));
+			return GUICampingReg.SIMPLE_FORMAT
+					.format(listSite.get(row).getCheckIn().getTime());
 		case 2:
 			return (listSite.get(row).getDaysStaying());
 		case 3: 
@@ -109,7 +110,7 @@ public class SiteModel extends AbstractTableModel {
 				Site s = listSite.get(i);
 				out.println(s.getClass().getName().toLowerCase().charAt(9));
 				out.println(s.getNameReserving());
-				out.println(DateFormat.getDateInstance(DateFormat.SHORT)
+				out.println(GUICampingReg.SIMPLE_FORMAT
 						.format(s.getCheckIn().getTime()));
 				out.println(s.getDaysStaying());
 				out.println(s.getSiteNumber());

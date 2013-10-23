@@ -50,11 +50,10 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		public Site(String name, String checkIn, int daysStaying, int siteNumber){
 			this.nameReserving = name;
 			
-			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 			Date date;
 			BetterGregorianCalendar checkInDate = new BetterGregorianCalendar();
 			try {
-				date = formatter.parse(checkIn);
+				date = GUICampingReg.SIMPLE_FORMAT.parse(checkIn);
 				checkInDate.setTime(date);
 			} catch (ParseException e) {
 				e.printStackTrace();

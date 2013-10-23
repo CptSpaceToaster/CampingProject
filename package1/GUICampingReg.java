@@ -94,10 +94,13 @@ public class GUICampingReg extends JFrame implements ActionListener {
 	private double[] costs;
 
 	/** Decimal Formatter */
-	DecimalFormat df;
+	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00");
 
 	/** Sites being used */
-	int usedSites;
+	private int usedSites;
+	
+	/** SimpleDate Formater */
+	public static final SimpleDateFormat SIMPLE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 	/******************************************************************
 	 * Sets up the GUI
@@ -113,8 +116,6 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		MAX_NUMBER_OF_SITES = 5;
 		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
 		costs = new double[MAX_NUMBER_OF_SITES];
-
-		df = new DecimalFormat("#0.00");
 
 		clearAllSites();
 
@@ -322,7 +323,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				Tent t = new Tent(varResult);
 
 				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[t.getSiteNumber() - 1]));
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" + DECIMAL_FORMAT.format(costs[t.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(t);
 
@@ -351,7 +352,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" + df.format(costs[r.getSiteNumber() - 1]));
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" + DECIMAL_FORMAT.format(costs[r.getSiteNumber() - 1]));
 
 				siteTableModel.addSite(r);
 
@@ -408,11 +409,11 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 				if(d<=0){
 					costs[index] = 0;
-					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+					JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
 				}
 				else {
 					costs[index] = siteTableModel.getSite(index).calcCost(d);				
-					JOptionPane.showMessageDialog(null, "You owe $" + df.format(costs[index]));
+					JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
 				}
 
 
