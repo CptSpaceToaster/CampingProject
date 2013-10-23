@@ -14,6 +14,8 @@ public class StatusModel extends AbstractTableModel{
 	private String[] columnNames = {"Name Reserving", "Checked-In", 
 			"Site #", "Estimated Days", "Days Remaining"};
 	
+	private BetterGregorianCalendar date;
+	
 	@Override
 	public String getColumnName(int col){
 		return columnNames[col];
@@ -42,14 +44,16 @@ public class StatusModel extends AbstractTableModel{
 		case 3: 
 			return (listSite.get(row).getDaysStaying());
 		case 4:
-			return (listSite.get(row).getCheckIn());
+			return ((listSite.get(row).getCheckIn().daysSince(date))) + 730497 + listSite.get(row).getDaysStaying();
+			
 		default:
 			return null;
 		}
 	}
 
-	public StatusModel(){
+	public StatusModel(BetterGregorianCalendar d){
 		super();
+		date = d;
 		listSite = new ArrayList<Site>();
 	}
 	

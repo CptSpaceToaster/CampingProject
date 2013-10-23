@@ -26,7 +26,7 @@ public class CampFullStatus extends JDialog implements ActionListener{
 	private JButton OKButton;
 	
 	public void checkStatus(BetterGregorianCalendar d) {
-		tableModel = new StatusModel();
+		tableModel = new StatusModel(d);
 		tableModel.loadFromText("CampStatus");
 		outputTable = new JTable(tableModel);
 		scrollPane = new JScrollPane(outputTable);
