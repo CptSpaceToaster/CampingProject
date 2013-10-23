@@ -13,11 +13,6 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	
 	private int[] monthNum = {0,1,2,3,4,5,6,7,8,9,10,11,12};
 	
-	/** this array is for the names of the months */
-	private String[] monthName = {"","January", "Febuary", "March", "April",
-			"May", "June", "July", "August", "September", "October", 
-			"November", "December"};
-	
 	/******************************************************************
 	 * This helper method takes a given year and month and returns the
 	 * number of days in the given month

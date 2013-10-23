@@ -401,24 +401,25 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 				}while(success && btnOption);
 
-
-				BetterGregorianCalendar g = new BetterGregorianCalendar();
-				g.setTime(checkOut);
-
-				int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
-
-				if(d<=0){
-					costs[index] = 0;
-					JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
+				if (btnOption) {
+					BetterGregorianCalendar g = new BetterGregorianCalendar();
+					g.setTime(checkOut);
+	
+					int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
+	
+					if(d<=0){
+						costs[index] = 0;
+						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
+					}
+					else {
+						costs[index] = siteTableModel.getSite(index).calcCost(d);				
+						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
+					}
+	
+	
+					siteTableModel.checkOut(index);
+					decrementSite(index);
 				}
-				else {
-					costs[index] = siteTableModel.getSite(index).calcCost(d);				
-					JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
-				}
-
-
-				siteTableModel.checkOut(index);
-				decrementSite(index);
 			}
 		}
 	}
@@ -483,9 +484,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 		//Check the Date
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		Date date;
+		
 		try {			
-			date = sdf.parse((String)varResult[2]);
+			sdf.parse((String)varResult[2]);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
 			return false;

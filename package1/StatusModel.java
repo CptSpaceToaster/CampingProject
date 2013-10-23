@@ -1,7 +1,6 @@
 package package1;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 

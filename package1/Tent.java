@@ -1,11 +1,5 @@
 package package1;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class Tent extends Site {
 	private static final long serialVersionUID = 1L;
 	

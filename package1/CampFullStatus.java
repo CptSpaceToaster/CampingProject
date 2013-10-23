@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import java.awt.GridLayout;
 import java.awt.event.*;
-import java.util.Date;
 public class CampFullStatus extends JDialog implements ActionListener{
 
 	/**Default serial UID */

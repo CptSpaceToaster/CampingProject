@@ -1,10 +1,10 @@
 package package1;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
 public class SiteModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Site> listSite;
@@ -96,7 +96,7 @@ public class SiteModel extends AbstractTableModel {
 			objectInput.close();
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -169,7 +169,7 @@ public class SiteModel extends AbstractTableModel {
 			scanner.close();
 			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
