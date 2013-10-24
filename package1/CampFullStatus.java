@@ -3,6 +3,7 @@ package package1;
 import javax.swing.*;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 public class CampFullStatus extends JDialog implements ActionListener{
@@ -44,8 +45,8 @@ public class CampFullStatus extends JDialog implements ActionListener{
 		//Creates a new panel
 		JPanel panel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-		panel.setLayout(new GridLayout(3,1));
+		buttonPanel.setLayout(new FlowLayout());
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(displayDate);
 		panel.add(scrollPane);
 		buttonPanel.add(OKButton);
