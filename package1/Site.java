@@ -2,9 +2,9 @@ package package1;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+
+import javax.swing.JOptionPane;
 
 public abstract class Site implements Serializable, Comparable<Site>{
 	private static final long serialVersionUID = 1L;
@@ -12,7 +12,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 
 	/** The name of the person who is occupying the Site */
 	protected String nameReserving;
-	//hi there
+	
 	/** The date the Site was checked-in (occupied) */
 	protected BetterGregorianCalendar checkIn;
 
@@ -53,10 +53,13 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		Date date;
 		BetterGregorianCalendar checkInDate = new BetterGregorianCalendar();
 		try {
+			// parses the date into mm/dd/yyyy
 			date = GUICampingReg.SIMPLE_FORMAT.parse(checkIn);
+			// sets the time for the BetterGregorianCalendar
 			checkInDate.setTime(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Could not parse date", 
+						"ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 
 		this.checkIn = checkInDate;
@@ -133,7 +136,11 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	public void setSiteNumber(int siteNumber) {
 		this.siteNumber = siteNumber;
 	}
-
+	/******************************************************************
+	 * Compares two sites
+	 * @param site takes in a site to be compared
+	 * @return int value of the comparison
+	 *****************************************************************/
 	@Override
 	public int compareTo(Site site) {
 		final int BEFORE = -1;
@@ -156,7 +163,12 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	
 		return EQUAL;
 	}  
-
+	
+	/******************************************************************
+	 * Abstract method for calculating the costs
+	 * @param days takes in the number of days
+	 * @return returns the double cost
+	 *****************************************************************/
 	public abstract double calcCost(int days);
 
 }

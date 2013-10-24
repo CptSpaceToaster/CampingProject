@@ -1,5 +1,7 @@
 package package1;
 public class RV extends Site {
+	
+	/** default serial version ID */
 	private static final long serialVersionUID = 1L;
 
 	/** Type for RV **/
@@ -7,7 +9,9 @@ public class RV extends Site {
 	
 	/** Represents the power supplied to the site */
 	private int power; // 30, 40, 50 amps of service.
-
+	/******************************************************************
+	 * default constructor
+	 *****************************************************************/
 	public RV(){
 		super();
 		power = 30;
@@ -44,6 +48,10 @@ public class RV extends Site {
 		this.power = power;
 	}
 	
+	/******************************************************************
+	 * Calculates the cost for RV
+	 * @param days takes in the number of days
+	 *****************************************************************/
 	@Override
 	public double calcCost(int days){
 		return 30*days;
