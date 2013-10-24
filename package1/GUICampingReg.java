@@ -2,15 +2,18 @@ package package1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
+
 import VariableInputApi.*;
 
-public class GUICampingReg extends JFrame implements ActionListener {
+public class GUICampingReg extends JFrame implements ActionListener, MouseListener {
 
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
@@ -98,7 +101,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 	/** Sites being used */
 	private int usedSites;
-	
+
 	/** SimpleDate Formater */
 	public static final SimpleDateFormat SIMPLE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -167,6 +170,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		// instantiate the SiteModel and add it to the frame
 		siteTableModel = new SiteModel();
 		table = new JTable(siteTableModel);
+		table.addMouseListener(this);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
 
@@ -232,12 +236,12 @@ public class GUICampingReg extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
 						success = true;
 					}
-					
+
 				} else if (btnOption){
 					JOptionPane.showMessageDialog(null, "Date out of range. " +
 							" Please check your inputs.");
 				}
-				
+
 			}while(success && btnOption);
 		}
 		if(comp == quit){
@@ -404,9 +408,9 @@ public class GUICampingReg extends JFrame implements ActionListener {
 				if (btnOption) {
 					BetterGregorianCalendar g = new BetterGregorianCalendar();
 					g.setTime(checkOut);
-	
+
 					int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
-	
+
 					if(d<=0){
 						costs[index] = 0;
 						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
@@ -415,8 +419,8 @@ public class GUICampingReg extends JFrame implements ActionListener {
 						costs[index] = siteTableModel.getSite(index).calcCost(d);				
 						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
 					}
-	
-	
+
+
 					siteTableModel.checkOut(index);
 					decrementSite(index);
 				}
@@ -484,7 +488,7 @@ public class GUICampingReg extends JFrame implements ActionListener {
 
 		//Check the Date
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		
+
 		try {			
 			sdf.parse((String)varResult[2]);
 		} catch (Exception e) {
@@ -520,6 +524,60 @@ public class GUICampingReg extends JFrame implements ActionListener {
 		}
 
 		return true;
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent m) {
+		int selectedCol = table.columnAtPoint(m.getPoint());
+		int selectedRow = table.rowAtPoint(m.getPoint());
+		switch(selectedCol){
+		//NameReserving
+		case 0:{
+			System.out.println("You selected " + selectedCol); break;
+		}
+		//Checked In
+		case 1:{
+			System.out.println("You selected " + selectedCol); break;
+		}
+		//DaysStaying
+		case 2:{
+			System.out.println("You selected " + selectedCol); break;
+		}
+		//SiteNumber
+		case 3:{
+			System.out.println("You selected " + selectedCol); break;
+		}
+		//Tenters/Power
+		case 4:{
+			System.out.println("You selected " + selectedCol); break;
+		}
+		default:
+			System.out.println("You selected nothing");
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 
 	}
 }

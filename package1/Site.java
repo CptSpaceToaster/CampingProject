@@ -2,7 +2,9 @@ package package1;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public abstract class Site implements Serializable, Comparable<Site>{
 		private static final long serialVersionUID = 1L;
@@ -133,8 +135,17 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		}
 
 		@Override
-		public int compareTo(Site o) {
-			return 0;
+		public int compareTo(Site site) {
+			final int BEFORE = -1;
+		    final int EQUAL = 0;
+		    final int AFTER = 1;
+		    
+		    if(this.siteNumber < site.siteNumber)
+		    	return BEFORE;
+		    if(this.siteNumber > site.siteNumber)
+		    	return AFTER;
+		    
+			return EQUAL;
 		}  
 		
 		public abstract double calcCost(int days);
