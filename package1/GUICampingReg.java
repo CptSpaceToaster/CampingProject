@@ -531,6 +531,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	public void mouseClicked(MouseEvent m) {
 		int selectedCol = table.columnAtPoint(m.getPoint());
 		int selectedRow = table.rowAtPoint(m.getPoint());
+		
 		switch(selectedCol){
 		//NameReserving
 		case 0:{
