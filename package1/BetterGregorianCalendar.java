@@ -10,9 +10,7 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	private static final long serialVersionUID = 1L;
 
 	private int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
-	
-	private int[] monthNum = {0,1,2,3,4,5,6,7,8,9,10,11,12};
-	
+		
 	/******************************************************************
 	 * This helper method takes a given year and month and returns the
 	 * number of days in the given month
