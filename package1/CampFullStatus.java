@@ -2,6 +2,7 @@ package package1;
 
 import javax.swing.*;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 public class CampFullStatus extends JDialog implements ActionListener{
@@ -25,19 +26,30 @@ public class CampFullStatus extends JDialog implements ActionListener{
 	private JButton OKButton;
 	
 	public void checkStatus(BetterGregorianCalendar d) {
+		// Instantiates the table model with the passed in date
 		tableModel = new StatusModel(d);
+		// loads the text file that was saved off in the StatusModel
 		tableModel.loadFromText("CampStatus");
+		// sets the JTable to the StatusModel
 		outputTable = new JTable(tableModel);
+		// instantiates a new JScollPane
 		scrollPane = new JScrollPane(outputTable);
+		// Displays the date of checked status
 		displayDate = new JLabel("Camp status on: " + d.toString());
+		// JButton for OK
 		OKButton = new JButton("OK");
+		// adds action listener to OK
 		OKButton.addActionListener(this);
 		
+		//Creates a new panel
 		JPanel panel = new JPanel();
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		panel.setLayout(new GridLayout(3,1));
 		panel.add(displayDate);
 		panel.add(scrollPane);
-		panel.add(OKButton);
+		buttonPanel.add(OKButton);
+		panel.add(buttonPanel);
 		add(panel);
 		
 		
