@@ -180,7 +180,9 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		setSize(700,300);
 		setVisible(true);
 	}
-
+	/******************************************************************
+	 * Clears all the sites of their site number so a site can be reserved
+	 *****************************************************************/
 	private void clearAllSites() {
 		for (int i = 0; i<MAX_NUMBER_OF_SITES; i++) {
 			sitesTaken[i]= false;
@@ -203,40 +205,52 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
-
+		
+		// checks the status of the camp
 		if(comp == statusMenuItem){
+			// instantiate a new campStatus
 			CampFullStatus campStatus = new CampFullStatus();
+			// labels to be sent to the variable input panel
 			String[] labelsStatus = {"Enter a date to check"};
+			// new variable input panel
 			VarInputPanel vS = new VarInputPanel(labelsStatus, DEFAULT_DATE);
 			int resultStatus;
 			Date checkOut = new Date();
 
+			// used for if it was a successful parse
 			boolean success = true;
+			// used to see if the OK button was pushed
 			boolean btnOption;
 
-			// need to check for error on this and implement it
 			do{
+				// shows the variable input dialog
 				resultStatus = JOptionPane.showConfirmDialog(null, vS, "Check Status", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 				btnOption = (resultStatus == JOptionPane.OK_OPTION);
-
+				// if the variables sent in match what was given and ok was pushed
 				if(vS.doUpdatedVarsMatchInput() && btnOption) {
 
 					Object[] varResult = vS.getUpdatedVars();
-					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 					success = false;
 					try {
-						checkOut = sdf.parse((String)varResult[0]);
-						BetterGregorianCalendar date = new BetterGregorianCalendar();
+						// parse the date given using SimpleDateFormat
+						checkOut = SIMPLE_FORMAT.parse((String)varResult[0]);
+
+						BetterGregorianCalendar date = 
+								new BetterGregorianCalendar();
+
 						date.setTime(checkOut);
+						// save off the table 
 						siteTableModel.saveAsText("CampStatus");
+						// send the date to campStatus
 						campStatus.checkStatus(date);
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+						JOptionPane.showMessageDialog(null, 
+								"Enter a correct date (MM/DD/YYYY)");
 						success = true;
 					}
-
+				// checks to make sure OK was pushed
 				} else if (btnOption){
 					JOptionPane.showMessageDialog(null, "Date out of range. " +
 							" Please check your inputs.");
@@ -244,180 +258,241 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 
 			}while(success && btnOption);
 		}
+		
+		// checks to see if quit was clicked
 		if(comp == quit){
 			System.exit(1);
 		}
-
+		
+		// opens a serializable file
 		if(comp == openS){
+			// instantiates a new file chooser
 			JFileChooser fc = new JFileChooser();
+			// creates a new file
 			File file;
+			// shows the file open dialog
 			int returnVal = fc.showOpenDialog(this);
+			// if the user clicked ok, open the file
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try{
+					// get the selected file
 					file = fc.getSelectedFile();
+					// send the file to the SiteModel
 					siteTableModel.loadDatabase(file.getName());
+				// catch any error that may occur
 				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, "Choose a serializable file");
+					JOptionPane.showMessageDialog(null, 
+							"Choose a serializable file");
 
 				}
 			}
 
 		}
-
+		
+		// saves a serialiazable file
 		if(comp == saveS){
+			// instantiates a new file chooser
 			JFileChooser fc = new JFileChooser();
+			// creates a new file
 			File file;
+			// shows the JFileChooser
 			int returnVal = fc.showSaveDialog(this);
+			// if the user clicked ok, save the file
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try{
+					// get the selected file
 					file = fc.getSelectedFile();
+					// send the file to the SiteModel
 					siteTableModel.saveDatabase(file.getName());
-
+				// catch any error that may occur
 				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, "Choose a text file");
+					JOptionPane.showMessageDialog(null, 
+							"Choose a text file");
 				}
 			}
 		}
-
+		
+		// opens a text file
 		if(comp == openT){
+			// instantiates a new file chooser
 			JFileChooser fc = new JFileChooser();
+			// creates a new file
 			File file;
+			// shows the JFileChooser
 			int returnVal = fc.showOpenDialog(this);
+			// if the user clicked ok, save the file
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try{
+					// get the selected file
 					file = fc.getSelectedFile();
+					// send the file to the SiteModel
 					siteTableModel.loadFromText(file.getName());	  
-
+				// catch any error that may occur
 				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, "Choose a text file");
+					JOptionPane.showMessageDialog(null, 
+							"Choose a text file");
 				}
 			}
 		}
-
+		
+		// saves a file as text
 		if(comp == saveT){
+			// instantiates a new file chooser
 			JFileChooser fc = new JFileChooser();
+			//creates a new file
 			File file;
-			int returnVal = fc.showOpenDialog(this);
+			// shows the JFileChooser
+			int returnVal = fc.showSaveDialog(this);
+			// if the user clicked ok, save the file
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try{
+					// get the selected file
 					file = fc.getSelectedFile();
-					siteTableModel.saveAsText(file.getName());	  
-
+					// send the file to the SiteModel
+					siteTableModel.saveAsText(file.getName());
+				// catch any error that may occur
 				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, "Choose a text file");
+					JOptionPane.showMessageDialog(null, 
+							"Choose a text file");
 				}
 			}
 
 		}
-
+		
+		//checks in a tent object
 		if(comp == checkInTent){
-			String[] labelsTent = {"Name Reserving:", "Site Number:", "Occupied On:", "Number of Tenters:", "Days Staying:"};
-
-			VarInputPanel vT = new VarInputPanel(labelsTent, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_TENTERS, DEFAULT_DAYS_STAYING);
+			// labels to be sent to variable input panel
+			String[] labelsTent = {"Name Reserving:", "Site Number:",
+					"Occupied On:", "Number of Tenters:", "Days Staying:"};
+			// creates a new input panel with the labels and default values
+			VarInputPanel vT = new VarInputPanel(labelsTent, DEFAULT_NAME, 
+					DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_TENTERS,
+					DEFAULT_DAYS_STAYING);
 			int resultTent;
-
+			
 			do {
+				// shows the variable input dialog box
 				resultTent = JOptionPane.showConfirmDialog(null, vT, "Reserve a Tent", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			// checks for any error that may occur, sends the panel information
+			// and the results, along with the type of the object
 			} while(!checkInputForError(vT, resultTent, Tent.TYPE));
+			// if the ok button is clicked
 			if(resultTent == JOptionPane.OK_OPTION){
-				// got this to work
+				// creates an array list of objects with the input
 				Object[] varResult = vT.getUpdatedVars();
-
+				// creates a new tent with the results
 				Tent t = new Tent(varResult);
-
+				// calculates the cost for the tent duration
 				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" + DECIMAL_FORMAT.format(costs[t.getSiteNumber() - 1]));
-
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" + 
+						DECIMAL_FORMAT.format(costs[t.getSiteNumber() - 1]));
+				// add the site to the siteModel
 				siteTableModel.addSite(t);
-
+				// fills in the siteNumber taken
 				fillSite(t.getSiteNumber() - 1);
 			}
 		}
 
 		if(comp == checkInRV){
-
-			//DialogCheckInRV x = new DialogCheckInRV(this, r);
-			String[] labelsRV = {"Name Reserving:", "Site Number:", "Occupied On:", "Power needed:", "Days Staying:"};
-
-			VarInputPanel vR = new VarInputPanel(labelsRV, DEFAULT_NAME, DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, DEFAULT_DAYS_STAYING);
+			// labels to be sent to variable input panel
+			String[] labelsRV = {"Name Reserving:", "Site Number:", 
+					"Occupied On:", "Power needed:", "Days Staying:"};
+			// creates a new variable input panel with the labels, default values
+			VarInputPanel vR = new VarInputPanel(labelsRV, DEFAULT_NAME, 
+					DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_POWER_USED, 
+					DEFAULT_DAYS_STAYING);
 			int resultRV;
 
 			do {
+				// shows the dialog box
 				resultRV = JOptionPane.showConfirmDialog(null, vR, "Reserve an RV", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			// checks for any input error
 			} while(!checkInputForError(vR, resultRV, RV.TYPE));
 
+			// if the OK button was pushed
 			if(resultRV == JOptionPane.OK_OPTION){	
-				// got this to work
+				// creates an Object Array of the input
 				Object[] varResult = vR.getUpdatedVars();
-
+				// creates a new RV with the input
 				RV r = new RV(varResult);
-
-
+				
+				// calculates the cost for an RV
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" + DECIMAL_FORMAT.format(costs[r.getSiteNumber() - 1]));
-
+				JOptionPane.showMessageDialog(null, "Your expected payment is $" +
+						DECIMAL_FORMAT.format(costs[r.getSiteNumber() - 1]));
+				// adds the RV to the SiteModel
 				siteTableModel.addSite(r);
-
+				// Fills the site number taken
 				fillSite(r.getSiteNumber() - 1);
 			}
 
 		}
-
+		
+		//checks out a camper
 		if(comp == checkOut){
+			// label to be sent to the variable input panel
 			String[] labelsCheckOut = {"Check Out On"};
+			// creates a new variable input panel with the label, default date
 			VarInputPanel vR = new VarInputPanel(labelsCheckOut, DEFAULT_DATE);
 			int resultCheckOut;
-
+			// gets the selected row
 			int index = table.getSelectedRow();
+			// if a row hasn't been selected
 			if (index < 0) {
-				JOptionPane.showMessageDialog(this,"You have not selected an Entry to Check Out");
+				JOptionPane.showMessageDialog(this,"You have not selected " + 
+												"an Entry to Check Out");
 			} else {
 
 				Date checkOut = new Date();
-
+				// used to make sure it was a successful parse
 				boolean success = true;
+				// used to make sure ok was clicked
 				boolean btnOption;
 
-				// need to check for error on this and implement it
 				do{
+					// shows the variable input dialog
 					resultCheckOut = JOptionPane.showConfirmDialog(null, vR, "Check Out", 
 							JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
+					
+					// sets btnOption to whether or not ok was clicked
 					btnOption = (resultCheckOut == JOptionPane.OK_OPTION);
-
+					// if the input matched the output and ok was clicked
 					if(vR.doUpdatedVarsMatchInput() && btnOption) {
-
+						// creates an Object Array of the input
 						Object[] varResult = vR.getUpdatedVars();
-						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 						success = false;
 						try {
-							checkOut = sdf.parse((String)varResult[0]);
+							// parses the date into mm/dd/yyyy
+							checkOut = SIMPLE_FORMAT.parse((String)varResult[0]);
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, "Enter a correct date (MM/DD/YYYY)");
+							JOptionPane.showMessageDialog(null, "Enter a " +
+												"correct date (MM/DD/YYYY)");
 							success = true;
 						}
 					} else if (btnOption){
 						JOptionPane.showMessageDialog(null, "Date out of range. " +
 								" Please check your inputs.");
 					}
-
 				}while(success && btnOption);
-
+				// if ok was clicked
 				if (btnOption) {
 					BetterGregorianCalendar g = new BetterGregorianCalendar();
+					// set the check out date
 					g.setTime(checkOut);
-
+					// get the check in date
 					int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
-
+					// calculate the cost of leaving
 					if(d<=0){
 						costs[index] = 0;
-						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
+						JOptionPane.showMessageDialog(null, "You owe $" + 
+								DECIMAL_FORMAT.format(costs[index]));
 					}
 					else {
 						costs[index] = siteTableModel.getSite(index).calcCost(d);				
-						JOptionPane.showMessageDialog(null, "You owe $" + DECIMAL_FORMAT.format(costs[index]));
+						JOptionPane.showMessageDialog(null, "You owe $" + 
+								DECIMAL_FORMAT.format(costs[index]));
 					}
 
 
@@ -427,20 +502,31 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 			}
 		}
 	}
-
+	
+	/******************************************************************
+	 * Fills the siteNumber according to the number they checked in
+	 * @param d takes in the site number
+	 *****************************************************************/
 	private void fillSite(int d) {
 		if (sitesTaken[d]== false) {
 			sitesTaken[d] = true;
-
+			
 			if (++usedSites==MAX_NUMBER_OF_SITES) {
-				JOptionPane.showMessageDialog(null, "All sites are occupied", "Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "All sites are occupied",
+						"Warning", JOptionPane.WARNING_MESSAGE);
 				checkInRV.setEnabled(false);
 				checkInTent.setEnabled(false);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "This site was already taken!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "This site was already taken!", 
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	/******************************************************************
+	 * Removes a siteNumber taken when checked out
+	 * @param d takes in the site number
+	 *****************************************************************/
 	private void decrementSite(int d) {
 		if (sitesTaken[d] == true) {
 			sitesTaken[d] = false;
@@ -450,10 +536,18 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 
 			usedSites--;
 			if (usedSites < 0)
-				JOptionPane.showMessageDialog(null, "Stop Decrementing Sites!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Stop Decrementing Sites!", 
+						"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
+	/******************************************************************
+	 * Checks the input for Errors
+	 * @param p the panel containing the input
+	 * @param i the int representing the button clicked
+	 * @param type either a Tent or RV
+	 * @returns true or false depending on the input
+	 *****************************************************************/
 	private boolean checkInputForError(VarInputPanel p, int i, int type) {
 		if (i==JOptionPane.OK_OPTION){	
 			if(type == RV.TYPE || type == Tent.TYPE){
@@ -470,6 +564,12 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		return true;
 	}
 
+	/******************************************************************
+	 * Checks the input for Errors
+	 * @param varResult takes in an array of input
+	 * @param type the type of the site (RV, Tent)
+	 * @return true or false depending on the input
+	 *****************************************************************/
 	private boolean checkInputVariableBounds(Object[] varResult, int type) {
 		//Check the Site number
 
@@ -478,7 +578,8 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 			return false;
 		}
 		if ((Integer)varResult[1] > MAX_NUMBER_OF_SITES) {
-			JOptionPane.showMessageDialog(null, "The Site Number must be " + MAX_NUMBER_OF_SITES + " or less.");
+			JOptionPane.showMessageDialog(null, "The Site Number must be " + 
+							MAX_NUMBER_OF_SITES + " or less.");
 			return false;
 		}
 		if (sitesTaken[(Integer)varResult[1] - 1]) {
@@ -506,20 +607,23 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 			}
 		} else if (type == RV.TYPE) {
 			if ((Integer)varResult[3] < 0) {
-				JOptionPane.showMessageDialog(null, "We will not accept your RV's Power as payment");
+				JOptionPane.showMessageDialog(null, "We will not accept your " +
+												"RV's Power as payment");
 				return false;
 			}
 			if (((Integer)varResult[3] / 10 < 3) || 
 					((Integer)varResult[3] / 10 > 5) ||
 					(Integer)varResult[3]%10 != 0) {
-				JOptionPane.showMessageDialog(null, "Power must be either 30, 40, or 50 Amps");
+				JOptionPane.showMessageDialog(null, "Power must be either 30, " +
+													"40, or 50 Amps");
 				return false;
 			}
 		}
 
 		//Check the Number of Days Stayed.
 		if ((Integer)varResult[4] < 1) {
-			JOptionPane.showMessageDialog(null, "You can't stay a negative number of Days!");
+			JOptionPane.showMessageDialog(null, "You can't stay a " +
+									"negative number of Days!");
 			return false;
 		}
 
@@ -527,11 +631,15 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 
 	}
 
+	/******************************************************************
+	 * Checks to see which column was clicked
+	 * @param m MouseEvent
+	 *****************************************************************/
 	@Override
 	public void mouseClicked(MouseEvent m) {
 		int selectedCol = table.columnAtPoint(m.getPoint());
 		int selectedRow = table.rowAtPoint(m.getPoint());
-		
+
 		switch(selectedCol){
 		//NameReserving
 		case 0:{
@@ -558,24 +666,28 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		}
 	}
 
+	// NOT USED BUT NEEDED
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	//NOT USED BUT NEEDED
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	// NOT USED BUT NEEDED
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	// NOT USED BUT NEEDED
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
