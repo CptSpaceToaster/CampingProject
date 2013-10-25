@@ -60,15 +60,20 @@ public class StatusModel extends AbstractTableModel{
 	public Object getValueAt(int row, int col) {
 		switch(col){
 		case 0:
+			// return the name reserving
 			return(listSite.get(row).getNameReserving());
 		case 1:
+			// return the date in the format mm/dd/yyyy
 			return GUICampingReg.SIMPLE_FORMAT
 					.format(listSite.get(row).getCheckIn().getTime());
 		case 2:
+			// return the site number
 			return (listSite.get(row).getSiteNumber());
 		case 3: 
+			// return the days staying
 			return (listSite.get(row).getDaysStaying());
 		case 4:
+			// return the days remaining
 			return ((listSite.get(row).getCheckIn().daysSince(date))) + listSite.get(row).getDaysStaying();
 			
 		default:

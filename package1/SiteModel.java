@@ -55,15 +55,21 @@ public class SiteModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch(col){
 		case 0:
+			// return the name reserving
 			return(listSite.get(row).getNameReserving());
 		case 1:
+			// return the date in the format mm/dd/yyyy
 			return GUICampingReg.SIMPLE_FORMAT
 					.format(listSite.get(row).getCheckIn().getTime());
 		case 2:
+			// return the days staying
 			return (listSite.get(row).getDaysStaying());
 		case 3: 
+			// return the site number
 			return (listSite.get(row).getSiteNumber());
 		case 4:
+			// return the number of tenters
+			// or the power used
 			int n;
 			if(listSite.get(row) instanceof Tent){
 				n = ((Tent) listSite.get(row)).getNumOfTenters();

@@ -643,23 +643,28 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		switch(selectedCol){
 		//NameReserving
 		case 0:{
-			System.out.println("You selected " + selectedCol); break;
+			System.out.println("You selected col: " + selectedCol +
+					" You seleced row: " + selectedRow); break;
 		}
 		//Checked In
 		case 1:{
-			System.out.println("You selected " + selectedCol); break;
+			System.out.println("You selected col: " + selectedCol +
+					" You seleced row: " + selectedRow); break;
 		}
 		//DaysStaying
 		case 2:{
-			System.out.println("You selected " + selectedCol); break;
+			System.out.println("You selected col: " + selectedCol +
+					" You seleced row: " + selectedRow); break;
 		}
 		//SiteNumber
 		case 3:{
-			System.out.println("You selected " + selectedCol); break;
+			System.out.println("You selected col: " + selectedCol +
+					" You seleced row: " + selectedRow); break;
 		}
 		//Tenters/Power
 		case 4:{
-			System.out.println("You selected " + selectedCol); break;
+			System.out.println("You selected col: " + selectedCol +
+					" You seleced row: " + selectedRow); break;
 		}
 		default:
 			System.out.println("You selected nothing");
