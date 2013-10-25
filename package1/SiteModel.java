@@ -266,14 +266,14 @@ public class SiteModel extends AbstractTableModel {
 		
 		switch (col){
 		case 0:
-			if (sortOption%4 == 0) {
+			if (sortOption%2 == 0) {
 				Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME);
-			} else if (sortOption%4 == 1) {
+			} else if (sortOption%2 == 1) {
 				Collections.sort(listSite, Site.Comparators.DES_FIRSTNAME);
 			}
 			
 			sortOption++;
-			sortOption -= (sortOption>=4)?4:0;
+			sortOption -= (sortOption>=2)?2:0;
 			break;
 		case 1:
 			if (sortOption%2 == 0) {
@@ -343,6 +343,8 @@ public class SiteModel extends AbstractTableModel {
 					listSite.addAll(listTents);
 				}
 			}
+			sortOption++;
+			sortOption -= (sortOption>=4)?4:0;
 			break;
 		default:
 			System.out.println("Default");

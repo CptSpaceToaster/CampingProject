@@ -152,7 +152,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		int comparison = this.nameReserving.compareTo(site.nameReserving);
 		if (comparison != EQUAL) 
 			return comparison;
-	
+		
 		return EQUAL;
 	}  
 	
@@ -174,7 +174,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		public static Comparator<Site> DES_FIRSTNAME = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
-				return s1.compareTo(s2);
+				return s2.compareTo(s1);
 			}
 		};
 		
