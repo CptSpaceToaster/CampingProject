@@ -29,6 +29,9 @@ public abstract class Site implements Serializable, Comparable<Site>{
 
 	/** The Site number */
 	protected int siteNumber;
+	
+	/** costs per site */
+	private double account;
 
 	/**************************************************************
 	 * Default Constructor
@@ -39,8 +42,12 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		checkOutOn = new BetterGregorianCalendar();
 		daysStaying = 0;
 		siteNumber = 1;
+		account = 0;
 	}
-
+	
+	public Site(String name, String checkIn, int daysStaying, int siteNumber){
+		this(name, checkIn, daysStaying, siteNumber, 0);
+	}
 	/**************************************************************
 	 * Constructor for Site
 	 * @param checkIn takes in the date of check in
@@ -49,7 +56,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 * @param out takes in the day of check out
 	 * @param siteNumber takes in the site number
 	 *************************************************************/
-	public Site(String name, String checkIn, int daysStaying, int siteNumber){
+	public Site(String name, String checkIn, int daysStaying, int siteNumber, double account){
 		this.nameReserving = name;
 
 		Date date;
@@ -67,6 +74,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		this.checkIn = checkInDate;
 		this.daysStaying = daysStaying;
 		this.siteNumber = siteNumber;
+		this.account = account;
 	}
 
 	/**************************************************************
@@ -138,6 +146,15 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	public void setSiteNumber(int siteNumber) {
 		this.siteNumber = siteNumber;
 	}
+	
+	public double getAccount(){
+		return account;	
+	}
+	
+	public void setAccount(double account){
+		this.account = account;
+	}
+	
 	/******************************************************************
 	 * Compares two sites
 	 * @param site takes in a site to be compared
@@ -182,13 +199,13 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		public static Comparator<Site> ASC_CHECKIN = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
-				return s1.getCheckIn().ordinalDate() - s2.getCheckIn().ordinalDate();
+				return s1.getCheckIn().daysSince(s2.getCheckIn());
 			}
 		};
 		public static Comparator<Site> DES_CHECKIN = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
-				return s2.getCheckIn().ordinalDate() - s1.getCheckIn().ordinalDate();
+				return s2.getCheckIn().daysSince(s1.getCheckIn());
 			}
 		};
 		

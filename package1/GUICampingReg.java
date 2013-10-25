@@ -93,8 +93,8 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	/** Represents the sites taken */
 	private Boolean[] sitesTaken;
 
-	/** Cost for the stay */
-	private double[] costs;
+//	/** Cost for the stay */
+//	private double[] costs;
 
 	/** Decimal Formatter */
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00");
@@ -118,7 +118,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 
 		MAX_NUMBER_OF_SITES = 5;
 		sitesTaken = new Boolean[MAX_NUMBER_OF_SITES];
-		costs = new double[MAX_NUMBER_OF_SITES];
+//		costs = new double[MAX_NUMBER_OF_SITES];
 
 		clearAllSites();
 
@@ -386,9 +386,9 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				// creates a new tent with the results
 				Tent t = new Tent(varResult);
 				// calculates the cost for the tent duration
-				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
+				t.setAccount(t.getDaysStaying() * t.getNumOfTenters() * 3);
 				JOptionPane.showMessageDialog(null, "Please Deposit $" + 
-						DECIMAL_FORMAT.format(costs[t.getSiteNumber() - 1]));
+						DECIMAL_FORMAT.format(t.getAccount()));
 				// add the site to the siteModel
 				siteTableModel.addSite(t);
 				// fills in the siteNumber taken
@@ -422,9 +422,9 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				RV r = new RV(varResult);
 				
 				// calculates the cost for an RV
-				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
+				r.setAccount(r.getDaysStaying() * 30);
 				JOptionPane.showMessageDialog(null, "Please Deposit $" +
-						DECIMAL_FORMAT.format(costs[r.getSiteNumber() - 1]));
+						DECIMAL_FORMAT.format(r.getAccount()));
 				// adds the RV to the SiteModel
 				siteTableModel.addSite(r);
 				// Fills the site number taken
@@ -435,6 +435,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		
 		//checks out a camper
 		if(comp == checkOut){
+			
 			// label to be sent to the variable input panel
 			String[] labelsCheckOut = {"Check Out On"};
 			// creates a new variable input panel with the label, default date
@@ -442,6 +443,8 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 			int resultCheckOut;
 			// gets the selected row
 			int index = table.getSelectedRow();
+			
+			Site s = siteTableModel.getSite(index);
 			// if a row hasn't been selected
 			if (index < 0) {
 				JOptionPane.showMessageDialog(this,"You have not selected " + 
@@ -486,24 +489,24 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 					// set the check out date
 					g.setTime(checkOut);
 					// get the check in date
-					int depositDays = siteTableModel.getSite(index).getDaysStaying();
-					int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
+					int depositDays = s.getDaysStaying();
+					int d = g.daysSince(s.getCheckIn());
 					// calculate the cost of leaving
 					
-					
+					double costs = s.getAccount();
 					if (d<depositDays) {
-						costs[index] -= siteTableModel.getSite(index).calcCost(d);
+						costs -= s.calcCost(d);
 						JOptionPane.showMessageDialog(null, "Here is your Refund $" + 
-								DECIMAL_FORMAT.format(costs[index]));
+								DECIMAL_FORMAT.format(costs));
 					}
 					if(d==depositDays) {
-						costs[index] = 0;
+						costs = 0;
 						JOptionPane.showMessageDialog(null, "No Transaction");
 					}
 					if (d>depositDays) {
-						costs[index] -= siteTableModel.getSite(index).calcCost(d);				
+						costs -= siteTableModel.getSite(index).calcCost(d);				
 						JOptionPane.showMessageDialog(null, "You owe $" + 
-								DECIMAL_FORMAT.format((-1)*costs[index]));
+								DECIMAL_FORMAT.format((-1)*costs));
 					}
 
 

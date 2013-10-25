@@ -11,6 +11,17 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	/** the days in the month */
 	private int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
 		
+	/** minimum date */
+	public final static BetterGregorianCalendar MIN_DATE = new BetterGregorianCalendar(1972, 1, 1);
+	
+	public BetterGregorianCalendar(){
+		super();
+	}
+	
+	private BetterGregorianCalendar(int i, int j, int k) {
+		super(i,j,k);
+	}
+	
 	/******************************************************************
 	 * This helper method takes a given year and month and returns the
 	 * number of days in the given month

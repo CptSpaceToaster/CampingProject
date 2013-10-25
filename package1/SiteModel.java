@@ -199,6 +199,8 @@ public class SiteModel extends AbstractTableModel {
 				// if it is an RV, print the power
 				else
 					out.println(((RV) s).getPower());
+				// print the account cost
+				out.println(s.getAccount());
 			}
 			out.close();
 			return true;
@@ -236,10 +238,13 @@ public class SiteModel extends AbstractTableModel {
 				// gets the tenters or the power
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
 				
+				double costParam = Double.parseDouble(scanner.nextLine().trim());
+				
 				// if it is a tent, add a tent site
 				if (siteType.equals("t")) {
 					Tent t;
 					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
+					t.setAccount(costParam);
 					listSite.add(t);
 					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 
@@ -248,11 +253,12 @@ public class SiteModel extends AbstractTableModel {
 				else if (siteType.equals("r")) {
 					RV r;
 					r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
+					r.setAccount(costParam);
 					listSite.add(r);
 					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
 
 				}
-
+				
 			}
 
 			scanner.close();
