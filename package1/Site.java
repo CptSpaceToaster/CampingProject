@@ -7,8 +7,9 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 public abstract class Site implements Serializable, Comparable<Site>{
+	
+	/**Default serial UID */
 	private static final long serialVersionUID = 1L;
-
 
 	/** The name of the person who is occupying the Site */
 	protected String nameReserving;

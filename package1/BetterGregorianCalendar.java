@@ -4,11 +4,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class BetterGregorianCalendar extends GregorianCalendar{
-	/**
-	 * Default Serialization ID......
-	 */
+	
+	/** Default Serialization ID...... */
 	private static final long serialVersionUID = 1L;
 	
+	/** the days in the month */
 	private int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
 		
 	/******************************************************************
