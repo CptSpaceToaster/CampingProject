@@ -257,5 +257,16 @@ public class SiteModel extends AbstractTableModel {
 			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public void sort(int col){
+		switch (col){
+		case 2:
+			Collections.sort(listSite, Site.Comparators.ASC_DAYS); break;
+		case 3:
+			Collections.sort(listSite, Site.Comparators.ASC_SITENUMBER); break;
+		default:
+			break;
+		}
+	}
 
 }

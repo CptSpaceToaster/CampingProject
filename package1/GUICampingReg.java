@@ -640,33 +640,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	 *****************************************************************/
 	@Override
 	public void mouseClicked(MouseEvent m) {
-		int selectedCol = table.columnAtPoint(m.getPoint());
-		int selectedRow = table.rowAtPoint(m.getPoint());
-
-		switch(selectedCol){
-		//NameReserving
-		case 0:{
-			System.out.println("You selected col: " + selectedCol); break;
-		}
-		//Checked In
-		case 1:{
-			System.out.println("You selected col: " + selectedCol); break;
-		}
-		//DaysStaying
-		case 2:{
-			System.out.println("You selected col: " + selectedCol); break;
-		}
-		//SiteNumber
-		case 3:{
-			System.out.println("You selected col: " + selectedCol); break;
-		}
-		//Tenters/Power
-		case 4:{
-			System.out.println("You selected col: " + selectedCol); break;
-		}
-		default:
-			System.out.println("You selected nothing");
-		}
+		siteTableModel.sort(table.columnAtPoint(m.getPoint()));
 	}
 
 	// NOT USED BUT NEEDED

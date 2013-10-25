@@ -2,6 +2,7 @@ package package1;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -144,25 +145,26 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 *****************************************************************/
 	@Override
 	public int compareTo(Site site) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-		final int AFTER = 1;
-
-		if(this.siteNumber < site.siteNumber)
-			return BEFORE;
-		if(this.siteNumber > site.siteNumber)
-			return AFTER;
-		
-		int comparison = this.nameReserving.compareTo(site.nameReserving);
-		if (comparison != EQUAL) 
-			return comparison;
-		
-		if(this.daysStaying < site.daysStaying)
-			return BEFORE;
-		if(this.daysStaying > site.daysStaying)
-			return AFTER;
-	
-		return EQUAL;
+//		final int BEFORE = -1;
+//		final int EQUAL = 0;
+//		final int AFTER = 1;
+//
+//		if(this.siteNumber < site.siteNumber)
+//			return BEFORE;
+//		if(this.siteNumber > site.siteNumber)
+//			return AFTER;
+//		
+//		int comparison = this.nameReserving.compareTo(site.nameReserving);
+//		if (comparison != EQUAL) 
+//			return comparison;
+//		
+//		if(this.daysStaying < site.daysStaying)
+//			return BEFORE;
+//		if(this.daysStaying > site.daysStaying)
+//			return AFTER;
+//	
+//		return EQUAL;
+		return 0;
 	}  
 	
 	/******************************************************************
@@ -171,5 +173,31 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 * @return returns the double cost
 	 *****************************************************************/
 	public abstract double calcCost(int days);
+	
+	public static class Comparators{
+	
+		public static Comparator<Site> ASC_SITENUMBER = new Comparator<Site>(){
 
+			@Override
+			public int compare(Site s1, Site s2) {
+				return s1.siteNumber - s2.siteNumber;
+			}
+		};
+		
+		public static Comparator<Site> DES_SITENUMBER = new Comparator<Site>(){
+
+			@Override
+			public int compare(Site s1, Site s2) {
+				return s2.siteNumber - s1.siteNumber;
+			}
+		};
+		
+		public static Comparator<Site> ASC_DAYS = new Comparator<Site>(){
+
+			@Override
+			public int compare(Site s1, Site s2) {
+				return s1.daysStaying - s2.daysStaying;
+			}
+		};
+	}
 }
