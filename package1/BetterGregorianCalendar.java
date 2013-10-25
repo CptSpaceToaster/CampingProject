@@ -8,7 +8,7 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	 * Default Serialization ID......
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	private int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
 		
 	/******************************************************************
