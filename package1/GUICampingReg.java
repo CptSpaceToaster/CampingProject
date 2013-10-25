@@ -650,6 +650,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	public void mouseClicked(MouseEvent m) {
 		table.getSelectionModel().clearSelection();
 		siteTableModel.sort(table.columnAtPoint(m.getPoint()));
+		siteTableModel.fireTableDataChanged();
 	}
 
 	//Must be implemented, but they are not used

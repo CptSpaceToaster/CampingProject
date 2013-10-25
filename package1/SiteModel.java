@@ -266,13 +266,10 @@ public class SiteModel extends AbstractTableModel {
 		
 		switch (col){
 		case 0:
-			
 			if (sortOption%4 == 0) {
 				Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME);
-				System.out.println("Option 0");
 			} else if (sortOption%4 == 1) {
 				Collections.sort(listSite, Site.Comparators.DES_FIRSTNAME);
-				System.out.println("Option 1");
 			}
 			
 			sortOption++;
@@ -311,7 +308,7 @@ public class SiteModel extends AbstractTableModel {
 		case 4:
 			ArrayList<Site> listTents = new ArrayList<Site>();
 			ArrayList<Site> listRVs = new ArrayList<Site>();
-			
+
 			for(int i = 0; i<listSite.size(); i++) {
 				if (listSite.get(i) instanceof Tent) {
 					listTents.add(listSite.get(i));
@@ -320,7 +317,7 @@ public class SiteModel extends AbstractTableModel {
 					listRVs.add(listSite.get(i));
 				}
 			}
-			
+
 			listSite.clear();
 			if (sortOption%2 == 0) {
 				Collections.sort(listTents, Tent.Comparators.ASC_TENTERS);
@@ -348,6 +345,7 @@ public class SiteModel extends AbstractTableModel {
 			}
 			break;
 		default:
+			System.out.println("Default");
 			break;
 		}
 	}
