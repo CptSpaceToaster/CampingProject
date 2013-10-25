@@ -17,6 +17,18 @@ public class SiteModel extends AbstractTableModel {
 	private String[] columnNames = {"Name Reserving", "Checked-In", 
 			"Days Staying", "Site #", "Tent/RV Info"};
 	
+	/** Keeps track of the sort your on */
+	private int sortOption;
+	
+	/******************************************************************
+	 * default constructor for SiteModel
+	 *****************************************************************/
+	public SiteModel(){
+		super();
+		sortOption = 0;
+		listSite = new ArrayList<Site>();
+	}
+	
 	/******************************************************************
 	 * gets the column name for each column
 	 * @param col the column number
@@ -83,14 +95,6 @@ public class SiteModel extends AbstractTableModel {
 		}
 	}
 
-	/******************************************************************
-	 * default constructor for SiteModel
-	 *****************************************************************/
-	public SiteModel(){
-		super();
-		listSite = new ArrayList<Site>();
-	}
-	
 	/******************************************************************
 	 * removes a site from the table 
 	 * @param i the row to be removed
@@ -262,13 +266,48 @@ public class SiteModel extends AbstractTableModel {
 		
 		switch (col){
 		case 0:
-			Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME); break;
+			
+			if (sortOption%4 == 0) {
+				Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME);
+				System.out.println("Option 0");
+			} else if (sortOption%4 == 1) {
+				Collections.sort(listSite, Site.Comparators.DES_FIRSTNAME);
+				System.out.println("Option 1");
+			}
+			
+			sortOption++;
+			sortOption -= (sortOption>=4)?4:0;
+			break;
 		case 1:
-			Collections.sort(listSite, Site.Comparators.ASC_CHECKIN); break;
+			if (sortOption%2 == 0) {
+				Collections.sort(listSite, Site.Comparators.ASC_CHECKIN);
+			} else if (sortOption%2 == 1) {
+				Collections.sort(listSite, Site.Comparators.DES_CHECKIN);
+			}
+			
+			sortOption++;
+			sortOption -= (sortOption>=2)?2:0;
+			break;
 		case 2:
-			Collections.sort(listSite, Site.Comparators.ASC_DAYS); break;
+			if (sortOption%2 == 0) {
+				Collections.sort(listSite, Site.Comparators.ASC_DAYS);
+			} else if (sortOption%2 == 1) {
+				Collections.sort(listSite, Site.Comparators.DES_DAYS);
+			}
+			
+			sortOption++;
+			sortOption -= (sortOption>=2)?2:0;
+			break;
 		case 3:
-			Collections.sort(listSite, Site.Comparators.ASC_SITENUMBER); break;
+			if (sortOption%2 == 0) {
+				Collections.sort(listSite, Site.Comparators.ASC_SITENUMBER);
+			} else if (sortOption%2 == 1) {
+				Collections.sort(listSite, Site.Comparators.DES_SITENUMBER);
+			}
+			
+			sortOption++;
+			sortOption -= (sortOption>=2)?2:0;
+			break;
 		case 4:
 			ArrayList<Site> listTents = new ArrayList<Site>();
 			ArrayList<Site> listRVs = new ArrayList<Site>();
@@ -282,14 +321,31 @@ public class SiteModel extends AbstractTableModel {
 				}
 			}
 			
-			
-			Collections.sort(listRVs, RV.Comparators.ASC_POWER);
-			Collections.sort(listTents, Tent.Comparators.ASC_TENTERS);
-			
 			listSite.clear();
-			listSite.addAll(listTents);
-			listSite.addAll(listRVs);
-			
+			if (sortOption%2 == 0) {
+				Collections.sort(listTents, Tent.Comparators.ASC_TENTERS);
+				Collections.sort(listRVs, RV.Comparators.ASC_POWER);
+				if (sortOption%4 == 0) {
+					listSite.addAll(listTents);
+					listSite.addAll(listRVs);
+				}
+				if (sortOption%4 == 2) {
+					listSite.addAll(listRVs);
+					listSite.addAll(listTents);
+				}
+			}
+			if (sortOption%2 == 1) {
+				Collections.sort(listTents, Tent.Comparators.DES_TENTERS);
+				Collections.sort(listRVs, RV.Comparators.DES_POWER);
+				if (sortOption%4 == 1) {
+					listSite.addAll(listTents);
+					listSite.addAll(listRVs);
+				}
+				if (sortOption%4 == 3) {
+					listSite.addAll(listRVs);
+					listSite.addAll(listTents);
+				}
+			}
 			break;
 		default:
 			break;
