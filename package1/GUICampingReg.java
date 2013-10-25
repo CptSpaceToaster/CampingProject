@@ -492,7 +492,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 					
 					
 					if (d<depositDays) {
-						costs[index] = siteTableModel.getSite(index).calcCost(d);
+						costs[index] -= siteTableModel.getSite(index).calcCost(d);
 						JOptionPane.showMessageDialog(null, "Here is your Refund $" + 
 								DECIMAL_FORMAT.format(costs[index]));
 					}
@@ -501,7 +501,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 						JOptionPane.showMessageDialog(null, "No Transaction");
 					}
 					if (d>depositDays) {
-						costs[index] = siteTableModel.getSite(index).calcCost(d);				
+						costs[index] -= siteTableModel.getSite(index).calcCost(d);				
 						JOptionPane.showMessageDialog(null, "You owe $" + 
 								DECIMAL_FORMAT.format((-1)*costs[index]));
 					}
