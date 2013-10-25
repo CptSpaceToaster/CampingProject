@@ -1,4 +1,7 @@
 package package1;
+
+import java.util.Comparator;
+
 public class RV extends Site {
 	
 	/** default serial version ID */
@@ -57,4 +60,20 @@ public class RV extends Site {
 		return 30*days;
 	}
 	
+	public static class Comparators{
+		//4
+		public static Comparator<Site> ASC_POWER = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				return ((RV)s1).power - ((RV)s2).power;
+			}
+		};
+		public static Comparator<Site> DES_POWER = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				return ((RV)s2).power - ((RV)s1).power;
+			}
+		};
+		
+	}
 }

@@ -171,6 +171,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		siteTableModel = new SiteModel();
 		table = new JTable(siteTableModel);
 		table.getTableHeader().addMouseListener(this);
+		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
 
@@ -386,7 +387,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				Tent t = new Tent(varResult);
 				// calculates the cost for the tent duration
 				costs[t.getSiteNumber() - 1] = t.getDaysStaying() * t.getNumOfTenters() * 3;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" + 
+				JOptionPane.showMessageDialog(null, "Please Deposit $" + 
 						DECIMAL_FORMAT.format(costs[t.getSiteNumber() - 1]));
 				// add the site to the siteModel
 				siteTableModel.addSite(t);
@@ -422,7 +423,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				
 				// calculates the cost for an RV
 				costs[r.getSiteNumber() - 1] = r.getDaysStaying() * 30;
-				JOptionPane.showMessageDialog(null, "Your expected payment is $" +
+				JOptionPane.showMessageDialog(null, "Please Deposit $" +
 						DECIMAL_FORMAT.format(costs[r.getSiteNumber() - 1]));
 				// adds the RV to the SiteModel
 				siteTableModel.addSite(r);
@@ -485,17 +486,24 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 					// set the check out date
 					g.setTime(checkOut);
 					// get the check in date
+					int depositDays = siteTableModel.getSite(index).getDaysStaying();
 					int d = g.daysSince(siteTableModel.getSite(index).getCheckIn());
 					// calculate the cost of leaving
-					if(d<=0){
-						costs[index] = 0;
-						JOptionPane.showMessageDialog(null, "You owe $" + 
+					
+					
+					if (d<depositDays) {
+						costs[index] -= siteTableModel.getSite(index).calcCost(d);
+						JOptionPane.showMessageDialog(null, "Here is your Refund $" + 
 								DECIMAL_FORMAT.format(costs[index]));
 					}
-					else {
-						costs[index] = siteTableModel.getSite(index).calcCost(d);				
+					if(d==depositDays) {
+						costs[index] = 0;
+						JOptionPane.showMessageDialog(null, "No Transaction");
+					}
+					if (d>depositDays) {
+						costs[index] -= siteTableModel.getSite(index).calcCost(d);				
 						JOptionPane.showMessageDialog(null, "You owe $" + 
-								DECIMAL_FORMAT.format(costs[index]));
+								DECIMAL_FORMAT.format((-1)*costs[index]));
 					}
 
 
@@ -640,34 +648,13 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 	 *****************************************************************/
 	@Override
 	public void mouseClicked(MouseEvent m) {
+		table.getSelectionModel().clearSelection();
 		siteTableModel.sort(table.columnAtPoint(m.getPoint()));
 	}
 
-	// NOT USED BUT NEEDED
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	//NOT USED BUT NEEDED
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	// NOT USED BUT NEEDED
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	// NOT USED BUT NEEDED
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	//Must be implemented, but they are not used
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
 }

@@ -259,11 +259,38 @@ public class SiteModel extends AbstractTableModel {
 	}
 	
 	public void sort(int col){
+		
 		switch (col){
+		case 0:
+			Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME); break;
+		case 1:
+			Collections.sort(listSite, Site.Comparators.ASC_CHECKIN); break;
 		case 2:
 			Collections.sort(listSite, Site.Comparators.ASC_DAYS); break;
 		case 3:
 			Collections.sort(listSite, Site.Comparators.ASC_SITENUMBER); break;
+		case 4:
+			ArrayList<Site> listTents = new ArrayList<Site>();
+			ArrayList<Site> listRVs = new ArrayList<Site>();
+			
+			for(int i = 0; i<listSite.size(); i++) {
+				if (listSite.get(i) instanceof Tent) {
+					listTents.add(listSite.get(i));
+				}
+				if (listSite.get(i) instanceof RV){	
+					listRVs.add(listSite.get(i));
+				}
+			}
+			
+			
+			Collections.sort(listRVs, RV.Comparators.ASC_POWER);
+			Collections.sort(listTents, Tent.Comparators.ASC_TENTERS);
+			
+			listSite.clear();
+			listSite.addAll(listTents);
+			listSite.addAll(listRVs);
+			
+			break;
 		default:
 			break;
 		}

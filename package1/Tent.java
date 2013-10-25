@@ -1,5 +1,7 @@
 package package1;
 
+import java.util.Comparator;
+
 public class Tent extends Site {
 	
 	/** default serial version UID */
@@ -60,5 +62,20 @@ public class Tent extends Site {
 		return 3*days*numOfTenters;
 	}
 	
-	
+	public static class Comparators{
+		//4
+		public static Comparator<Site> ASC_TENTERS = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				return ((Tent)s1).numOfTenters - ((Tent)s2).numOfTenters;
+			}
+		};
+		public static Comparator<Site> DES_TENTERS = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				return ((Tent)s2).numOfTenters - ((Tent)s1).numOfTenters;
+			}
+		};
+		
+	}
 }
