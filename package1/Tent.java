@@ -1,6 +1,8 @@
 package package1;
 
 public class Tent extends Site {
+	
+	/** default serial version UID */
 	private static final long serialVersionUID = 1L;
 	
 	/** Type for Tent **/
@@ -9,6 +11,9 @@ public class Tent extends Site {
 	/** Represents the number of tenters on this site */
 	private int numOfTenters;
 
+	/******************************************************************
+	 * default constructor for tent
+	 *****************************************************************/
 	public Tent(){
 		super();
 		numOfTenters = 1;
@@ -43,6 +48,11 @@ public class Tent extends Site {
 		this.numOfTenters = numOfTenters;
 	}
 	
+	/******************************************************************
+	 * Calculate the costs for Tent
+	 * @param days the number of days staying
+	 * @return double the cost of the stay
+	 *****************************************************************/
 	@Override
 	public double calcCost(int days) {
 		return 3*days*numOfTenters;

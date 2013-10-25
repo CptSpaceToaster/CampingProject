@@ -207,10 +207,7 @@ public class SiteModel extends AbstractTableModel {
 
 		try {
 			Scanner scanner = new Scanner(new File(filename));
-
-			// Should clear the arrayList and screen....
-			// Do we do this?
-
+			
 			int size = Integer.parseInt(scanner.nextLine().trim());
 
 			for (int i = 0; i < size; i++) {
