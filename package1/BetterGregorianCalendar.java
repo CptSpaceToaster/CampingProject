@@ -38,7 +38,6 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 		return result;
 	}
 	
-	
 	/******************************************************************
 	 * A method that counts the number of days between this BetterGregorianCalendar
 	 * and a given BetterGregorianCalendar.  If this BetterGregorianCalendar is ahead of the 

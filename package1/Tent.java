@@ -18,6 +18,7 @@ public class Tent extends Site {
 		super();
 		numOfTenters = 1;
 	}
+	
 	/**************************************************************
 	 * Constructor for tents
 	 * @param tenters
@@ -25,6 +26,7 @@ public class Tent extends Site {
 	public Tent(Object[] vars) {
 		this((String) vars[0], (String)vars[2], (Integer) vars[4], (Integer) vars[1], (Integer) vars[3]);
 	}
+	
 	/**************************************************************
 	 * Constructor for tents
 	 * @param tenters

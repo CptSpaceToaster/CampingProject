@@ -180,6 +180,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		setSize(700,300);
 		setVisible(true);
 	}
+	
 	/******************************************************************
 	 * Clears all the sites of their site number so a site can be reserved
 	 *****************************************************************/
@@ -393,7 +394,8 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				fillSite(t.getSiteNumber() - 1);
 			}
 		}
-
+		
+		// checks in an RV
 		if(comp == checkInRV){
 			// labels to be sent to variable input panel
 			String[] labelsRV = {"Name Reserving:", "Site Number:", 
@@ -476,6 +478,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 								" Please check your inputs.");
 					}
 				}while(success && btnOption);
+				
 				// if ok was clicked
 				if (btnOption) {
 					BetterGregorianCalendar g = new BetterGregorianCalendar();
