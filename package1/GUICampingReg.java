@@ -170,7 +170,7 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		// instantiate the SiteModel and add it to the frame
 		siteTableModel = new SiteModel();
 		table = new JTable(siteTableModel);
-		table.addMouseListener(this);
+		table.getTableHeader().addMouseListener(this);
 		scrollPane = new JScrollPane(table);
 		add(scrollPane);
 
@@ -646,28 +646,23 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		switch(selectedCol){
 		//NameReserving
 		case 0:{
-			System.out.println("You selected col: " + selectedCol +
-					" You seleced row: " + selectedRow); break;
+			System.out.println("You selected col: " + selectedCol); break;
 		}
 		//Checked In
 		case 1:{
-			System.out.println("You selected col: " + selectedCol +
-					" You seleced row: " + selectedRow); break;
+			System.out.println("You selected col: " + selectedCol); break;
 		}
 		//DaysStaying
 		case 2:{
-			System.out.println("You selected col: " + selectedCol +
-					" You seleced row: " + selectedRow); break;
+			System.out.println("You selected col: " + selectedCol); break;
 		}
 		//SiteNumber
 		case 3:{
-			System.out.println("You selected col: " + selectedCol +
-					" You seleced row: " + selectedRow); break;
+			System.out.println("You selected col: " + selectedCol); break;
 		}
 		//Tenters/Power
 		case 4:{
-			System.out.println("You selected col: " + selectedCol +
-					" You seleced row: " + selectedRow); break;
+			System.out.println("You selected col: " + selectedCol); break;
 		}
 		default:
 			System.out.println("You selected nothing");
