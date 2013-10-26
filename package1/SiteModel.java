@@ -273,13 +273,20 @@ public class SiteModel extends AbstractTableModel {
 		switch (col){
 		case 0:
 			if (sortOption%2 == 0) {
-				Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME);
-			} else if (sortOption%2 == 1) {
-				Collections.sort(listSite, Site.Comparators.DES_FIRSTNAME);
+				if(sortOption%4 == 0)
+					Collections.sort(listSite, Site.Comparators.ASC_FIRSTNAME);
+				if(sortOption%4 == 2)
+					Collections.sort(listSite, Site.Comparators.DES_FIRSTNAME);
+			}
+			if (sortOption%2 == 1) {
+				if(sortOption%4 == 1)
+					Collections.sort(listSite, Site.Comparators.ASC_LASTNAME);
+				if(sortOption%4 == 3)
+					Collections.sort(listSite, Site.Comparators.DES_LASTNAME);
 			}
 			
 			sortOption++;
-			sortOption -= (sortOption>=2)?2:0;
+			sortOption -= (sortOption>=4)?4:0;
 			break;
 		case 1:
 			if (sortOption%2 == 0) {

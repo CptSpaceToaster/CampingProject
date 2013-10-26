@@ -162,9 +162,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 *****************************************************************/
 	@Override
 	public int compareTo(Site site) {
-		final int BEFORE = -1;
 		final int EQUAL = 0;
-		final int AFTER = 1;
 		
 		int comparison = this.nameReserving.compareTo(site.nameReserving);
 		if (comparison != EQUAL) 
@@ -173,6 +171,15 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		return EQUAL;
 	}  
 	
+	public int compareTo(String last){
+		final int EQUAL = 0;
+		
+		int comparison = this.compareTo(last);
+		if (comparison != EQUAL) 
+			return comparison;
+		
+		return EQUAL;
+	}
 	/******************************************************************
 	 * Abstract method for calculating the costs
 	 * @param days takes in the number of days
@@ -192,6 +199,55 @@ public abstract class Site implements Serializable, Comparable<Site>{
 			@Override
 			public int compare(Site s1, Site s2) {
 				return s2.compareTo(s1);
+			}
+		};
+		
+		public static Comparator<Site> ASC_LASTNAME = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				String[] name;
+				String lastName1;
+				String lastName2;
+				
+				try{
+				name = s1.getNameReserving().split(" ");
+				lastName1 = name[1];
+				}catch(Exception e){
+					lastName1 = s1.getNameReserving();
+				}
+				
+				try{
+				name = s2.getNameReserving().split(" ");
+				lastName2 = name[1];
+				}catch(Exception e){
+					lastName2 = s2.getNameReserving();
+				}
+				
+				return lastName1.compareTo(lastName2);
+			}
+		};
+		public static Comparator<Site> DES_LASTNAME = new Comparator<Site>(){
+			@Override
+			public int compare(Site s1, Site s2) {
+				String[] name;
+				String lastName1;
+				String lastName2;
+				
+				try{
+				name = s1.getNameReserving().split(" ");
+				lastName1 = name[1];
+				}catch(Exception e){
+					lastName1 = s1.getNameReserving();
+				}
+				
+				try{
+				name = s2.getNameReserving().split(" ");
+				lastName2 = name[1];
+				}catch(Exception e){
+					lastName2 = s2.getNameReserving();
+				}
+				
+				return lastName2.compareTo(lastName1);
 			}
 		};
 		
