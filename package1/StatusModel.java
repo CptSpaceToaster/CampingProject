@@ -74,7 +74,8 @@ public class StatusModel extends AbstractTableModel{
 			return (listSite.get(row).getDaysStaying());
 		case 4:
 			// return the days remaining
-			return ((listSite.get(row).getCheckIn().daysSince(date))) + listSite.get(row).getDaysStaying();
+			return ((listSite.get(row).getCheckIn().daysSince(date))) +
+					listSite.get(row).getDaysStaying();
 			
 		default:
 			return null;
@@ -120,24 +121,26 @@ public class StatusModel extends AbstractTableModel{
 				// gets the tenters or the power
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
 				
-				double costParam = Double.parseDouble(scanner.nextLine().trim());
+				double costParam =Double.parseDouble(scanner.nextLine().trim());
 				
 				// if it is a tent, add a tent site
 				if (siteType.equals("t")) {
 					Tent t;
-					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
+					t = new Tent(name, checkInDate, daysStaying,
+							siteNumber, lastParam);
 					t.setAccount(costParam);
 					listSite.add(t);
-					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
 
 				}
 				// if it is an RV, add an RV site
 				else if (siteType.equals("r")) {
 					RV r;
-					r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
+					r = new RV(name, checkInDate, daysStaying, 
+							siteNumber, lastParam);
 					r.setAccount(costParam);
 					listSite.add(r);
-					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
 
 				}
 				
@@ -146,8 +149,8 @@ public class StatusModel extends AbstractTableModel{
 			scanner.close();
 			
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "File not Recognized", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
 }

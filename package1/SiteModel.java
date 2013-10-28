@@ -138,7 +138,7 @@ public class SiteModel extends AbstractTableModel {
 		try{
 			// new output stream
 			FileOutputStream fileOutput = new FileOutputStream(filename);
-			ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
+			ObjectOutputStream objectOutput =new ObjectOutputStream(fileOutput);
 			// write the table to a file
 			objectOutput.writeObject(listSite);
 			objectOutput.close();
@@ -163,7 +163,8 @@ public class SiteModel extends AbstractTableModel {
 			objectInput.close();
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "File not Recognized", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -238,24 +239,26 @@ public class SiteModel extends AbstractTableModel {
 				// gets the tenters or the power
 				int lastParam = Integer.parseInt(scanner.nextLine().trim());
 				
-				double costParam = Double.parseDouble(scanner.nextLine().trim());
+				double costParam =Double.parseDouble(scanner.nextLine().trim());
 				
 				// if it is a tent, add a tent site
 				if (siteType.equals("t")) {
 					Tent t;
-					t = new Tent(name, checkInDate, daysStaying,siteNumber, lastParam);
+					t = new Tent(name, checkInDate, daysStaying,
+										siteNumber, lastParam);
 					t.setAccount(costParam);
 					listSite.add(t);
-					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
 
 				}
 				// if it is an RV, add an RV site
 				else if (siteType.equals("r")) {
 					RV r;
-					r = new RV(name, checkInDate, daysStaying, siteNumber, lastParam);
+					r = new RV(name, checkInDate, daysStaying,
+									siteNumber, lastParam);
 					r.setAccount(costParam);
 					listSite.add(r);
-					fireTableRowsInserted(listSite.size() - 1, listSite.size() - 1);
+					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
 
 				}
 				
@@ -264,7 +267,8 @@ public class SiteModel extends AbstractTableModel {
 			scanner.close();
 			
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -364,5 +368,4 @@ public class SiteModel extends AbstractTableModel {
 			break;
 		}
 	}
-
 }

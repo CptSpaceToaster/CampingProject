@@ -56,7 +56,8 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 * @param out takes in the day of check out
 	 * @param siteNumber takes in the site number
 	 *************************************************************/
-	public Site(String name, String checkIn, int daysStaying, int siteNumber, double account){
+	public Site(String name, String checkIn, int daysStaying, int siteNumber, 
+													double account){
 		this.nameReserving = name;
 
 		Date date;
@@ -147,6 +148,10 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		this.siteNumber = siteNumber;
 	}
 	
+	
+	/**************************************************************
+	 * @return the value of the account for the Site
+	 *************************************************************/
 	public double getAccount(){
 		return account;	
 	}
@@ -170,16 +175,23 @@ public abstract class Site implements Serializable, Comparable<Site>{
 		
 		return EQUAL;
 	}  
-	
-	public int compareTo(String last){
+	/******************************************************************
+	 * Compares two sites, by looking at the First letter of the Name
+	 * 
+	 * @param str
+	 * @return 0 if they are equal, 1 if str is alphabetically above
+	 * the name -1 if str is alphabetically below.
+	 *****************************************************************/
+	public int compareTo(String str){
 		final int EQUAL = 0;
 		
-		int comparison = this.compareTo(last);
+		int comparison = this.compareTo(str);
 		if (comparison != EQUAL) 
 			return comparison;
 		
 		return EQUAL;
 	}
+	
 	/******************************************************************
 	 * Abstract method for calculating the costs
 	 * @param days takes in the number of days
@@ -187,6 +199,26 @@ public abstract class Site implements Serializable, Comparable<Site>{
 	 *****************************************************************/
 	public abstract double calcCost(int days);
 	
+	/**
+	 * The numerous Comparators we used to sort the Database in a number of
+	 * different ways.
+	 * 
+	 * ASC_FIRSTNAME - Alphabetical By First Name
+	 * DES_FIRSTNAME - Reverse Alphabetical By First Name
+	 * ASC_LASTNAME - Alphabetical By Last Name
+	 * DES_LASTNAME - Reverse Alphabetical By Last Name
+	 * 
+	 * ASC_CHECKIN - Ascending Check in date (by total number of days)
+	 * DES_CHECKIN - Descending Check in date
+	 * 
+	 * ASC_DAYS - Ascending Days being Stayed
+	 * DES_DAYS - Descending Days being Stayed
+	 * 
+	 * ASC_SITENUMBER - Ascending Site Number
+	 * DES_SITENUMBER - Descending Site Number
+	 *
+	 * Tent and RV also contain their own comparators for their specific Data
+	 */
 	public static class Comparators{
 		//0
 		public static Comparator<Site> ASC_FIRSTNAME = new Comparator<Site>(){
@@ -297,7 +329,5 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				return s2.siteNumber - s1.siteNumber;
 			}
 		};
-		
-		
 	}
 }
