@@ -135,16 +135,19 @@ public class SiteModel extends AbstractTableModel {
 	 * @param filename the name of the file
 	 *****************************************************************/
 	public void saveDatabase(String filename){
-		try{
-			// new output stream
-			FileOutputStream fileOutput = new FileOutputStream(filename);
-			ObjectOutputStream objectOutput =new ObjectOutputStream(fileOutput);
-			// write the table to a file
-			objectOutput.writeObject(listSite);
-			objectOutput.close();
-		}
-		catch(IOException e){
-			e.printStackTrace();
+		if (!filename.equals("")) {
+			try{
+				// new output stream
+				FileOutputStream fileOutput = new FileOutputStream(filename);
+				ObjectOutputStream objectOutput =new ObjectOutputStream(fileOutput);
+				// write the table to a file
+				objectOutput.writeObject(listSite);
+				objectOutput.close();
+			}
+			catch(IOException e){
+				JOptionPane.showMessageDialog(null, "File not Recognized", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -153,18 +156,21 @@ public class SiteModel extends AbstractTableModel {
 	 * @param filename the name of the file
 	 *****************************************************************/
 	public void loadDatabase(String filename){
-		try{
-			// new input stream
-			FileInputStream input = new FileInputStream(filename);
-			ObjectInputStream objectInput = new ObjectInputStream(input);
-			// read in the file and cast it as an ArrayList of site
-			listSite = (ArrayList<Site>)objectInput.readObject();
-			fireTableRowsInserted(0,listSite.size() - 1);
-			objectInput.close();
-		}
-		catch(Exception e){
-			JOptionPane.showMessageDialog(null, "File not Recognized", "Error",
-					JOptionPane.ERROR_MESSAGE);
+		if (!filename.equals("")) {
+			try{
+				// new input stream
+				System.out.println("The Filename Is: " + filename);
+				FileInputStream input = new FileInputStream(filename);
+				ObjectInputStream objectInput = new ObjectInputStream(input);
+				// read in the file and cast it as an ArrayList of site
+				listSite = (ArrayList<Site>)objectInput.readObject();
+				fireTableRowsInserted(0,listSite.size() - 1);
+				objectInput.close();
+			}
+			catch(Exception e){
+				JOptionPane.showMessageDialog(null, "File not Recognized", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -174,40 +180,42 @@ public class SiteModel extends AbstractTableModel {
 	 * @return boolean whether or not it was successful 
 	 *****************************************************************/
 	public boolean saveAsText(String filename){
-		if(filename.equals(""))
-			return false;
-		try{
-			PrintWriter out = new PrintWriter(
-					new BufferedWriter(new FileWriter(filename)));
-			// print out the size
-			out.println(listSite.size());
-			for (int i = 0; i < listSite.size(); i++) {
-				Site s = listSite.get(i);
-				// print out the character representing the site(t or r)
-				out.println(s.getClass().getName().toLowerCase().charAt(9));
-				// print out the name
-				out.println(s.getNameReserving());
-				// print out the date in mm/dd/yyyy
-				out.println(GUICampingReg.SIMPLE_FORMAT
-						.format(s.getCheckIn().getTime()));
-				// print out the days staying
-				out.println(s.getDaysStaying());
-				// print out the site number
-				out.println(s.getSiteNumber());
-				// if it is a tent, print the tenters
-				if (s instanceof Tent)
-					out.println(((Tent) s).getNumOfTenters());
-				// if it is an RV, print the power
-				else
-					out.println(((RV) s).getPower());
-				// print the account cost
-				out.println(s.getAccount());
+		if (!filename.equals("")) {
+			try{
+				PrintWriter out = new PrintWriter(
+						new BufferedWriter(new FileWriter(filename)));
+				// print out the size
+				out.println(listSite.size());
+				for (int i = 0; i < listSite.size(); i++) {
+					Site s = listSite.get(i);
+					// print out the character representing the site(t or r)
+					out.println(s.getClass().getName().toLowerCase().charAt(9));
+					// print out the name
+					out.println(s.getNameReserving());
+					// print out the date in mm/dd/yyyy
+					out.println(GUICampingReg.SIMPLE_FORMAT
+							.format(s.getCheckIn().getTime()));
+					// print out the days staying
+					out.println(s.getDaysStaying());
+					// print out the site number
+					out.println(s.getSiteNumber());
+					// if it is a tent, print the tenters
+					if (s instanceof Tent)
+						out.println(((Tent) s).getNumOfTenters());
+					// if it is an RV, print the power
+					else
+						out.println(((RV) s).getPower());
+					// print the account cost
+					out.println(s.getAccount());
+				}
+				out.close();
+				return true;
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(null, "File not Recognized", 
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
-			out.close();
-			return true;
-		} catch (IOException ex) {
-			return false;
 		}
+		return false;
 	}
 	
 	/******************************************************************
@@ -215,60 +223,62 @@ public class SiteModel extends AbstractTableModel {
 	 * @param filename the name of the file
 	 *****************************************************************/
 	public void loadFromText(String filename) {
-		listSite.clear();
-		fireTableRowsDeleted( 0, listSite.size());
-
-		try {
-			Scanner scanner = new Scanner(new File(filename));
-			
-			int size = Integer.parseInt(scanner.nextLine().trim());
-
-			for (int i = 0; i < size; i++) {
-				// gets the type of the site
-				String siteType = scanner.nextLine().trim();
-				// gets the name
-				String name = scanner.nextLine().trim();
-
-				String checkInDate = null;
-				// gets the check in date
-				checkInDate = scanner.nextLine().trim();
-				// gets the days staying
-				int daysStaying = Integer.parseInt(scanner.nextLine().trim());
-				// gets the site number
-				int siteNumber = Integer.parseInt(scanner.nextLine().trim());
-				// gets the tenters or the power
-				int lastParam = Integer.parseInt(scanner.nextLine().trim());
+		if (!filename.equals("")) {
+			listSite.clear();
+			fireTableRowsDeleted( 0, listSite.size());
+	
+			try {
+				Scanner scanner = new Scanner(new File(filename));
 				
-				double costParam =Double.parseDouble(scanner.nextLine().trim());
-				
-				// if it is a tent, add a tent site
-				if (siteType.equals("t")) {
-					Tent t;
-					t = new Tent(name, checkInDate, daysStaying,
+				int size = Integer.parseInt(scanner.nextLine().trim());
+	
+				for (int i = 0; i < size; i++) {
+					// gets the type of the site
+					String siteType = scanner.nextLine().trim();
+					// gets the name
+					String name = scanner.nextLine().trim();
+	
+					String checkInDate = null;
+					// gets the check in date
+					checkInDate = scanner.nextLine().trim();
+					// gets the days staying
+					int daysStaying=Integer.parseInt(scanner.nextLine().trim());
+					// gets the site number
+					int siteNumber= Integer.parseInt(scanner.nextLine().trim());
+					// gets the tenters or the power
+					int lastParam = Integer.parseInt(scanner.nextLine().trim());
+					
+					double costParam = Double.parseDouble(
+							scanner.nextLine().trim());
+					
+					// if it is a tent, add a tent site
+					if (siteType.equals("t")) {
+						Tent t;
+						t = new Tent(name, checkInDate, daysStaying,
+											siteNumber, lastParam);
+						t.setAccount(costParam);
+						listSite.add(t);
+						fireTableRowsInserted(listSite.size()-1, 
+											  listSite.size()-1);
+					}
+					// if it is an RV, add an RV site
+					else if (siteType.equals("r")) {
+						RV r;
+						r = new RV(name, checkInDate, daysStaying,
 										siteNumber, lastParam);
-					t.setAccount(costParam);
-					listSite.add(t);
-					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
-
+						r.setAccount(costParam);
+						listSite.add(r);
+						fireTableRowsInserted(listSite.size()-1,
+											  listSite.size()-1);
+					}
 				}
-				// if it is an RV, add an RV site
-				else if (siteType.equals("r")) {
-					RV r;
-					r = new RV(name, checkInDate, daysStaying,
-									siteNumber, lastParam);
-					r.setAccount(costParam);
-					listSite.add(r);
-					fireTableRowsInserted(listSite.size()-1, listSite.size()-1);
-
-				}
+	
+				scanner.close();
 				
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "File not Recognized", 
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
-
-			scanner.close();
-			
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "File not Recognized", "Error", 
-					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

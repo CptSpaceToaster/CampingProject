@@ -269,7 +269,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 		
 		// opens a serializable file
 		if(comp == openS){
-			siteTableModel.saveDatabase(fileOperations());
+			siteTableModel.loadDatabase(fileOperations());
 		}
 		
 		// saves a serialiazable file
