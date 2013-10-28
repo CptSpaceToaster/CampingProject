@@ -159,7 +159,6 @@ public class SiteModel extends AbstractTableModel {
 		if (!filename.equals("")) {
 			try{
 				// new input stream
-				System.out.println("The Filename Is: " + filename);
 				FileInputStream input = new FileInputStream(filename);
 				ObjectInputStream objectInput = new ObjectInputStream(input);
 				// read in the file and cast it as an ArrayList of site
