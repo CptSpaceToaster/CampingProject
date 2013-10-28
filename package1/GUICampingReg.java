@@ -268,97 +268,22 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 		
 		// opens a serializable file
 		if(comp == openS){
-			// instantiates a new file chooser
-			JFileChooser fc = new JFileChooser();
-			// creates a new file
-			File file;
-			// shows the file open dialog
-			int returnVal = fc.showOpenDialog(this);
-			// if the user clicked ok, open the file
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				try{
-					// get the selected file
-					file = fc.getSelectedFile();
-					// send the file to the SiteModel
-					siteTableModel.loadDatabase(file.getName());
-				// catch any error that may occur
-				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, 
-							"Choose a serializable file");
-
-				}
-			}
-
+			siteTableModel.saveDatabase(fileOperations());
 		}
 		
 		// saves a serialiazable file
 		if(comp == saveS){
-			// instantiates a new file chooser
-			JFileChooser fc = new JFileChooser();
-			// creates a new file
-			File file;
-			// shows the JFileChooser
-			int returnVal = fc.showSaveDialog(this);
-			// if the user clicked ok, save the file
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				try{
-					// get the selected file
-					file = fc.getSelectedFile();
-					// send the file to the SiteModel
-					siteTableModel.saveDatabase(file.getName());
-				// catch any error that may occur
-				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, 
-							"Choose a text file");
-				}
-			}
+			siteTableModel.saveDatabase(fileOperations());
 		}
 		
 		// opens a text file
 		if(comp == openT){
-			// instantiates a new file chooser
-			JFileChooser fc = new JFileChooser();
-			// creates a new file
-			File file;
-			// shows the JFileChooser
-			int returnVal = fc.showOpenDialog(this);
-			// if the user clicked ok, save the file
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				try{
-					// get the selected file
-					file = fc.getSelectedFile();
-					// send the file to the SiteModel
-					siteTableModel.loadFromText(file.getName());	  
-				// catch any error that may occur
-				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, 
-							"Choose a text file");
-				}
-			}
+			siteTableModel.loadFromText(fileOperations());	  
 		}
 		
 		// saves a file as text
 		if(comp == saveT){
-			// instantiates a new file chooser
-			JFileChooser fc = new JFileChooser();
-			//creates a new file
-			File file;
-			// shows the JFileChooser
-			int returnVal = fc.showSaveDialog(this);
-			// if the user clicked ok, save the file
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				try{
-					// get the selected file
-					file = fc.getSelectedFile();
-					// send the file to the SiteModel
-					siteTableModel.saveAsText(file.getName());
-				// catch any error that may occur
-				}catch(Throwable e){
-					JOptionPane.showMessageDialog(null, 
-							"Choose a text file");
-				}
-			}
-
+			siteTableModel.saveAsText(fileOperations());
 		}
 		
 		//checks in a tent object
@@ -515,6 +440,30 @@ public class GUICampingReg extends JFrame implements ActionListener, MouseListen
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private String fileOperations() {
+		// new file chooser
+		JFileChooser fc = new JFileChooser();
+		// shows the JFileChooser
+		int returnVal = fc.showSaveDialog(this);
+		// if the user clicked ok, return the file
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try{
+				// send the file to the SiteModel
+				return fc.getSelectedFile().getAbsolutePath();
+			// catch any error that may occur
+			}catch(Throwable e){
+				JOptionPane.showMessageDialog(null, 
+						"File not recognized");
+			}
+		}
+		return "";
 	}
 	
 	/******************************************************************
