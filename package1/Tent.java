@@ -26,14 +26,16 @@ public class Tent extends Site {
 	 * @param tenters
 	 *************************************************************/
 	public Tent(Object[] vars) {
-		this((String) vars[0], (String)vars[2], (Integer) vars[4], (Integer) vars[1], (Integer) vars[3]);
+		this((String) vars[0], (String)vars[2], (Integer) vars[4],
+				(Integer) vars[1], (Integer) vars[3]);
 	}
 	
 	/**************************************************************
 	 * Constructor for tents
 	 * @param tenters
 	 *************************************************************/
-	public Tent(String name, String checkIn, int daysStaying, int siteNumber, int tenters) {
+	public Tent(String name, String checkIn, int daysStaying, int siteNumber,
+			int tenters) {
 		super(name, checkIn, daysStaying, siteNumber);
 		this.numOfTenters = tenters;
 	}
@@ -76,6 +78,5 @@ public class Tent extends Site {
 				return ((Tent)s2).numOfTenters - ((Tent)s1).numOfTenters;
 			}
 		};
-		
 	}
 }

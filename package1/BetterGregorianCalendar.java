@@ -12,14 +12,25 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	private int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
 		
 	/** minimum date */
-	public final static BetterGregorianCalendar MIN_DATE = new BetterGregorianCalendar(1972, 1, 1);
+	public final static BetterGregorianCalendar MIN_DATE = 
+			new BetterGregorianCalendar(1972, 1, 1);
 	
+	/******************************************************************
+	 * Default constructor for a BetterGregorianCalendar
+	 *****************************************************************/
 	public BetterGregorianCalendar(){
 		super();
 	}
 	
-	private BetterGregorianCalendar(int i, int j, int k) {
-		super(i,j,k);
+	/******************************************************************
+	 * Constructor for a BetterGregorianCalendar
+	 * 
+	 * @param day
+	 * @param month
+	 * @param year
+	 *****************************************************************/
+	private BetterGregorianCalendar(int day, int month, int year) {
+		super(day,month,year);
 	}
 	
 	/******************************************************************
@@ -50,16 +61,15 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 	}
 	
 	/******************************************************************
-	 * A method that counts the number of days between this BetterGregorianCalendar
-	 * and a given BetterGregorianCalendar.  If this BetterGregorianCalendar is ahead of the 
-	 * given BetterGregorianCalendar, then the result will be positive.  If this 
-	 * BetterGregorianCalendar chronologically behind the given BetterGregorianCalendar, then the
+	 * A method that counts the number of days between this 
+	 * BetterGregorianCalendar and a given BetterGregorianCalendar.  If this 
+	 * BetterGregorianCalendar is ahead of the given BetterGregorianCalendar,
+	 * then the result will be positive.  If this BetterGregorianCalendar 
+	 * chronologically behind the given BetterGregorianCalendar, then the
 	 * result will be negative
 	 * 
-	 * E.g. BetterGregorianCalendar(1,1,2000).daysFrom(BetterGregorianCalendar(12,31,1999)) will 
-	 * return 1
-	 * 
-	 * @param other The given BetterGregorianCalendar to compare this BetterGregorianCalendar with
+	 * @param other The given BetterGregorianCalendar to compare this 
+	 * 			BetterGregorianCalendar with
 	 * @return The number of days between the two dates, can be 
 	 * 			positive or negative depending on which BetterGregorianCalendar
 	 * 			comes first chronologically
@@ -69,7 +79,8 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 		
 		if (j != 0) {
 			int  daysSince = j*(this.ordinalDate() - other.ordinalDate());
-			for (int i = 0 ; i < Math.abs(this.get(Calendar.YEAR) - other.get(Calendar.YEAR)); i++) {
+			for (int i = 0 ; i < Math.abs(this.get(Calendar.YEAR) - 
+					other.get(Calendar.YEAR)); i++) {
 				daysSince += (this.isLeapYear(i)?366:365);
 			}
 			return j*daysSince;
@@ -92,5 +103,4 @@ public class BetterGregorianCalendar extends GregorianCalendar{
 		date += this.get(Calendar.YEAR);
 		return date;
 	}
-
 }

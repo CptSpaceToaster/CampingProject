@@ -25,14 +25,16 @@ public class RV extends Site {
 	 * @param array of objects... to constuct a RV with
 	 *************************************************************/
 	public RV(Object[] vars) {
-		this((String) vars[0], (String)vars[2], (Integer) vars[4], (Integer) vars[1], (Integer) vars[3]);
+		this((String) vars[0], (String)vars[2], (Integer) vars[4],
+						(Integer) vars[1], (Integer) vars[3]);
 	}
 	
 	/**************************************************************
 	 * Constructor for RV
 	 * @param power
 	 *************************************************************/
-	public RV(String name, String checkIn, int daysStaying, int siteNumber, int power) {
+	public RV(String name, String checkIn, int daysStaying, int siteNumber,
+															int power) {
 		super(name, checkIn, daysStaying,siteNumber);
 		this.power = power;
 	}
@@ -73,7 +75,6 @@ public class RV extends Site {
 			public int compare(Site s1, Site s2) {
 				return ((RV)s2).power - ((RV)s1).power;
 			}
-		};
-		
+		};	
 	}
 }

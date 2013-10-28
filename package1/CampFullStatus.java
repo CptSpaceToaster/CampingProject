@@ -63,7 +63,6 @@ public class CampFullStatus extends JDialog implements ActionListener{
 		setSize(700,300);
 		// sets visible to be true
 		setVisible(true);
-		
 	}
 	
 	/******************************************************************
@@ -76,7 +75,4 @@ public class CampFullStatus extends JDialog implements ActionListener{
 			dispose();
 		}
 	}
-	
-	
-
 }
