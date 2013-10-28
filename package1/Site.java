@@ -195,6 +195,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				return s1.compareTo(s2);
 			}
 		};
+		
 		public static Comparator<Site> DES_FIRSTNAME = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
@@ -226,6 +227,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				return lastName1.compareTo(lastName2);
 			}
 		};
+		
 		public static Comparator<Site> DES_LASTNAME = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
@@ -235,14 +237,14 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				
 				try{
 				name = s1.getNameReserving().split(" ");
-				lastName1 = name[1];
+				lastName1 = name[name.length - 1];
 				}catch(Exception e){
 					lastName1 = s1.getNameReserving();
 				}
 				
 				try{
 				name = s2.getNameReserving().split(" ");
-				lastName2 = name[1];
+				lastName2 = name[name.length - 1];
 				}catch(Exception e){
 					lastName2 = s2.getNameReserving();
 				}
@@ -258,6 +260,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				return s1.getCheckIn().daysSince(s2.getCheckIn());
 			}
 		};
+		
 		public static Comparator<Site> DES_CHECKIN = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
@@ -272,6 +275,7 @@ public abstract class Site implements Serializable, Comparable<Site>{
 				return s1.daysStaying - s2.daysStaying;
 			}
 		};
+		
 		public static Comparator<Site> DES_DAYS = new Comparator<Site>(){
 			@Override
 			public int compare(Site s1, Site s2) {
