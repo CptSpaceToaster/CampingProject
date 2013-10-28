@@ -370,13 +370,16 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			// gets the selected row
 			int index = table.getSelectedRow();
 			
-			Site s = siteTableModel.getSite(index);
+			Site s;
 			// if a row hasn't been selected
 			if (index < 0) {
 				JOptionPane.showMessageDialog(this,"You have not selected " + 
 												"an Entry to Check Out");
+				
+				
 			} else {
-
+				s = siteTableModel.getSite(index);
+				
 				Date checkOut = new Date();
 				// used to make sure it was a successful parse
 				boolean success = true;

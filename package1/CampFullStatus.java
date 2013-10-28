@@ -31,6 +31,8 @@ public class CampFullStatus extends JDialog implements ActionListener{
 		tableModel.loadFromText("CampStatus");
 		// sets the JTable to the StatusModel
 		outputTable = new JTable(tableModel);
+		// stops user from moving the Columns around
+		outputTable.getTableHeader().setReorderingAllowed(false);
 		// instantiates a new JScollPane
 		scrollPane = new JScrollPane(outputTable);
 		// Displays the date of checked status
