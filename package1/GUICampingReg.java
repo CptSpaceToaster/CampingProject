@@ -14,8 +14,8 @@ import javax.swing.*;
 import VariableInputApi.*;
 
 public class GUICampingReg extends JFrame implements ActionListener, 
-													 MouseListener {
-	
+MouseListener {
+
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
 
@@ -94,8 +94,8 @@ public class GUICampingReg extends JFrame implements ActionListener,
 	/** Represents the sites taken */
 	private Boolean[] sitesTaken;
 
-//	/** Cost for the stay */
-//	private double[] costs;
+	//	/** Cost for the stay */
+	//	private double[] costs;
 
 	/** Decimal Formatter */
 	private static final DecimalFormat DECIMAL_FORMAT = 
@@ -183,7 +183,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 		setSize(700,300);
 		setVisible(true);
 	}
-	
+
 	/******************************************************************
 	 * Clears all the sites of their site number so a site can be reserved
 	 *****************************************************************/
@@ -209,7 +209,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JComponent comp = (JComponent) event.getSource();
-		
+
 		// checks the status of the camp
 		if(comp == statusMenuItem){
 			// instantiate a new campStatus
@@ -229,7 +229,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			do{
 				// shows the variable input dialog
 				rStatus = JOptionPane.showConfirmDialog(null, vS, "Check Status" 
-					, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+						, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 				btnOption = (rStatus == JOptionPane.OK_OPTION);
 				// if the variables sent in match what was given and hit ok
@@ -256,7 +256,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 								"Enter a correct date (MM/DD/YYYY)");
 						success = true;
 					}
-				// checks to make sure OK was pushed
+					// checks to make sure OK was pushed
 				} else if (btnOption){
 					JOptionPane.showMessageDialog(null, "Date out of range. " +
 							" Please check your inputs.");
@@ -264,32 +264,32 @@ public class GUICampingReg extends JFrame implements ActionListener,
 
 			}while(success && btnOption);
 		}
-		
+
 		// checks to see if quit was clicked
 		if(comp == quit){
 			System.exit(1);
 		}
-		
+
 		// opens a serializable file
 		if(comp == openS){
 			siteTableModel.loadDatabase(fileOperations());
 		}
-		
+
 		// saves a serialiazable file
 		if(comp == saveS){
 			siteTableModel.saveDatabase(fileOperations());
 		}
-		
+
 		// opens a text file
 		if(comp == openT){
 			siteTableModel.loadFromText(fileOperations());	  
 		}
-		
+
 		// saves a file as text
 		if(comp == saveT){
 			siteTableModel.saveAsText(fileOperations());
 		}
-		
+
 		//checks in a tent object
 		if(comp == checkInTent){
 			// labels to be sent to variable input panel
@@ -300,13 +300,13 @@ public class GUICampingReg extends JFrame implements ActionListener,
 					DEFAULT_SITE_NUMBER, DEFAULT_DATE, DEFAULT_TENTERS,
 					DEFAULT_DAYS_STAYING);
 			int rTent;
-			
+
 			do {
 				// shows the variable input dialog box
 				rTent =JOptionPane.showConfirmDialog(null, vT, "Reserve a Tent", 
-					   JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			// checks for any error that may occur, sends the panel information
-			// and the results, along with the type of the object
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				// checks for any error that may occur, sends the panel information
+				// and the results, along with the type of the object
 			} while(!checkInputForError(vT, rTent, Tent.TYPE));
 			// if the ok button is clicked
 			if(rTent == JOptionPane.OK_OPTION){
@@ -324,7 +324,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 				fillSite(t.getSiteNumber() - 1);
 			}
 		}
-		
+
 		// checks in an RV
 		if(comp == checkInRV){
 			// labels to be sent to variable input panel
@@ -339,8 +339,8 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			do {
 				// shows the dialog box
 				rRV = JOptionPane.showConfirmDialog(null, vR, "Reserve an RV", 
-					   JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			// checks for any input error
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				// checks for any input error
 			} while(!checkInputForError(vR, rRV, RV.TYPE));
 
 			// if the OK button was pushed
@@ -349,7 +349,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 				Object[] varResult = vR.getUpdatedVars();
 				// creates a new RV with the input
 				RV r = new RV(varResult);
-				
+
 				// calculates the cost for an RV
 				r.setAccount(r.getDaysStaying() * 30);
 				JOptionPane.showMessageDialog(null, "Please Deposit $" +
@@ -361,10 +361,10 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			}
 
 		}
-		
+
 		//checks out a camper
 		if(comp == checkOut){
-			
+
 			// label to be sent to the variable input panel
 			String[] labelsCheckOut = {"Check Out On"};
 			// creates a new variable input panel with the label, default date
@@ -372,17 +372,17 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			int rCheckOut;
 			// gets the selected row
 			int index = table.getSelectedRow();
-			
+
 			Site s;
 			// if a row hasn't been selected
 			if (index < 0) {
 				JOptionPane.showMessageDialog(this,"You have not selected " + 
-												"an Entry to Check Out");
-				
-				
+						"an Entry to Check Out");
+
+
 			} else {
 				s = siteTableModel.getSite(index);
-				
+
 				Date checkOut = new Date();
 				// used to make sure it was a successful parse
 				boolean success = true;
@@ -392,8 +392,8 @@ public class GUICampingReg extends JFrame implements ActionListener,
 				do{
 					// shows the variable input dialog
 					rCheckOut=JOptionPane.showConfirmDialog(null,vR,"Check Out", 
-					   JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-					
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
 					// sets btnOption to whether or not ok was clicked
 					btnOption = (rCheckOut == JOptionPane.OK_OPTION);
 					// if the input matched the output and ok was clicked
@@ -406,50 +406,58 @@ public class GUICampingReg extends JFrame implements ActionListener,
 							checkOut =SIMPLE_FORMAT.parse((String)varResult[0]);
 						} catch (Exception e) {
 							JOptionPane.showMessageDialog(null, "Enter a " +
-												"correct date (MM/DD/YYYY)");
+									"correct date (MM/DD/YYYY)");
 							success = true;
 						}
 					} else if (btnOption){
-					   JOptionPane.showMessageDialog(null,"Date out of range. "+
+						JOptionPane.showMessageDialog(null,"Date out of range. "+
 								" Please check your inputs.");
 					}
 				}while(success && btnOption);
-				
+
 				// if ok was clicked
 				if (btnOption) {
 					BetterGregorianCalendar g = new BetterGregorianCalendar();
 					// set the check out date
 					g.setTime(checkOut);
-					// get the check in date
-					int depositDays = s.getDaysStaying();
-					int d = g.daysSince(s.getCheckIn());
-					// calculate the cost of leaving
-					
-					double costs = s.getAccount();
-					if (d<depositDays) {
-						costs -= s.calcCost(d);
-						JOptionPane.showMessageDialog(null,
-								"Here is your Refund $" + 
-								DECIMAL_FORMAT.format(costs));
+
+					if(s.getCheckIn().daysSince(g) > 0){
+						JOptionPane.showMessageDialog(null, 
+								"Can't check out before you check in", 
+								"Error", JOptionPane.ERROR_MESSAGE);
 					}
-					if(d==depositDays) {
-						costs = 0;
-						JOptionPane.showMessageDialog(null, "No Transaction");
-					}
-					if (d>depositDays) {
-						costs -= siteTableModel.getSite(index).calcCost(d);				
-						JOptionPane.showMessageDialog(null, "You owe $" + 
-								DECIMAL_FORMAT.format((-1)*costs));
-					}
+					else{
+						// get the check in date
+						int depositDays = s.getDaysStaying();
+						int d = g.daysSince(s.getCheckIn());
+						// calculate the cost of leaving
+
+						double costs = s.getAccount();
+						if (d<depositDays) {
+							costs -= s.calcCost(d);
+							JOptionPane.showMessageDialog(null,
+									"Here is your Refund $" + 
+											DECIMAL_FORMAT.format(costs));
+						}
+						if(d==depositDays) {
+							costs = 0;
+							JOptionPane.showMessageDialog(null, "No Transaction");
+						}
+						if (d>depositDays) {
+							costs -= siteTableModel.getSite(index).calcCost(d);				
+							JOptionPane.showMessageDialog(null, "You owe $" + 
+									DECIMAL_FORMAT.format((-1)*costs));
+						}
 
 
-					siteTableModel.checkOut(index);
-					decrementSite(index);
+						siteTableModel.checkOut(index);
+						decrementSite(index);
+					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Helper method that calls the JFileChooser and allows the user to select
 	 * a file.
@@ -466,7 +474,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			try{
 				// send the file to the SiteModel
 				return fc.getSelectedFile().getAbsolutePath();
-			// catch any error that may occur
+				// catch any error that may occur
 			}catch(Throwable e){
 				JOptionPane.showMessageDialog(null, 
 						"File not recognized");
@@ -476,7 +484,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 		//string is returned... this is "caught" in the save and load methods.
 		return "";
 	}
-	
+
 	/******************************************************************
 	 * Fills the siteNumber according to the number they checked in
 	 * @param d takes in the site number
@@ -484,7 +492,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 	private void fillSite(int d) {
 		if (sitesTaken[d]== false) {
 			sitesTaken[d] = true;
-			
+
 			if (++usedSites==MAX_NUMBER_OF_SITES) {
 				JOptionPane.showMessageDialog(null, "All sites are occupied",
 						"Warning", JOptionPane.WARNING_MESSAGE);
@@ -496,7 +504,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	/******************************************************************
 	 * Removes a siteNumber taken when checked out
 	 * @param d takes in the site number
@@ -514,7 +522,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 						"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	/******************************************************************
 	 * Checks the input for Errors
 	 * @param p the panel containing the input
@@ -549,17 +557,17 @@ public class GUICampingReg extends JFrame implements ActionListener,
 
 		if ((Integer)varResult[1] < 1) {
 			JOptionPane.showMessageDialog(null, "The Site Number must be " +
-												"\1 or larger.");
+					"\1 or larger.");
 			return false;
 		}
 		if ((Integer)varResult[1] > MAX_NUMBER_OF_SITES) {
 			JOptionPane.showMessageDialog(null, "The Site Number must be " + 
-							MAX_NUMBER_OF_SITES + " or less.");
+					MAX_NUMBER_OF_SITES + " or less.");
 			return false;
 		}
 		if (sitesTaken[(Integer)varResult[1] - 1]) {
 			JOptionPane.showMessageDialog(null, "The Site has already been " +
-												"taken!");
+					"taken!");
 			return false;
 		}
 
@@ -570,7 +578,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 			sdf.parse((String)varResult[2]);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Enter a correct date " +
-												"(MM/DD/YYYY)");
+					"(MM/DD/YYYY)");
 			return false;
 		}
 
@@ -580,20 +588,20 @@ public class GUICampingReg extends JFrame implements ActionListener,
 		{
 			if ((Integer)varResult[3] < 1) {
 				JOptionPane.showMessageDialog(null, "There must be at least " +
-													"one tenter!");
+						"one tenter!");
 				return false;
 			}
 		} else if (type == RV.TYPE) {
 			if ((Integer)varResult[3] < 0) {
 				JOptionPane.showMessageDialog(null, "We will not accept your " +
-													"RV's Power as payment");
+						"RV's Power as payment");
 				return false;
 			}
 			if (((Integer)varResult[3] / 10 < 3) || 
 					((Integer)varResult[3] / 10 > 5) ||
 					(Integer)varResult[3]%10 != 0) {
 				JOptionPane.showMessageDialog(null, "Power must be either 30, "+
-													"40, or 50 Amps");
+						"40, or 50 Amps");
 				return false;
 			}
 		}
@@ -601,7 +609,7 @@ public class GUICampingReg extends JFrame implements ActionListener,
 		//Check the Number of Days Stayed.
 		if ((Integer)varResult[4] < 1) {
 			JOptionPane.showMessageDialog(null, "You can't stay a " +
-												"negative number of Days!");
+					"negative number of Days!");
 			return false;
 		}
 		return true;
