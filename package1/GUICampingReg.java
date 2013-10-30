@@ -15,7 +15,7 @@ import VariableInputApi.*;
 
 public class GUICampingReg extends JFrame implements ActionListener, 
 													 MouseListener {
-
+	
 	/** the serial version UID */
 	private static final long serialVersionUID = 1L;
 
