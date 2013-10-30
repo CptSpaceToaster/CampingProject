@@ -281,6 +281,10 @@ public class SiteModel extends AbstractTableModel {
 		}
 	}
 	
+	/******************************************************************
+	 * Sorts the data in the table by the column selected
+	 * @param col the column that has been pushed
+	 ******************************************************************/
 	public void sort(int col){
 		
 		switch (col){
