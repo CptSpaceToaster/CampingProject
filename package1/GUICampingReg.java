@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.*;
@@ -247,6 +248,8 @@ public class GUICampingReg extends JFrame implements ActionListener,
 						// save off the table 
 						siteTableModel.saveAsText("CampStatus");
 						// send the date to campStatus
+						if(date.get(Calendar.YEAR) < 1000)
+							throw new Exception();
 						campStatus.checkStatus(date);
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, 
