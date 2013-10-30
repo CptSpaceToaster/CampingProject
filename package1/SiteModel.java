@@ -139,7 +139,8 @@ public class SiteModel extends AbstractTableModel {
 			try{
 				// new output stream
 				FileOutputStream fileOutput = new FileOutputStream(filename);
-				ObjectOutputStream objectOutput =new ObjectOutputStream(fileOutput);
+				ObjectOutputStream objectOutput =
+											new ObjectOutputStream(fileOutput);
 				// write the table to a file
 				objectOutput.writeObject(listSite);
 				objectOutput.close();
@@ -288,6 +289,7 @@ public class SiteModel extends AbstractTableModel {
 	public void sort(int col){
 		
 		switch (col){
+		// sorts by first name then last name
 		case 0:
 			if (sortOption%2 == 0) {
 				if(sortOption%4 == 0)
@@ -305,6 +307,7 @@ public class SiteModel extends AbstractTableModel {
 			sortOption++;
 			sortOption -= (sortOption>=4)?4:0;
 			break;
+		// sorts by check in date
 		case 1:
 			if (sortOption%2 == 0) {
 				Collections.sort(listSite, Site.Comparators.ASC_CHECKIN);
@@ -315,6 +318,7 @@ public class SiteModel extends AbstractTableModel {
 			sortOption++;
 			sortOption -= (sortOption>=2)?2:0;
 			break;
+		// sorts by days staying
 		case 2:
 			if (sortOption%2 == 0) {
 				Collections.sort(listSite, Site.Comparators.ASC_DAYS);
@@ -325,6 +329,7 @@ public class SiteModel extends AbstractTableModel {
 			sortOption++;
 			sortOption -= (sortOption>=2)?2:0;
 			break;
+		// sorts by site number
 		case 3:
 			if (sortOption%2 == 0) {
 				Collections.sort(listSite, Site.Comparators.ASC_SITENUMBER);
@@ -335,6 +340,7 @@ public class SiteModel extends AbstractTableModel {
 			sortOption++;
 			sortOption -= (sortOption>=2)?2:0;
 			break;
+		// sorts by number of tenters then amount of power
 		case 4:
 			ArrayList<Site> listTents = new ArrayList<Site>();
 			ArrayList<Site> listRVs = new ArrayList<Site>();
